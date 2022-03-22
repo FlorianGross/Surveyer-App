@@ -15,7 +15,7 @@ import okhttp3.WebSocketListener;
 public class UserView extends AppCompatActivity {
     private String id;
     private WebSocket webSocket;
-    private String SERVER_PATH = "";
+    private String SERVER_PATH = "localhost:3000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
