@@ -3,8 +3,11 @@ package com.example.surveyer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,7 +20,8 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 public class AdminView extends AppCompatActivity {
-
+    private String userID;
+    private String sessionID;
     private WebSocket webSocket;
     TextView adminText;
     Button adminbutton;
@@ -27,13 +31,15 @@ public class AdminView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_view);
-        adminText = findViewById(R.id.adminText);
-        adminbutton = findViewById(R.id.adminButton);
-
+        initSharedPreferences();
         initSocketConnection();
 
-        adminbutton.setOnClickListener(view -> initSession());
+    }
 
+    private void initSharedPreferences() {
+       SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+       userID = prefs.getString("uid", null);
+       sessionID = prefs.getString("session", null);
     }
 
     private void initSession() {
@@ -67,6 +73,13 @@ public class AdminView extends AppCompatActivity {
         public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
             System.out.println("Output" + text);
             super.onMessage(webSocket, text);
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject = new JSONObject(text);
+            }catch (Exception e){
+                System.out.println("Error parsing JSONObject: " + e);
+            }
+            System.out.println(jsonObject);
             runOnUiThread(() -> adminText.setText(text));
         }
 
