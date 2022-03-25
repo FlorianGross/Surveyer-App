@@ -3,41 +3,35 @@ package com.example.surveyer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.anychart.charts.Pie;
-import com.anychart.core.ui.ChartCredits;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.Button;;
+import com.github.mikephil.charting.charts.PieChart;
 
 public class SurveyView extends AppCompatActivity {
-
+    Button approve, deny, skip;
+    int approveValue = 0, denyValue = 0, enhaltungValue = 0;
+    PieChart chart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_view);
 
-        AnyChartView anyChartView = findViewById(R.id.any_chart_view);
+        approve = findViewById(R.id.approve_button);
+        deny = findViewById(R.id.deny_button);
+        skip = findViewById(R.id.not_participate_button);
+        chart = findViewById(R.id.any_chart_view);
 
-        Pie pie = AnyChart.pie();
+        chart.setUsePercentValues(true);
+        chart.getDescription().setEnabled(false);
 
-        List<DataEntry> data = new ArrayList<>();
-        data.add(new ValueDataEntry("Dafür", 1));
-        data.add(new ValueDataEntry("Dagegen", 1));
-        data.add(new ValueDataEntry("Enthaltung", 1));
+        approve.setOnClickListener(view -> {
+            approveValue++;
 
-        pie.data(data);
+        });
+        deny.setOnClickListener(view -> {
 
-        pie.title("Umfrage");
+        });
+        skip.setOnClickListener(view -> {
 
-        pie.labels().position("inside");
-        pie.legend().title().enabled();
-        ChartCredits credits = pie.credits();
-        credits.enabled(false);
-        anyChartView.setChart(pie);
+        });
     }
 }

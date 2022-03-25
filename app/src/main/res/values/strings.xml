@@ -4,4 +4,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="enthaltung">Enthaltung</string>
+    <string name="daf_r">Dafür</string>
+    <string name="dagegen">Dagegen</string>
+    <string name="umfrage">Umfrage</string>
 </resources>
