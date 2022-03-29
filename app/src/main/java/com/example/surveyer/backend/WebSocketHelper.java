@@ -33,18 +33,13 @@ public class WebSocketHelper {
     }
 
     public static String getWifiIp(Context context) {
-        System.out.println("Get Wifi IP");
-        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        String returnString =  "ws://" + Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress()) + ":3000";
-        System.out.println(returnString);
-        returnString = "ws://141.69.101.17:3000";
-        return returnString;
+        return "ws://10.0.2.2";
     }
 
     public void connectToSocket(Context context){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(getWifiIp(context)).build();
-        webSocket = client.newWebSocket(request, new MyListener(context));
+        webSocket = client.newWebSocket(request, new MyListener(context));;
     }
 
     public void registerUser(){
