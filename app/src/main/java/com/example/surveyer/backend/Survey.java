@@ -1,5 +1,6 @@
 package com.example.surveyer.backend;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity
 public class Survey {
     @PrimaryKey(autoGenerate = false)
+    @NonNull
     public String surveyID;
     @ColumnInfo(name = "survey_name")
     public String surveyName;
@@ -27,9 +29,9 @@ public class Survey {
     @ColumnInfo(name = "survey_sessionID")
     public String surveySessionID;
     @ColumnInfo(name = "survey_participants")
-    public List<String> surveyParticipants;
+    public String surveyParticipants;
 
-    public Survey(String surveyID,String surveyName, String surveyDescription, String surveyOwner, int surveyApproved, int surveyDeny, int surveySkip, boolean surveyOpened, String surveySessionID, List<String> surveyParticipants) {
+    public Survey(@NonNull String surveyID, String surveyName, String surveyDescription, String surveyOwner, int surveyApproved, int surveyDeny, int surveySkip, boolean surveyOpened, String surveySessionID, String surveyParticipants) {
         this.surveyID = surveyID;
         this.surveyName = surveyName;
         this.surveyDescription = surveyDescription;
@@ -114,11 +116,11 @@ public class Survey {
         this.surveySessionID = surveySessionID;
     }
 
-    public List<String> getSurveyParticipants() {
+    public String getSurveyParticipants() {
         return surveyParticipants;
     }
 
-    public void setSurveyParticipants(List<String> surveyParticipants) {
+    public void setSurveyParticipants(String surveyParticipants) {
         this.surveyParticipants = surveyParticipants;
     }
 }

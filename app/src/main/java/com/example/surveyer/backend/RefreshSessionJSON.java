@@ -10,9 +10,9 @@ public class RefreshSessionJSON {
     @JsonProperty("Refresh")
     public String refresh;
     @JsonProperty("Result")
-    public List<SessionJSON> result;
+    public String result;
 
-    public RefreshSessionJSON(String type, String refresh, List<SessionJSON> result) {
+    public RefreshSessionJSON(String type, String refresh, String result) {
         this.type = type;
         this.refresh = refresh;
         this.result = result;
@@ -26,7 +26,7 @@ public class RefreshSessionJSON {
         return refresh;
     }
 
-    public List<SessionJSON> getResult() {
+    public String getResult() {
         return result;
     }
 }

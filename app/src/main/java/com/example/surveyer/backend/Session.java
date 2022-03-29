@@ -1,34 +1,35 @@
 package com.example.surveyer.backend;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
-
 @Entity
 public class Session {
     @PrimaryKey(autoGenerate = false)
+    @NonNull
     public String sessionId;
     @ColumnInfo(name = "session_owner")
     public String sessionOwner;
     @ColumnInfo(name = "session_participants")
-    public List<String> sessionParticipants;
+    public String sessionParticipants;
     @ColumnInfo(name = "session_open")
     public boolean sessionOpen;
 
-    public Session(String id , String sessionOwner,List<String> sessionParticipants, boolean sessionOpen) {
-        this.sessionId = id;
+    public Session(@NonNull String sessionId, String sessionOwner, String sessionParticipants, boolean sessionOpen) {
+        this.sessionId = sessionId;
         this.sessionOwner = sessionOwner;
-        this.sessionOpen = sessionOpen;
         this.sessionParticipants = sessionParticipants;
+        this.sessionOpen = sessionOpen;
     }
 
+    @NonNull
     public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(String sessionId) {
+    public void setSessionId(@NonNull String sessionId) {
         this.sessionId = sessionId;
     }
 
@@ -48,11 +49,11 @@ public class Session {
         this.sessionOpen = sessionOpen;
     }
 
-    public List<String> getSessionParticipants() {
+    public String getSessionParticipants() {
         return sessionParticipants;
     }
 
-    public void setSessionParticipants(List<String> sessionParticipants) {
+    public void setSessionParticipants(String sessionParticipants) {
         this.sessionParticipants = sessionParticipants;
     }
 }

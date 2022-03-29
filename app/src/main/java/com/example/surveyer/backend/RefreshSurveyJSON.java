@@ -10,5 +10,5 @@ public class RefreshSurveyJSON {
     @JsonProperty("Refresh")
     public String refresh;
     @JsonProperty("Result")
-    public List<SurveyJSON> result;
+    public String result;
 }

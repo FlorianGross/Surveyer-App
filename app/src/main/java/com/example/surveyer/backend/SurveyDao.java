@@ -25,4 +25,7 @@ public interface SurveyDao {
     @Delete
     public void deleteSurvey(Survey survey);
 
+    @Query("DELETE FROM Survey")
+    public void deleteAllSurveys();
+
 }

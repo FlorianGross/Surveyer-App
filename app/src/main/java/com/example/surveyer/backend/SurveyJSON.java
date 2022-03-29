@@ -24,5 +24,5 @@ public class SurveyJSON {
     @JsonProperty("surveyNotParicipate")
     public int surveyNotParicipate;
     @JsonProperty("participants")
-    public List<String> participants;
+    public String participants;
 }
