@@ -14,11 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Surveyer"
         android:usesCleartextTraffic="true">
-        <service
-            android:name=".backend.websocketService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".SurveyView"
             android:exported="false" />

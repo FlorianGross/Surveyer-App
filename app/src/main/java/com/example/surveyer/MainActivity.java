@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
 import com.example.surveyer.backend.WebSocketHelper;
 
 public class MainActivity extends AppCompatActivity {
-    String userID, sessionID;
+    String userID;
     WebSocketHelper helper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private void initSharedPreferences() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userID = prefs.getString("uid", null);
-        sessionID = prefs.getString("session", null);
         if(userID == null){
             helper.registerUser();
-        }
-        if(sessionID == null){
-            helper.initSession();
         }
     }
 
