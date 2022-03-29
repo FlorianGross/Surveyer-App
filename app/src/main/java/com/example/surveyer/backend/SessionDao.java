@@ -11,18 +11,18 @@ import java.util.List;
 @Dao
 public interface SessionDao {
     @Query("SELECT * FROM Session")
-    public List<Session> getAllSessions();
+    List<Session> getAllSessions();
 
     @Query("SELECT * FROM Session WHERE sessionID = :sessionID")
-    public Session getSession(int sessionID);
+    Session getSession(int sessionID);
 
     @Insert
-    public void insertSession(Session session);
+    void insertSession(Session session);
 
     @Update
-    public void updateSession(Session session);
+    void updateSession(Session session);
 
     @Delete
-    public void deleteSession(Session session);
+    void deleteSession(Session session);
 
 }

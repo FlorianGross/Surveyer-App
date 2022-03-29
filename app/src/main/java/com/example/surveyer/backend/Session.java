@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Session {
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey
     @NonNull
     public String sessionId;
     @ColumnInfo(name = "session_owner")

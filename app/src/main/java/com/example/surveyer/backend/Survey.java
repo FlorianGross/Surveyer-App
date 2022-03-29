@@ -5,11 +5,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
-
 @Entity
 public class Survey {
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey
     @NonNull
     public String surveyID;
     @ColumnInfo(name = "survey_name")

@@ -2,17 +2,15 @@ package com.example.surveyer.backend;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 public class SessionJSON {
     @JsonProperty("SessionID")
-    public String id;
+    public final String id;
     @JsonProperty("owner")
-    public String owner;
+    public final String owner;
     @JsonProperty("participants")
-    public String participants;
+    public final String participants;
     @JsonProperty("isActive")
-    public boolean isActive;
+    public final boolean isActive;
 
     public SessionJSON(String id, String owner, String participants, boolean isActive) {
         this.id = id;

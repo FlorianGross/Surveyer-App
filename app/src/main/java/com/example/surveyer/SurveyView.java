@@ -3,7 +3,7 @@ package com.example.surveyer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Button;;
+import android.widget.Button;
 import com.github.mikephil.charting.charts.PieChart;
 
 public class SurveyView extends AppCompatActivity {
@@ -23,10 +23,7 @@ public class SurveyView extends AppCompatActivity {
         chart.setUsePercentValues(true);
         chart.getDescription().setEnabled(false);
 
-        approve.setOnClickListener(view -> {
-            approveValue++;
-
-        });
+        approve.setOnClickListener(view -> approveValue++);
         deny.setOnClickListener(view -> {
 
         });

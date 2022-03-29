@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.room.Room;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +67,7 @@ public class WebSocketHelper {
             this.context = context;
         }
 
-        Context context;
+        final Context context;
 
         @Override
         public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {

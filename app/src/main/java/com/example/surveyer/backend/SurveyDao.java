@@ -11,21 +11,21 @@ import java.util.List;
 @Dao
 public interface SurveyDao {
     @Query("SELECT * FROM Survey")
-    public List<Survey> getAllSurveys();
+    List<Survey> getAllSurveys();
 
     @Query("SELECT * FROM Survey WHERE surveyId = :surveyId")
-    public Survey getSurvey(int surveyId);
+    Survey getSurvey(int surveyId);
 
     @Insert
-    public void insertSurvey(Survey survey);
+    void insertSurvey(Survey survey);
 
     @Update
-    public void updateSurvey(Survey survey);
+    void updateSurvey(Survey survey);
 
     @Delete
-    public void deleteSurvey(Survey survey);
+    void deleteSurvey(Survey survey);
 
     @Query("DELETE FROM Survey")
-    public void deleteAllSurveys();
+    void deleteAllSurveys();
 
 }

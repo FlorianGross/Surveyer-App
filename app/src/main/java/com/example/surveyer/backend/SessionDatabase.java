@@ -2,7 +2,6 @@ package com.example.surveyer.backend;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 @Database(entities = {Session.class}, version = 1, exportSchema = false)

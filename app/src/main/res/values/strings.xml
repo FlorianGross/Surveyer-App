@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">Surveyer</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="Typos">Surveyer</string>
     <string name="title_activity_navigation">Navigation</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
