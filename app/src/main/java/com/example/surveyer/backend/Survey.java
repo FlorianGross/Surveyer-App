@@ -41,7 +41,7 @@ public class Survey {
         this.surveySessionID = surveySessionID;
         this.surveyParticipants = surveyParticipants;
     }
-    
+
     public String getSurveyId() {
         return surveyID;
     }

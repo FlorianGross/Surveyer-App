@@ -30,7 +30,7 @@ public class WebSocketHelper {
     }
 
     public static String getWifiIp() {
-        return "ws://10.0.2.2";
+        return "ws://141.69.97.229:3000";
     }
 
     public void connectToSocket(Context context) {

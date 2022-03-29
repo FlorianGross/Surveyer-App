@@ -10,35 +10,38 @@ import java.util.List;
 
 public class Converters {
     @TypeConverter
-    public static List<SessionJSON> fromStringToRefreshSession(String value){
-        Type listType = new TypeToken<List<SessionJSON>>(){}.getType();
+    public static List<SessionJSON> fromStringToRefreshSession(String value) {
+        Type listType = new TypeToken<List<SessionJSON>>() {
+        }.getType();
         return new Gson().fromJson(value, listType);
     }
 
     @TypeConverter
-    public static List<SurveyJSON> fromStringToRefreshSurvey(String value){
-        Type listType = new TypeToken<List<SurveyJSON>>(){}.getType();
+    public static List<SurveyJSON> fromStringToRefreshSurvey(String value) {
+        Type listType = new TypeToken<List<SurveyJSON>>() {
+        }.getType();
         return new Gson().fromJson(value, listType);
     }
 
     @TypeConverter
-    public static String fromRefreshSessionToString(List<SessionJSON> value){
+    public static String fromRefreshSessionToString(List<SessionJSON> value) {
         return new Gson().toJson(value);
     }
 
     @TypeConverter
-    public static String fromRefreshSurveyToString(List<SurveyJSON> value){
+    public static String fromRefreshSurveyToString(List<SurveyJSON> value) {
         return new Gson().toJson(value);
     }
 
     @TypeConverter
-    public static List<String> fromStringToList(String value){
-        Type listType = new TypeToken<List<String>>(){}.getType();
+    public static List<String> fromStringToList(String value) {
+        Type listType = new TypeToken<List<String>>() {
+        }.getType();
         return new Gson().fromJson(value, listType);
     }
 
     @TypeConverter
-    public static String fromListToString(List<String> value){
+    public static String fromListToString(List<String> value) {
         return new Gson().toJson(value);
     }
 

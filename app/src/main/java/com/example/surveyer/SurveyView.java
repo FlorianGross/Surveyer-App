@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Button;
+
 import com.github.mikephil.charting.charts.PieChart;
 
 public class SurveyView extends AppCompatActivity {
     Button approve, deny, skip;
     int approveValue = 0, denyValue = 0, enhaltungValue = 0;
     PieChart chart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

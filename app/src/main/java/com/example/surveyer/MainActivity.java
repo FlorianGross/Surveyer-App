@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         helper = WebSocketHelper.getInstance();
         helper.connectToSocket(getApplicationContext());
+
         initSharedPreferences();
         Intent intent = new Intent(this, SurveyView.class);
         startActivity(intent);

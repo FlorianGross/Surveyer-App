@@ -17,10 +17,9 @@ public class LocalDatabaseHelper {
     WebSocketHelper webSocketHelper = WebSocketHelper.getInstance();
 
 
-    public void refreshLocalSurveyDatabase(String uid){
+    public void refreshLocalSurveyDatabase(String uid) {
 
     }
-
 
 
 }
