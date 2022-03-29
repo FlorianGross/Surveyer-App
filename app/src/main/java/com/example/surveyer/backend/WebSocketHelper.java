@@ -1,15 +1,10 @@
 package com.example.surveyer.backend;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.wifi.WifiManager;
-import android.preference.PreferenceManager;
-import android.text.format.Formatter;
 
 import androidx.annotation.NonNull;
 import androidx.room.Room;
 
-import com.example.surveyer.AdminView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
@@ -135,7 +130,11 @@ public class WebSocketHelper {
 
         public void refreshAllSurvey(RefreshSurveyJSON result, Context context) throws JSONException {
             System.out.println("Refresh Survey");
-
+            result.result.forEach(survey -> {
+                SurveyDatabase db = Room.databaseBuilder(context, SurveyDatabase.class, "Survey").build();
+                SurveyDao dao = db.surveyDao();
+                dao.insertSurvey(new Survey(survey.surveyID, survey.surveyName, survey.surveyDescription, survey.creator, survey.surveyApprove, survey.surveyDeny, survey.surveyNotParicipate, survey.surveyOpened, survey.surveySession, survey.participants));
+            });
         }
 
         public void refreshAllSessions(RefreshSessionJSON result, Context context) {
@@ -145,7 +144,6 @@ public class WebSocketHelper {
                         .build();
                 SessionDao dao = db.sessionDao();
                 dao.insertSession(new Session(session.id, session.owner, session.participants, session.isActive));
-
             });
         }
 

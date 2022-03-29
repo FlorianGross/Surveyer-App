@@ -6,7 +6,7 @@ import java.util.List;
 
 public class SurveyJSON {
     @JsonProperty("SurveyID")
-    public String id;
+    public String surveyID;
     @JsonProperty("surveySession")
     public String surveySession;
     @JsonProperty("creator")

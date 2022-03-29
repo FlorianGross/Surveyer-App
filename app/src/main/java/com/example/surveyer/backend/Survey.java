@@ -4,10 +4,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 @Entity
 public class Survey {
-    @PrimaryKey(autoGenerate = true)
-    public int surveyId;
+    @PrimaryKey(autoGenerate = false)
+    public String surveyID;
     @ColumnInfo(name = "survey_name")
     public String surveyName;
     @ColumnInfo(name = "survey_description")
@@ -20,31 +22,32 @@ public class Survey {
     public int surveyDeny;
     @ColumnInfo(name = "survey_skip")
     public int surveySkip;
-    @ColumnInfo(name = "survey_finished")
-    public boolean surveyFinished;
+    @ColumnInfo(name = "survey_opened")
+    public boolean surveyOpened;
     @ColumnInfo(name = "survey_sessionID")
     public String surveySessionID;
     @ColumnInfo(name = "survey_participants")
-    public String[] surveyParticipants;
+    public List<String> surveyParticipants;
 
-    public Survey(String surveyName, String surveyDescription, String surveyOwner, int surveyApproved, int surveyDeny, int surveySkip, boolean surveyFinished, String surveySessionID, String[] surveyParticipants) {
+    public Survey(String surveyID,String surveyName, String surveyDescription, String surveyOwner, int surveyApproved, int surveyDeny, int surveySkip, boolean surveyOpened, String surveySessionID, List<String> surveyParticipants) {
+        this.surveyID = surveyID;
         this.surveyName = surveyName;
         this.surveyDescription = surveyDescription;
         this.surveyOwner = surveyOwner;
         this.surveyApproved = surveyApproved;
         this.surveyDeny = surveyDeny;
         this.surveySkip = surveySkip;
-        this.surveyFinished = surveyFinished;
+        this.surveyOpened = surveyOpened;
         this.surveySessionID = surveySessionID;
         this.surveyParticipants = surveyParticipants;
     }
     
-    public int getSurveyId() {
-        return surveyId;
+    public String getSurveyId() {
+        return surveyID;
     }
 
-    public void setSurveyId(int surveyId) {
-        this.surveyId = surveyId;
+    public void setSurveyId(String surveyId) {
+        this.surveyID = surveyId;
     }
 
     public String getSurveyName() {
@@ -96,11 +99,11 @@ public class Survey {
     }
 
     public boolean isSurveyFinished() {
-        return surveyFinished;
+        return surveyOpened;
     }
 
-    public void setSurveyFinished(boolean surveyFinished) {
-        this.surveyFinished = surveyFinished;
+    public void setSurveyFinished(boolean surveyOpened) {
+        this.surveyOpened = surveyOpened;
     }
 
     public String getSurveySessionID() {
@@ -111,11 +114,11 @@ public class Survey {
         this.surveySessionID = surveySessionID;
     }
 
-    public String[] getSurveyParticipants() {
+    public List<String> getSurveyParticipants() {
         return surveyParticipants;
     }
 
-    public void setSurveyParticipants(String[] surveyParticipants) {
+    public void setSurveyParticipants(List<String> surveyParticipants) {
         this.surveyParticipants = surveyParticipants;
     }
 }
