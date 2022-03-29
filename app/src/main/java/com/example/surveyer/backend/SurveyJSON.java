@@ -1,0 +1,28 @@
+package com.example.surveyer.backend;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+
+public class SurveyJSON {
+    @JsonProperty("SurveyID")
+    public String id;
+    @JsonProperty("surveySession")
+    public String surveySession;
+    @JsonProperty("creator")
+    public String creator;
+    @JsonProperty("surveyDescription")
+    public String surveyDescription;
+    @JsonProperty("surveyOpened")
+    public boolean surveyOpened;
+    @JsonProperty("surveyName")
+    public String surveyName;
+    @JsonProperty("surveyApprove")
+    public int surveyApprove;
+    @JsonProperty("surveyDeny")
+    public int surveyDeny;
+    @JsonProperty("surveyNotParicipate")
+    public int surveyNotParicipate;
+    @JsonProperty("participants")
+    public List<String> participants;
+}

@@ -13,7 +13,7 @@ public interface SessionDao {
     @Query("SELECT * FROM Session")
     public List<Session> getAllSessions();
 
-    @Query("SELECT * FROM Survey WHERE sessionID = :sessionID")
+    @Query("SELECT * FROM Session WHERE sessionID = :sessionID")
     public Session getSession(int sessionID);
 
     @Insert

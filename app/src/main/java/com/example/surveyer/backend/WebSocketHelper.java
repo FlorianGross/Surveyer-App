@@ -7,8 +7,10 @@ import android.preference.PreferenceManager;
 import android.text.format.Formatter;
 
 import androidx.annotation.NonNull;
+import androidx.room.Room;
 
 import com.example.surveyer.AdminView;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,8 +27,8 @@ public class WebSocketHelper {
     public WebSocketListener listener;
     public String sessionID = "", userID = "";
 
-    public static WebSocketHelper getInstance(){
-        if(INSTANCE == null){
+    public static WebSocketHelper getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new WebSocketHelper();
         }
         return INSTANCE;
@@ -36,18 +38,19 @@ public class WebSocketHelper {
         return "ws://10.0.2.2";
     }
 
-    public void connectToSocket(Context context){
+    public void connectToSocket(Context context) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(getWifiIp(context)).build();
-        webSocket = client.newWebSocket(request, new MyListener(context));;
+        webSocket = client.newWebSocket(request, new MyListener(context));
+        ;
     }
 
-    public void registerUser(){
+    public void registerUser() {
         try {
             JSONObject answer = new JSONObject();
             answer.put("Type", "registerUser");
             webSocket.send(answer.toString());
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
 
@@ -65,22 +68,22 @@ public class WebSocketHelper {
         }
     }
 
-    public void closeSession(){
+    public void closeSession() {
 
     }
 
-    public String startSurvey(){
+    public String startSurvey() {
         return "";
 
     }
 
-
-    private static class MyListener extends WebSocketListener{
+    private static class MyListener extends WebSocketListener {
         public MyListener(Context context) {
             this.context = context;
         }
 
         Context context;
+
         @Override
         public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
             super.onMessage(webSocket, text);
@@ -89,23 +92,61 @@ public class WebSocketHelper {
                 jsonObject = new JSONObject(text);
                 System.out.println(jsonObject);
                 useJSON(jsonObject, context);
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Error parsing JSONObject: " + e);
             }
         }
 
         private void useJSON(JSONObject jsonObject, Context context) throws JSONException {
-            switch(jsonObject.getString("Type")){
-                case "Answer":{
-                    if (jsonObject.getString("Result").equals("Client Registered Successful")) {
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                        prefs.edit().putString("uid", jsonObject.getString("uid")).apply();
+            switch (jsonObject.getString("Type")) {
+                case "Answer": {
+                    System.out.println(jsonObject.toString());
+                    break;
+                }
+                case "startSession":
+                    WebSocketHelper.getInstance().initSession();
+                    break;
+                case "Refresh": {
+                    System.out.println("Refresh");
+                    ObjectMapper mapper = new ObjectMapper();
+                    if (jsonObject.getString("Refresh").equals("AllSurveys")) {
+                        try {
+                            RefreshSurveyJSON lib = mapper.readValue(jsonObject.toString(), RefreshSurveyJSON.class);
+                            refreshAllSurvey(lib, context);
+                        } catch (Exception e) {
+                            System.out.println("Error parsing JSONObject: " + e);
+                        }
+                    } else if (jsonObject.getString("Refresh").equals("AllSessions")) {
+                        try {
+
+                            RefreshSessionJSON lib = mapper.readValue(jsonObject.toString(), RefreshSessionJSON.class);
+                            refreshAllSessions(lib, context);
+                        } catch (Exception e) {
+                            System.out.println("Error parsing JSONObject: " + e);
+                        }
                     }
                     break;
                 }
-                case "startSession": WebSocketHelper.getInstance().initSession(); break;
-                default:System.out.println(jsonObject.toString()); break;
+                default:
+                    System.out.println(jsonObject.toString());
+                    break;
             }
+        }
+
+        public void refreshAllSurvey(RefreshSurveyJSON result, Context context) throws JSONException {
+            System.out.println("Refresh Survey");
+
+        }
+
+        public void refreshAllSessions(RefreshSessionJSON result, Context context) {
+            System.out.println("Refresh Session");
+            result.result.forEach(session -> {
+                SessionDatabase db = Room.databaseBuilder(context, SessionDatabase.class, "Session")
+                        .build();
+                SessionDao dao = db.sessionDao();
+                dao.insertSession(new Session(session.id, session.owner, session.participants, session.isActive));
+
+            });
         }
 
         @Override
