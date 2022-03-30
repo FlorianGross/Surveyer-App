@@ -1,9 +1,10 @@
 package com.example.surveyer.backend;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SurveyJSON {
-    @JsonProperty("SurveyID")
+    @JsonProperty("_id")
     public String surveyID;
     @JsonProperty("surveySession")
     public String surveySession;
@@ -22,5 +23,26 @@ public class SurveyJSON {
     @JsonProperty("surveyNotParicipate")
     public int surveyNotParicipate;
     @JsonProperty("participants")
-    public String participants;
+    public String[] participants;
+    @JsonProperty("__v")
+    public int version;
+
+    @JsonCreator
+    public SurveyJSON(@JsonProperty("_id") String surveyID, @JsonProperty("surveySession") String surveySession, @JsonProperty("creator") String creator,
+                      @JsonProperty("surveyDescription") String surveyDescription, @JsonProperty("surveyOpened") boolean surveyOpened,
+                      @JsonProperty("surveyName") String surveyName, @JsonProperty("surveyApprove") int surveyApprove,
+                      @JsonProperty("surveyDeny") int surveyDeny, @JsonProperty("surveyNotParicipate") int surveyNotParicipate,
+                      @JsonProperty("participants") String[] participants, @JsonProperty("__v") int version) {
+        this.surveyID = surveyID;
+        this.surveySession = surveySession;
+        this.creator = creator;
+        this.surveyDescription = surveyDescription;
+        this.surveyOpened = surveyOpened;
+        this.surveyName = surveyName;
+        this.surveyApprove = surveyApprove;
+        this.surveyDeny = surveyDeny;
+        this.surveyNotParicipate = surveyNotParicipate;
+        this.participants = participants;
+        this.version = version;
+    }
 }

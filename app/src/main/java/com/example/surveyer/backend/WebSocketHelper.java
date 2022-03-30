@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.room.Room;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
@@ -30,7 +31,7 @@ public class WebSocketHelper {
     }
 
     public static String getWifiIp() {
-        return "ws://141.69.97.229:3000";
+        return "ws://141.69.98.79:3000";
     }
 
     public void connectToSocket(Context context) {
@@ -85,24 +86,27 @@ public class WebSocketHelper {
             switch (jsonObject.getString("Type")) {
                 case "Answer": {
                     System.out.println(jsonObject);
+                    if (jsonObject.getString("Result").equals("callRefresh")) {
+                        WebSocketHelper.getInstance().callRefresh();
+                    }
                     break;
                 }
                 case "startSession":
                     WebSocketHelper.getInstance().initSession();
                     break;
                 case "Refresh": {
-                    System.out.println("Refresh");
                     ObjectMapper mapper = new ObjectMapper();
-                    if (jsonObject.getString("Refresh").equals("AllSurveys")) {
+                    mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+                    if (jsonObject.getString("Refresh").equals("AllSurvey")) {
                         try {
                             RefreshSurveyJSON lib = mapper.readValue(jsonObject.toString(), RefreshSurveyJSON.class);
                             refreshAllSurvey(lib, context);
                         } catch (Exception e) {
                             System.out.println("Error parsing JSONObject: " + e);
                         }
-                    } else if (jsonObject.getString("Refresh").equals("AllSessions")) {
+                    }
+                    if (jsonObject.getString("Refresh").equals("AllSessions")) {
                         try {
-
                             RefreshSessionJSON lib = mapper.readValue(jsonObject.toString(), RefreshSessionJSON.class);
                             refreshAllSessions(lib, context);
                         } catch (Exception e) {
@@ -112,30 +116,30 @@ public class WebSocketHelper {
                     break;
                 }
                 default:
-                    System.out.println(jsonObject);
+                    System.out.println("Case Default");
                     break;
             }
         }
 
         public void refreshAllSurvey(RefreshSurveyJSON result, Context context) {
             System.out.println("Refresh Survey");
-            List<SurveyJSON> resultJSON = Converters.fromStringToRefreshSurvey(result.result);
+            SurveyJSON[] resultJSON = result.result;
             for (SurveyJSON survey : resultJSON) {
                 SurveyDatabase db = Room.databaseBuilder(context, SurveyDatabase.class, "Survey").build();
                 SurveyDao dao = db.surveyDao();
-                dao.insertSurvey(new Survey(survey.surveyID, survey.surveyName, survey.surveyDescription, survey.creator, survey.surveyApprove, survey.surveyDeny, survey.surveyNotParicipate, survey.surveyOpened, survey.surveySession, survey.participants));
+                dao.insertSurvey(new Survey(survey.surveyID, survey.surveyName, survey.surveyDescription, survey.creator, survey.surveyApprove, survey.surveyDeny, survey.surveyNotParicipate, survey.surveyOpened, survey.surveySession, Converters.fromArrayToString(survey.participants)));
 
             }
         }
 
         public void refreshAllSessions(RefreshSessionJSON result, Context context) {
             System.out.println("Refresh Session");
-            List<SessionJSON> sessions = Converters.fromStringToRefreshSession(result.result);
+            SessionJSON[] sessions = result.result;
             for (SessionJSON session : sessions) {
                 SessionDatabase db = Room.databaseBuilder(context, SessionDatabase.class, "Session")
                         .build();
                 SessionDao dao = db.sessionDao();
-                dao.insertSession(new Session(session.id, session.owner, session.participants, session.isActive));
+                dao.insertSession(new Session(session.id, session.owner, Converters.fromArrayToString(session.participants), session.isActive));
 
             }
 
@@ -145,5 +149,9 @@ public class WebSocketHelper {
         public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
             super.onOpen(webSocket, response);
         }
+    }
+
+    private void callRefresh() {
+        webSocket.send("{\"Type\":\"refreshAll\"}");
     }
 }

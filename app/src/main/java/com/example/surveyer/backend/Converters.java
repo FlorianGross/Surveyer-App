@@ -6,42 +6,53 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Converters {
     @TypeConverter
-    public static List<SessionJSON> fromStringToRefreshSession(String value) {
+    public static List<SessionJSON> fromStringToSession(String[] value) {
         Type listType = new TypeToken<List<SessionJSON>>() {
         }.getType();
-        return new Gson().fromJson(value, listType);
+
+        List<SessionJSON> list = new ArrayList<>();
+        for (String s : value) {
+            list.add(new Gson().fromJson(s, listType));
+        }
+        return list;
     }
 
     @TypeConverter
-    public static List<SurveyJSON> fromStringToRefreshSurvey(String value) {
+    public static List<SurveyJSON> fromStringToSurvey(String[] value) {
         Type listType = new TypeToken<List<SurveyJSON>>() {
         }.getType();
-        return new Gson().fromJson(value, listType);
+
+        List<SurveyJSON> list = new ArrayList<>();
+        for (String s : value) {
+            list.add(new Gson().fromJson(s, listType));
+        }
+        return list;
     }
 
     @TypeConverter
-    public static String fromRefreshSessionToString(List<SessionJSON> value) {
+    public static String fromSessionToString(List<SessionJSON> value) {
         return new Gson().toJson(value);
     }
 
     @TypeConverter
-    public static String fromRefreshSurveyToString(List<SurveyJSON> value) {
+    public static String fromSurveyToString(List<SurveyJSON> value) {
         return new Gson().toJson(value);
     }
 
     @TypeConverter
-    public static List<String> fromStringToList(String value) {
-        Type listType = new TypeToken<List<String>>() {
+    public static List<String> fromStingToArray(String value) {
+        Type listType = new TypeToken<String[]>() {
         }.getType();
         return new Gson().fromJson(value, listType);
     }
 
     @TypeConverter
-    public static String fromListToString(List<String> value) {
+    public static String fromArrayToString(String[] value) {
         return new Gson().toJson(value);
     }
 
