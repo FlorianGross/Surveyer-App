@@ -8,12 +8,15 @@
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_start_view.xml" value="0.33" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_user_view.xml" value="0.266304347826087" />
         <entry key="app/src/main/res/layout/activity_admin_view.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_logins.xml" value="0.19401631912964643" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19907989501953124" />
         <entry key="app/src/main/res/layout/activity_navigation.xml" value="0.15321849501359927" />
         <entry key="app/src/main/res/layout/activity_spectator_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_start_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_survey_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.15321849501359927" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.10944848225737494" />
         <entry key="app/src/main/res/layout/result_element.xml" value="0.165" />
         <entry key="app/src/main/res/layout/vote_element.xml" value="0.24913177490234373" />

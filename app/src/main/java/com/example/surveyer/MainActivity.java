@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         helper.connectToSocket(getApplicationContext());
 
         initSharedPreferences();
-        Intent intent = new Intent(this, SurveyView.class);
+        Intent intent = new Intent(this, Navigations.class);
         startActivity(intent);
 
     }
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userID = prefs.getString("uid", null);
         if(userID == null){
-            helper.registerUser();
+           // helper.registerUser();
         }
     }
 
