@@ -5,27 +5,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SurveyJSON {
     @JsonProperty("_id")
-    public String surveyID;
+    public final String surveyID;
     @JsonProperty("surveySession")
-    public String surveySession;
+    public final String surveySession;
     @JsonProperty("creator")
-    public String creator;
+    public final String creator;
     @JsonProperty("surveyDescription")
-    public String surveyDescription;
+    public final String surveyDescription;
     @JsonProperty("surveyOpened")
-    public boolean surveyOpened;
+    public final boolean surveyOpened;
     @JsonProperty("surveyName")
-    public String surveyName;
+    public final String surveyName;
     @JsonProperty("surveyApprove")
-    public int surveyApprove;
+    public final int surveyApprove;
     @JsonProperty("surveyDeny")
-    public int surveyDeny;
+    public final int surveyDeny;
     @JsonProperty("surveyNotParicipate")
-    public int surveyNotParicipate;
+    public final int surveyNotParicipate;
     @JsonProperty("participants")
-    public String[] participants;
+    public final String[] participants;
     @JsonProperty("__v")
-    public int version;
+    public final int version;
 
     @JsonCreator
     public SurveyJSON(@JsonProperty("_id") String surveyID, @JsonProperty("surveySession") String surveySession, @JsonProperty("creator") String creator,

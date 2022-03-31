@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RefreshSessionJSON {
     @JsonProperty("Type")
-    public String type;
+    final public String type;
     @JsonProperty("Refresh")
-    public String refresh;
+    final public String refresh;
     @JsonProperty("Result")
-    public SessionJSON[] result;
+    final public SessionJSON[] result;
 
     @JsonCreator
     public RefreshSessionJSON(@JsonProperty("Type") String type,

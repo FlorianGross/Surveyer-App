@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RefreshSurveyJSON {
     @JsonProperty("Type")
-    public String type;
+    public final String type;
     @JsonProperty("Refresh")
-    public String refresh;
+    public final String refresh;
     @JsonProperty("Result")
-    public SurveyJSON[] result;
+    public final SurveyJSON[] result;
 
     @JsonCreator
     public RefreshSurveyJSON(@JsonProperty("Type") String type,

@@ -3,7 +3,6 @@ package com.example.surveyer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.Window;
 
 public class Login extends AppCompatActivity {
 

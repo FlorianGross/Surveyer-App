@@ -8,11 +8,11 @@ public class SessionJSON {
     @JsonProperty("owner")
     public final String owner;
     @JsonProperty("participants")
-    public String[] participants;
+    public final String[] participants;
     @JsonProperty("isActive")
     public final boolean isActive;
     @JsonProperty("__v")
-    public int version;
+    public final int version;
 
     public SessionJSON(@JsonProperty("_id") String id, @JsonProperty("owner") String owner, @JsonProperty("participants") String[] participants, @JsonProperty("isActive") boolean isActive, @JsonProperty("__v") int version) {
         this.id = id;
