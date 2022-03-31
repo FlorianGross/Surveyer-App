@@ -8,10 +8,10 @@
     <color name="color2">#fc0303</color>
     <color name="color3">#dba212</color>
     <color name="dark">#0a0a0a</color>
-    <color name="background">#FFFFFF</color>
-    <color name ="menuBar">#e4e5f1</color>
-    <color name="topGradient">#d2d3db</color>
-    <color name="bottomGradient">#9394a5</color>
-    <color name="primaryText">#000000</color>
-    <color name="secondaryText">#181818</color>
+    <color name="background">#121212</color>
+    <color name ="menuBar">#181818</color>
+    <color name="topGradient">#404040</color>
+    <color name="bottomGradient">#282828</color>
+    <color name="primaryText">#FFFFFF</color>
+    <color name="secondaryText">#B3B3B3</color>
 </resources>
