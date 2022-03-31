@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.view.Window;
 
 import com.example.surveyer.backend.WebSocketHelper;
 
@@ -16,13 +18,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         helper = WebSocketHelper.getInstance();
         helper.connectToSocket(getApplicationContext());
 
         initSharedPreferences();
-        Intent intent = new Intent(this, Navigations.class);
-        startActivity(intent);
+
+        new Handler().postDelayed(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            Intent mainIntent = new Intent(MainActivity.this,Navigations.class);
+            MainActivity.this.startActivity(mainIntent);
+            MainActivity.this.finish();
+        }, 1000);
 
     }
 
