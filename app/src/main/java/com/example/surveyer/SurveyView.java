@@ -15,19 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyView extends AppCompatActivity {
-    final String surveyID;
+    String surveyID;
     Button approve, deny, skip;
     int approveValue = 0, denyValue = 0, enhaltungValue = 0;
     PieChart chart;
-
-    public SurveyView(String surveyID) {
-        this.surveyID = surveyID;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_view);
+
+        surveyID = getIntent().getStringExtra("surveyID");
 
         approve = findViewById(R.id.approve_button);
         deny = findViewById(R.id.deny_button);
