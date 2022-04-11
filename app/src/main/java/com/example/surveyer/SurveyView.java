@@ -3,6 +3,7 @@ package com.example.surveyer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -26,7 +27,10 @@ public class SurveyView extends AppCompatActivity {
         setContentView(R.layout.activity_survey_view);
 
         surveyID = getIntent().getStringExtra("surveyID");
-
+        if (surveyID == null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
         approve = findViewById(R.id.approve_button);
         deny = findViewById(R.id.deny_button);
         skip = findViewById(R.id.not_participate_button);
@@ -75,6 +79,8 @@ public class SurveyView extends AppCompatActivity {
         chart.setData(setChartData(getApplicationContext()));
         chart.invalidate();
     }
+
+
 
     private List<PieEntry> getData() {
         List<PieEntry> entries = new ArrayList<>();
