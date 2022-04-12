@@ -1,4 +1,4 @@
-package com.example.surveyer.backend;
+package com.example.surveyer.backend.DB;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

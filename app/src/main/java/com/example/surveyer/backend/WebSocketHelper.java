@@ -5,6 +5,18 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.room.Room;
 
+import com.example.surveyer.backend.DB.Converters;
+import com.example.surveyer.backend.DB.Session;
+import com.example.surveyer.backend.DB.SessionDao;
+import com.example.surveyer.backend.DB.SessionDatabase;
+import com.example.surveyer.backend.DB.Survey;
+import com.example.surveyer.backend.DB.SurveyDao;
+import com.example.surveyer.backend.DB.SurveyDatabase;
+import com.example.surveyer.backend.JSON.RefreshSessionJSON;
+import com.example.surveyer.backend.JSON.RefreshSurveyJSON;
+import com.example.surveyer.backend.JSON.SessionJSON;
+import com.example.surveyer.backend.JSON.SurveyJSON;
+import com.example.surveyer.backend.JSON.UserJSON;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,6 +32,10 @@ import okhttp3.WebSocketListener;
 public class WebSocketHelper {
     private static WebSocketHelper INSTANCE;
     public WebSocket webSocket;
+    public static int status = 0;
+    public static int STATUS_REGISTERED = 101;
+    public static int STATUS_STANDARD = 0;
+    public static int STATUS_ERROR = -1;
 
     public static WebSocketHelper getInstance() {
         if (INSTANCE == null) {
@@ -29,7 +45,7 @@ public class WebSocketHelper {
     }
 
     public static String getWifiIp() {
-        return "ws://141.69.98.79:3000";
+        return "ws://141.69.97.24:3000";
     }
 
     public void connectToSocket(Context context) {
@@ -38,10 +54,13 @@ public class WebSocketHelper {
         webSocket = client.newWebSocket(request, new MyListener(context));
     }
 
-    public void registerUser() {
+    public void registerUser(UserJSON user) {
         try {
             JSONObject answer = new JSONObject();
             answer.put("Type", "registerUser");
+            answer.put("name", user.getUsername());
+            answer.put("password", user.getPassword());
+            answer.put("email", user.getEmail());
             webSocket.send(answer.toString());
         } catch (Exception e) {
             System.out.println("Error registering User" + e);
@@ -86,6 +105,9 @@ public class WebSocketHelper {
                     System.out.println(jsonObject);
                     if (jsonObject.getString("Result").equals("callRefresh")) {
                         WebSocketHelper.getInstance().callRefresh();
+                    }
+                    if(jsonObject.get("Result").equals("Status")){
+                        status = jsonObject.getInt("Status");
                     }
                     break;
                 }

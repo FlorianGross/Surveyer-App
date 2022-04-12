@@ -1,7 +1,9 @@
-package com.example.surveyer.backend;
+package com.example.surveyer.backend.DB;
 
 import androidx.room.TypeConverter;
 
+import com.example.surveyer.backend.JSON.SessionJSON;
+import com.example.surveyer.backend.JSON.SurveyJSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

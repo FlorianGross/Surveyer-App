@@ -1,4 +1,4 @@
-package com.example.surveyer.backend;
+package com.example.surveyer.backend.JSON;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

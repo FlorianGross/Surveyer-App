@@ -1,7 +1,8 @@
-package com.example.surveyer;
+package com.example.surveyer.ui;
 
 import android.os.Bundle;
 
+import com.example.surveyer.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

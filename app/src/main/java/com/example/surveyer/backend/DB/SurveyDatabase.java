@@ -1,4 +1,4 @@
-package com.example.surveyer.backend;
+package com.example.surveyer.backend.DB;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

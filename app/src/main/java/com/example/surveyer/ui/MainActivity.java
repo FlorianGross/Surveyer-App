@@ -1,4 +1,4 @@
-package com.example.surveyer;
+package com.example.surveyer.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
+import com.example.surveyer.R;
 import com.example.surveyer.backend.WebSocketHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Intent mainIntent = new Intent(MainActivity.this,Navigations.class);
+            Intent mainIntent = new Intent(MainActivity.this, Login.class);
             MainActivity.this.startActivity(mainIntent);
             MainActivity.this.finish();
         }, 1000);
