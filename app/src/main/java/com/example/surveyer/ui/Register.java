@@ -2,11 +2,13 @@ package com.example.surveyer.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.JSON.UserJSON;
 import com.example.surveyer.backend.WebSocketHelper;
@@ -68,5 +70,15 @@ public class Register extends AppCompatActivity {
         }
         System.out.println("failed to register");
         return false;
+    }
+
+    public static Intent getRegisterIntent(Context context){
+        return new Intent(context, Register.class);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.setInForeground(false);
     }
 }

@@ -23,7 +23,7 @@
             android:name=".ui.Login"
             android:exported="false" />
         <activity
-            android:name=".ui.SurveyView"
+            android:name=".ui.survey.SurveyView"
             android:exported="false" />
         <activity
             android:name=".ui.Navigations"

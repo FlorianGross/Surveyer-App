@@ -1,5 +1,7 @@
 package com.example.surveyer.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.surveyer.R;
@@ -30,5 +32,7 @@ public class Navigations extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_navigation);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
-
+    public static Intent getNavigationIntent(Context context) {
+        return new Intent(context, Navigations.class);
+    }
 }

@@ -1,17 +1,28 @@
-package com.example.surveyer.ui;
+package com.example.surveyer.ui.survey;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.surveyer.App;
 import com.example.surveyer.R;
+import com.example.surveyer.backend.SocketLiveData;
+import com.example.surveyer.backend.Util.DebugUtil;
+import com.example.surveyer.backend.models.pojo.SocketEventModel;
+import com.example.surveyer.ui.MainActivity;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +32,7 @@ public class SurveyView extends AppCompatActivity {
     Button approve, deny, skip;
     int approveValue = 0, denyValue = 0, enhaltungValue = 0;
     PieChart chart;
+    SurveyViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +44,7 @@ public class SurveyView extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
+
         approve = findViewById(R.id.approve_button);
         deny = findViewById(R.id.deny_button);
         skip = findViewById(R.id.not_participate_button);
@@ -42,11 +55,19 @@ public class SurveyView extends AppCompatActivity {
         chart.getDescription().setEnabled(false);
         chart.getLegend().setEnabled(true);
         chart.setData(setChartData(context));
+
         approve.setOnClickListener(view -> {
             approveValue++;
             disableButtons();
             System.out.println(approveValue);
             reloadChart();
+            JSONObject jsonObject = new JSONObject();;
+            try {
+                jsonObject.put("","");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            SocketLiveData.get().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, jsonObject.toString()).setType(SocketEventModel.TYPE_OUTGOING));
         });
         deny.setOnClickListener(view -> {
             denyValue++;
@@ -60,7 +81,20 @@ public class SurveyView extends AppCompatActivity {
             System.out.println(enhaltungValue);
             reloadChart();
         });
+
+        init();
     }
+
+    private void init(){
+        viewModel = new ViewModelProvider(this).get(SurveyViewModel.class);
+        viewModel.getSocketLiveData().observe(this, socketEventModelObserver);
+        viewModel.getSocketLiveData().connect();
+    }
+
+    private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
+        DebugUtil.debug(SurveyView.class, "New Socket Event: " + socketEventModel.toString());
+        //toDo handle socket event for SurveyView
+    };
 
     private void disableButtons() {
         approve.setEnabled(false);
@@ -80,8 +114,6 @@ public class SurveyView extends AppCompatActivity {
         chart.setData(setChartData(getApplicationContext()));
         chart.invalidate();
     }
-
-
 
     private List<PieEntry> getData() {
         List<PieEntry> entries = new ArrayList<>();

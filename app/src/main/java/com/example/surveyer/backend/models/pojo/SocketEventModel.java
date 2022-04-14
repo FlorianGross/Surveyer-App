@@ -12,9 +12,9 @@ public class SocketEventModel extends BaseModel {
     public static final int TYPE_OUTGOING = 0;
     public static final int TYPE_INCOMING = 1;
 
-    private String event;
+    private final String event;
     private int type;
-    private Object payload;
+    private final Object payload;
 
     public SocketEventModel(String event, Object payload) {
         this.event = event;

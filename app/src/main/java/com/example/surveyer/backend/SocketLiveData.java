@@ -47,6 +47,9 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
         connect();
     }
 
+    /**
+     * Connect to the socket
+     */
     public synchronized void connect() {
         try {
             DebugUtil.debug(SocketLiveData.class, "Attempting to connect");
@@ -123,10 +126,9 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
         }
     }
 
-    private synchronized void processEvent(SocketEventModel eventModel) throws Exception{
+    private synchronized void processEvent(SocketEventModel eventModel) {
         DebugUtil.debug(SocketLiveData.class, "Processing event: "+eventModel.toString());
         postValue(eventModel);
-
     }
     @Override
     protected void onInactive() {

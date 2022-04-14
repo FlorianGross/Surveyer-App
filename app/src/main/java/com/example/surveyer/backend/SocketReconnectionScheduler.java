@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 
 public class SocketReconnectionScheduler extends Worker {
-
     public SocketReconnectionScheduler(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
     }
@@ -41,10 +40,10 @@ public class SocketReconnectionScheduler extends Worker {
         OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(SocketReconnectionScheduler.class)
                 .setConstraints(constraints).setInitialDelay(10, TimeUnit.SECONDS).setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.SECONDS)
                 .addTag(SocketReconnectionScheduler.class.getSimpleName()).build();
-        WorkManager.getInstance().enqueue(oneTimeWorkRequest);
+        WorkManager.getInstance(App.getContext()).enqueue(oneTimeWorkRequest);
     }
 
     public static void cancel() {
-        WorkManager.getInstance().cancelAllWorkByTag(SocketReconnectionScheduler.class.getSimpleName());
+        WorkManager.getInstance(App.getContext()).cancelAllWorkByTag(SocketReconnectionScheduler.class.getSimpleName());
     }
 }

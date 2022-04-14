@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.surveyer.R;
-import com.example.surveyer.ui.SurveyView;
+import com.example.surveyer.ui.survey.SurveyView;
 
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;

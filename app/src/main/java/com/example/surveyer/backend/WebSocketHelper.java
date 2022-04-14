@@ -148,7 +148,6 @@ public class WebSocketHelper {
                 SurveyDatabase db = Room.databaseBuilder(context, SurveyDatabase.class, "Survey").build();
                 SurveyDao dao = db.surveyDao();
                 dao.insertSurvey(new Survey(survey.surveyID, survey.surveyName, survey.surveyDescription, survey.creator, survey.surveyApprove, survey.surveyDeny, survey.surveyNotParicipate, survey.surveyOpened, survey.surveySession, Converters.fromArrayToString(survey.participants)));
-
             }
         }
 
@@ -160,9 +159,7 @@ public class WebSocketHelper {
                         .build();
                 SessionDao dao = db.sessionDao();
                 dao.insertSession(new Session(session.id, session.owner, Converters.fromArrayToString(session.participants), session.isActive));
-
             }
-
         }
 
         @Override

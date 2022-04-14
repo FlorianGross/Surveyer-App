@@ -9,22 +9,22 @@ import okhttp3.HttpUrl;
 
 public final class Constants {
 
-    private static final String HTTP_SCHEME = "https", SOCKET_SCHEME = "wss";
-    private static final String HOST = "websocketbot.herokuapp.com";
+    private static final String HTTP_SCHEME = "http", SOCKET_SCHEME = "ws://";
+    private static final String HOST = "141.69.97.24:3000";
     private static final String HTTP_VERSION = "v1";
 
 
     public static Uri getSocketUrl() {
         return new Uri.Builder()
-                .scheme(getSocketScheme())
-                .authority(getHost())
+                .scheme(SOCKET_SCHEME)
+                .authority(HOST)
                 .build();
     }
 
     public static String getHttpUrl() {
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(getHttpScheme())
-                .host(getHost())
+                .scheme(HTTP_SCHEME)
+                .host(HOST)
                 .addPathSegment(HTTP_VERSION)
                 .addPathSegment("users")
                 .build();
@@ -34,22 +34,10 @@ public final class Constants {
     public static String buildHttpUrlWithAppendPaths(String paths) {
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme(HTTP_SCHEME)
-                .host(getHost())
+                .host(HOST)
                 .addPathSegment(HTTP_VERSION)
                 .addPathSegment("users")
                 .addPathSegments(paths).build();
         return httpUrl.toString();
-    }
-
-    private static String getSocketScheme() {
-        return BuildConfig.DEBUG ? SOCKET_SCHEME : "wss";
-    }
-
-    private static String getHttpScheme() {
-        return BuildConfig.DEBUG ? HTTP_SCHEME : "https";
-    }
-
-    private static String getHost() {
-        return BuildConfig.DEBUG ? HOST : "websocketbot.herokuapp.com";
     }
 }

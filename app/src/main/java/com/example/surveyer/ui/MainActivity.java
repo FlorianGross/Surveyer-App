@@ -2,26 +2,21 @@ package com.example.surveyer.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 
+import com.example.surveyer.App;
 import com.example.surveyer.R;
-import com.example.surveyer.backend.WebSocketHelper;
 
 public class MainActivity extends AppCompatActivity {
-    String userID;
-    WebSocketHelper helper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        helper = WebSocketHelper.getInstance();
-        helper.connectToSocket(getApplicationContext());
 
-        initSharedPreferences();
+        App.setInForeground(true);
 
         new Handler().postDelayed(() -> {
             try {
@@ -37,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initSharedPreferences() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        userID = prefs.getString("uid", null);
-        if(userID == null){
-           // helper.registerUser();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.setInForeground(false);
     }
 
-
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 }
