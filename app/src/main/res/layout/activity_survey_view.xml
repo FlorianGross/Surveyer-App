@@ -64,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:height="60dp"
                 android:text="@string/dagegen"
+                android:textColor="#616161"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/not_participate_button"
@@ -75,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:height="60dp"
                 android:text="@string/daf_r"
+                android:textColor="#616161"
                 app:layout_constraintEnd_toStartOf="@+id/not_participate_button"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,6 +90,7 @@
                 android:layout_marginBottom="20dp"
                 android:height="60dp"
                 android:text="@string/enthaltung"
+                android:textColor="#616161"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/deny_button"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -112,8 +115,7 @@
             android:id="@+id/description_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="Das ist der Inhalt und die Beschreibung der Umfrage" />
+            android:textSize="25sp"></TextView>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

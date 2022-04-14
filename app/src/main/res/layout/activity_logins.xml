@@ -10,11 +10,12 @@
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:contentDescription="@string/header"
         android:src="@drawable/button_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/header" />
+        tools:ignore="ImageContrastCheck" />
 
     <TextView
         android:id="@+id/textView5"
@@ -30,15 +31,16 @@
     <EditText
         android:id="@+id/usernameInput"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
-        android:ems="10"
         android:autofillHints="username"
-        app:backgroundTint="@color/main"
+        android:ems="10"
         android:hint="@string/geben_sie_ihren_nutzernamen_an"
         android:inputType="textPersonName"
+        android:textColorHint="#757575"
+        app:backgroundTint="@color/main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -57,15 +59,16 @@
     <EditText
         android:id="@+id/passwordInput"
         android:layout_width="0dp"
-        android:layout_height="41dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
-        android:ems="10"
-        app:backgroundTint="@color/main"
-        android:hint="@string/geben_sie_ihr_passwort_ein"
         android:autofillHints="password"
+        android:ems="10"
+        android:hint="@string/geben_sie_ihr_passwort_ein"
         android:inputType="textShortMessage|textPersonName|textWebPassword"
+        android:textColorHint="#757575"
+        app:backgroundTint="@color/main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -120,7 +123,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/anonymButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
