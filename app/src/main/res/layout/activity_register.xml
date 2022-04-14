@@ -13,7 +13,8 @@
         android:src="@drawable/button_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/header" />
 
     <TextView
         android:id="@+id/textView5"
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="Benutzername"
+        android:text="@string/benutzername"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -34,8 +35,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Geben sie Ihren Nutzernamen an"
+        android:hint="@string/geben_sie_ihren_nutzernamen_an"
         android:inputType="textPersonName"
+        android:autofillHints="username"
         app:backgroundTint="@color/main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="Passwort"
+        android:text="@string/passwort"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailInput" />
@@ -59,8 +61,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
+        android:autofillHints="password"
         android:ems="10"
-        android:hint="Geben Sie ihr Passwort ein"
+        android:hint="@string/geben_sie_ihr_passwort_ein"
         android:inputType="textShortMessage|textPersonName|textWebPassword"
         app:backgroundTint="@color/main"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="Email"
+        android:text="@string/email"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
@@ -87,20 +90,22 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         app:backgroundTint="@color/main"
-        android:hint="Geben Sie Ihre Email-Addresse an"
+        android:hint="@string/geben_sie_ihre_email_addresse_an"
         android:inputType="textEmailAddress"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        android:autofillHints="emailAddress" />
 
     <Button
         android:id="@+id/registerButton2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
-        android:text="Registrieren"
+        android:text="@string/registrieren"
         android:textColor="@color/black"
         app:background="@style/buttonStyle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,7 +120,7 @@
         android:layout_marginStart="16dp"
         android:buttonTint="@color/main"
         android:checked="true"
-        android:text="Passwort speichern"
+        android:text="@string/passwort_speichern"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
 
@@ -127,19 +132,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_with_stroke"
-        android:text="Noch keinen Account?"
-        app:layout_constraintBottom_toTopOf="@+id/loginButton2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

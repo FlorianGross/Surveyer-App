@@ -13,7 +13,8 @@
         android:src="@drawable/button_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/header" />
 
     <TextView
         android:id="@+id/textView5"
@@ -22,7 +23,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:textSize="20sp"
-        android:text="Benutzername"
+        android:text="@string/benutzername"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -34,8 +35,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
+        android:autofillHints="username"
         app:backgroundTint="@color/main"
-        android:hint="Geben sie Ihren Nutzernamen an"
+        android:hint="@string/geben_sie_ihren_nutzernamen_an"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="Passwort"
+        android:text="@string/passwort"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
@@ -61,7 +63,8 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         app:backgroundTint="@color/main"
-        android:hint="Geben Sie ihr Passwort ein"
+        android:hint="@string/geben_sie_ihr_passwort_ein"
+        android:autofillHints="password"
         android:inputType="textShortMessage|textPersonName|textWebPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +77,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:background="@style/buttonStyle"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -88,7 +91,7 @@
         android:layout_marginStart="16dp"
         android:buttonTint="@color/main"
         android:checked="true"
-        android:text="Passwort speichern"
+        android:text="@string/passwort_speichern"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
 
@@ -100,7 +103,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
-        android:text="Registrieren"
+        android:text="@string/registrieren"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,9 +113,20 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Noch keinen Account?"
+        android:text="@string/noch_keinen_account"
         android:background="@drawable/button_with_stroke"
         app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/anonym"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

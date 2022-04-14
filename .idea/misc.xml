@@ -4,9 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_admin_view.xml" value="0.22" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_logins.xml" value="0.25" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_main.xml" value="0.266304347826087" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_navigation.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_register.xml" value="0.14722222222222223" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_start_view.xml" value="0.33" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_survey_view.xml" value="0.14722222222222223" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/activity_user_view.xml" value="0.266304347826087" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/fragment_dashboard.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/fragment_home.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/fragment_notifications.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/survey_element.xml" value="0.33" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/button_selector.xml" value="0.12929479980468747" />
         <entry key="app/src/main/res/drawable/button_style.xml" value="0.2865" />

@@ -20,4 +20,16 @@
     <string name="app_logo">App Logo</string>
     <string name="socket_offline_message">Socket Offline</string>
     <string name="socket_connection_error_message">Socket Online</string>
+    <string name="anonym">Anonym</string>
+    <string name="noch_keinen_account">Noch keinen Account?</string>
+    <string name="registrieren">Registrieren</string>
+    <string name="passwort_speichern">Passwort speichern</string>
+    <string name="login">Login</string>
+    <string name="geben_sie_ihr_passwort_ein">Geben Sie ihr Passwort ein</string>
+    <string name="passwort">Passwort</string>
+    <string name="geben_sie_ihren_nutzernamen_an">Geben sie Ihren Nutzernamen an</string>
+    <string name="benutzername">Benutzername</string>
+    <string name="header">HEADER</string>
+    <string name="email">Email</string>
+    <string name="geben_sie_ihre_email_addresse_an">Geben Sie Ihre Email-Addresse an</string>
 </resources>
