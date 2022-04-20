@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.surveyer.R;
+import com.example.surveyer.backend.JSON.SurveyJSON;
 import com.example.surveyer.ui.survey.SurveyView;
 
 public class HomeFragment extends Fragment {
@@ -31,67 +32,16 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerView);
 
+        SurveyJSON[] surveys = {
+          new SurveyJSON("1", "1", "Flo", "Description", true, "Name", 0,0,0,new String[0], 0),
+                new SurveyJSON("1", "1", "Flo", "Description", true, "Name", 0,0,0,new String[0], 0)
+        };
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new HomeAdapter(getContext(), new String[]{"1","2", "3", "4", "5", "6"}));
+        recyclerView.setAdapter(new HomeAdapter(surveys));
 
 
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    private static class HomeAdapter extends RecyclerView.Adapter {
-        Context context;
-        private String[] dataset;
-
-        public HomeAdapter(Context context, String[] dataset) {
-            this.context = context;
-            this.dataset = dataset;
-        }
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            private final TextView textView;
-            private final Context context;
-            private final String surveyID;
-            private final ConstraintLayout onClick;
-
-            public ViewHolder(Context context, View v, String surveyID) {
-                super(v);
-                this.context = context;
-                this.surveyID = surveyID;
-                onClick = v.findViewById(R.id.elementClick);
-                textView = v.findViewById(R.id.textViewElement);
-
-
-                onClick.setOnClickListener(view -> {
-                    Intent intent = new Intent(this.context, SurveyView.class);
-                    this.context.startActivity(intent);
-                });
-            }
-
-            public TextView getTextView() {
-                return textView;
-            }
-        }
-
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new ViewHolder(context, LayoutInflater.from(context).inflate(R.layout.survey_element, parent, false), "0");
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            ViewHolder viewHolder = (ViewHolder) holder;
-            viewHolder.getTextView().setText(dataset[position]);
-        }
-
-        @Override
-        public int getItemCount() {
-            return dataset.length;
-        }
-    }
 }

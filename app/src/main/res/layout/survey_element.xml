@@ -18,12 +18,26 @@
         tools:ignore="ImageContrastCheck" />
 
     <TextView
-        android:id="@+id/textViewElement"
+        android:id="@+id/surveyDescription"
         android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:text="TextView"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:text="Beschreibung der Umfrage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/statusIndicator"
+        app:layout_constraintTop_toBottomOf="@+id/surveyTitle" />
+
+    <TextView
+        android:id="@+id/surveyTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="Titel der Umfrage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/statusIndicator"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

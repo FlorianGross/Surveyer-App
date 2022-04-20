@@ -14,7 +14,7 @@ import com.example.surveyer.R;
 public class Login extends AppCompatActivity {
 
     EditText editPassword, editUsername;
-    Button login, register;
+    Button login, register, anonymous;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +24,12 @@ public class Login extends AppCompatActivity {
         editUsername = findViewById(R.id.usernameInput);
         login = findViewById(R.id.registerButton);
         register = findViewById(R.id.loginButton);
+        anonymous = findViewById(R.id.anonymButton);
+
+        anonymous.setOnClickListener(v -> {
+            Intent intent = new Intent(Login.this, Navigations.class);
+            startActivity(intent);
+        });
 
         login.setOnClickListener(v -> {
             String username = editUsername.getText().toString();

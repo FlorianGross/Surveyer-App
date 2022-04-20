@@ -82,7 +82,7 @@ public class SurveyView extends AppCompatActivity {
             reloadChart();
         });
 
-        init();
+       // init();
     }
 
     private void init(){
