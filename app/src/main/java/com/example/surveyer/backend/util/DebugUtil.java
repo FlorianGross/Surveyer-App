@@ -1,4 +1,4 @@
-package com.example.surveyer.backend.Util;
+package com.example.surveyer.backend.util;
 
 import android.util.Log;
 

@@ -1,4 +1,4 @@
-package com.example.surveyer.backend.DB;
+package com.example.surveyer.backend.db;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

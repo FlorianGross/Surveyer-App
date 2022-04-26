@@ -1,4 +1,4 @@
-package com.example.surveyer.backend.JSON;
+package com.example.surveyer.backend.json;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,6 +17,13 @@ public class UserJSON {
         this.password = password;
         this.email = email;
     }
+
+    @JsonCreator
+    public UserJSON(@JsonProperty("username") String username, @JsonProperty("password") String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }

@@ -1,23 +1,18 @@
 package com.example.surveyer.ui.home;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.surveyer.R;
-import com.example.surveyer.backend.JSON.SurveyJSON;
-import com.example.surveyer.ui.survey.SurveyView;
+import com.example.surveyer.backend.json.SurveyJSON;
 
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;

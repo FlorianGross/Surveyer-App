@@ -9,17 +9,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.SocketLiveData;
-import com.example.surveyer.backend.Util.DebugUtil;
+import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.ui.MainActivity;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +59,7 @@ public class SurveyView extends AppCompatActivity {
             disableButtons();
             System.out.println(approveValue);
             reloadChart();
-            JSONObject jsonObject = new JSONObject();;
+            JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("","");
             } catch (JSONException e) {

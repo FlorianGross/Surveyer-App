@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.surveyer.R;
-import com.example.surveyer.backend.JSON.SurveyJSON;
+import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.ui.survey.SurveyView;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {

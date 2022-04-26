@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer;
 
 import com.example.surveyer.App;
 import com.example.surveyer.R;
-import com.example.surveyer.backend.Util.Constants;
-import com.example.surveyer.backend.Util.DebugUtil;
-import com.example.surveyer.backend.Util.PreferenceUtil;
+import com.example.surveyer.backend.util.Constants;
+import com.example.surveyer.backend.util.DebugUtil;
+import com.example.surveyer.backend.util.PreferenceUtil;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -57,22 +57,26 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
                 DebugUtil.debug(SocketLiveData.class, "Connecting...");
                 String socketUrl = String.format("%s?%s", Constants.getSocketUrl(), String.format("deviceId=%s", PreferenceUtil.getDeviceId()));
                 DebugUtil.debug(SocketLiveData.class, "Socket url: " + socketUrl);
+                socketUrl = Constants.getString();
                 Request request = new Request.Builder().url(socketUrl)
                         .addHeader("deviceId", PreferenceUtil.getDeviceId()).build();
                 webSocket = App.getOkHttpClient().newWebSocket(request, webSocketListener);
             }
         }catch (Exception ex) {
+            System.out.println("Error: " +ex);
             ex.printStackTrace();
         }
     }
 
     public void sendEvent(SocketEventModel eventModel) {
+        System.out.println("Sending event: " + eventModel.getEvent());
         if (webSocket == null)return;
         setData(eventModel);
         webSocket.send(eventModel.toString());
     }
 
     public void setData(SocketEventModel socketEventModel) {
+        System.out.println("Setting data: " + socketEventModel.getEvent());
         if (socketEventModel == null || TextUtils.isEmpty(socketEventModel.getEvent())) return;
         postValue(socketEventModel);
     }
@@ -82,17 +86,21 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
         @Override
         public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
             super.onOpen(webSocket, response);
+            System.out.println("Socket opened");
             disconnected.set(false);
         }
 
         @Override
         public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
+            System.out.println("Socket message: " + text);
             handleEvent(text);
+
         }
 
         @Override
         public void onClosed(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
             super.onClosed(webSocket, code, reason);
+            System.out.println("Socket closed");
             postValue(new SocketEventModel(SocketEventModel.EVENT_OFFLINE, App.getContext().getString(R.string.socket_offline_message))
                     .setType(SocketEventModel.TYPE_INCOMING));
             disconnected.set(true);
@@ -101,6 +109,7 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
         @Override
         public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, @Nullable Response response) {
             super.onFailure(webSocket, t, response);
+            System.out.println("Socket failure: " + t.getMessage());
             disconnected.set(true);
             int code = response != null ? response.code() : 400;
             @Nullable String message = response != null ? response.message() : t.getMessage();

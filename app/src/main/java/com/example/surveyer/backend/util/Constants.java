@@ -1,19 +1,20 @@
-package com.example.surveyer.backend.Util;
+package com.example.surveyer.backend.util;
 
 
 import android.net.Uri;
-
-import com.example.surveyer.BuildConfig;
 
 import okhttp3.HttpUrl;
 
 public final class Constants {
 
     private static final String HTTP_SCHEME = "http", SOCKET_SCHEME = "ws://";
-    private static final String HOST = "141.69.97.24:3000";
+    private static final String HOST = "192.168.178.98:3000";
     private static final String HTTP_VERSION = "v1";
+    private static final String LINK = "ws://192.168.178.98:3000";
 
-
+    public static String getString(){
+        return LINK;
+    }
     public static Uri getSocketUrl() {
         return new Uri.Builder()
                 .scheme(SOCKET_SCHEME)

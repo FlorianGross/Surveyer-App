@@ -5,18 +5,19 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.room.Room;
 
-import com.example.surveyer.backend.DB.Converters;
-import com.example.surveyer.backend.DB.Session;
-import com.example.surveyer.backend.DB.SessionDao;
-import com.example.surveyer.backend.DB.SessionDatabase;
-import com.example.surveyer.backend.DB.Survey;
-import com.example.surveyer.backend.DB.SurveyDao;
-import com.example.surveyer.backend.DB.SurveyDatabase;
-import com.example.surveyer.backend.JSON.RefreshSessionJSON;
-import com.example.surveyer.backend.JSON.RefreshSurveyJSON;
-import com.example.surveyer.backend.JSON.SessionJSON;
-import com.example.surveyer.backend.JSON.SurveyJSON;
-import com.example.surveyer.backend.JSON.UserJSON;
+
+import com.example.surveyer.backend.db.SessionDao;
+import com.example.surveyer.backend.json.RefreshSessionJSON;
+import com.example.surveyer.backend.json.RefreshSurveyJSON;
+import com.example.surveyer.backend.json.SessionJSON;
+import com.example.surveyer.backend.json.SurveyJSON;
+import com.example.surveyer.backend.json.UserJSON;
+import com.example.surveyer.backend.db.Converters;
+import com.example.surveyer.backend.db.Session;
+import com.example.surveyer.backend.db.SessionDatabase;
+import com.example.surveyer.backend.db.Survey;
+import com.example.surveyer.backend.db.SurveyDao;
+import com.example.surveyer.backend.db.SurveyDatabase;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,7 +46,7 @@ public class WebSocketHelper {
     }
 
     public static String getWifiIp() {
-        return "ws://141.69.97.24:3000";
+        return "ws://192.168.178.98:3000";
     }
 
     public void connectToSocket(Context context) {
@@ -54,18 +55,21 @@ public class WebSocketHelper {
         webSocket = client.newWebSocket(request, new MyListener(context));
     }
 
-    public void registerUser(UserJSON user) {
-        try {
-            JSONObject answer = new JSONObject();
-            answer.put("Type", "registerUser");
-            answer.put("name", user.getUsername());
-            answer.put("password", user.getPassword());
-            answer.put("email", user.getEmail());
-            webSocket.send(answer.toString());
-        } catch (Exception e) {
-            System.out.println("Error registering User" + e);
-        }
+    public static String registerUser(UserJSON user) throws JSONException {
+        JSONObject answer = new JSONObject();
+        answer.put("Type", "registerUser");
+        answer.put("name", user.getUsername());
+        answer.put("password", user.getPassword());
+        answer.put("email", user.getEmail());
+        return answer.toString();
+    }
 
+    public static String loginUser(UserJSON user) throws JSONException {
+        JSONObject answer = new JSONObject();
+        answer.put("Type", "loginUser");
+        answer.put("name", user.getUsername());
+        answer.put("password", user.getPassword());
+        return answer.toString();
     }
 
     public void initSession() {
@@ -106,7 +110,7 @@ public class WebSocketHelper {
                     if (jsonObject.getString("Result").equals("callRefresh")) {
                         WebSocketHelper.getInstance().callRefresh();
                     }
-                    if(jsonObject.get("Result").equals("Status")){
+                    if (jsonObject.get("Result").equals("Status")) {
                         status = jsonObject.getInt("Status");
                     }
                     break;

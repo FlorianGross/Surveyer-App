@@ -1,8 +1,10 @@
-package com.example.surveyer.backend.JSON;
+package com.example.surveyer.backend.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PayloadJSON {
+    public static final String TYPE_REGISTER = "registerUser";
+
     @JsonProperty("Type")
     private String type;
     @JsonProperty("Refresh")
@@ -13,6 +15,10 @@ public class PayloadJSON {
     public PayloadJSON(String type, String refresh, Object result) {
         this.type = type;
         this.refresh = refresh;
+        this.result = result;
+    }
+    public PayloadJSON(String type, Object result) {
+        this.type = type;
         this.result = result;
     }
 

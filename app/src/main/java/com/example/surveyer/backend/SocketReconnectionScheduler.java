@@ -12,7 +12,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.example.surveyer.App;
-import com.example.surveyer.backend.Util.DebugUtil;
+import com.example.surveyer.backend.util.DebugUtil;
 
 import java.util.concurrent.TimeUnit;
 

@@ -9,6 +9,7 @@ import android.os.Handler;
 
 import com.example.surveyer.App;
 import com.example.surveyer.R;
+import com.example.surveyer.ui.onboarding.OnBoarding;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -25,9 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Intent mainIntent = new Intent(MainActivity.this, Login.class);
-            MainActivity.this.startActivity(mainIntent);
-            MainActivity.this.finish();
+            startActivity(OnBoarding.getOnBoardingIntent(MainActivity.this));
         }, 1000);
 
     }
