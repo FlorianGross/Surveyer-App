@@ -67,6 +67,10 @@ public class Login extends Fragment {
         register.setOnClickListener(v -> requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new Register()).commit());
     }
 
+    private void onSuccess(){
+        startActivity(Navigations.getNavigationIntent(getActivity()));
+    }
+
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
         DebugUtil.debug(Login.class, "New Socket event: " + socketEventModel.toString());
         handleMessage(socketEventModel);
@@ -83,6 +87,7 @@ public class Login extends Fragment {
                 if (model.getResult().equals("Success")) {
                     isLoggedIn = true;
                     System.out.println("Success");
+                    onSuccess();
                 }
             }
         } catch (Exception ex) {
