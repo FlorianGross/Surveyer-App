@@ -69,14 +69,14 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
     }
 
     public void sendEvent(SocketEventModel eventModel) {
-        System.out.println("Sending event: " + eventModel.getEvent());
+        //System.out.println("Sending event: " + eventModel.getEvent());
         if (webSocket == null)return;
         setData(eventModel);
         webSocket.send(eventModel.toString());
     }
 
     public void setData(SocketEventModel socketEventModel) {
-        System.out.println("Setting data: " + socketEventModel.getEvent());
+        //System.out.println("Setting data: " + socketEventModel.getEvent());
         if (socketEventModel == null || TextUtils.isEmpty(socketEventModel.getEvent())) return;
         postValue(socketEventModel);
     }
@@ -92,7 +92,7 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
 
         @Override
         public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
-            System.out.println("Socket message: " + text);
+            // System.out.println("Socket message: " + text);
             handleEvent(text);
 
         }
@@ -100,7 +100,7 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
         @Override
         public void onClosed(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
             super.onClosed(webSocket, code, reason);
-            System.out.println("Socket closed");
+            // System.out.println("Socket closed");
             postValue(new SocketEventModel(SocketEventModel.EVENT_OFFLINE, App.getContext().getString(R.string.socket_offline_message))
                     .setType(SocketEventModel.TYPE_INCOMING));
             disconnected.set(true);
@@ -109,7 +109,7 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
         @Override
         public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, @Nullable Response response) {
             super.onFailure(webSocket, t, response);
-            System.out.println("Socket failure: " + t.getMessage());
+            // System.out.println("Socket failure: " + t.getMessage());
             disconnected.set(true);
             int code = response != null ? response.code() : 400;
             @Nullable String message = response != null ? response.message() : t.getMessage();
@@ -123,6 +123,7 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
     };
 
     private synchronized void handleEvent(String message){
+        System.out.println(message);
         try {
             SocketEventModel eventModel = SocketEventModel.fromJson(message, SocketEventModel.class)
                     .setType(SocketEventModel.TYPE_INCOMING);
@@ -136,14 +137,14 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
     }
 
     private synchronized void processEvent(SocketEventModel eventModel) {
-        DebugUtil.debug(SocketLiveData.class, "Processing event: "+eventModel.toString());
+        //DebugUtil.debug(SocketLiveData.class, "Processing event: "+eventModel.toString());
         postValue(eventModel);
     }
     @Override
     protected void onInactive() {
         super.onInactive();
         disconnect();
-        DebugUtil.debug(SocketLiveData.class, "Inactive. Has observers observers? "+hasActiveObservers());
+       // DebugUtil.debug(SocketLiveData.class, "Inactive. Has observers observers? "+hasActiveObservers());
     }
 
     public boolean isDisconnected() {

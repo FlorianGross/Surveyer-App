@@ -31,7 +31,16 @@ public class SocketEventModel extends BaseModel {
     }
 
     public Object getPayload() {
+        System.out.println("Payload: " + payload);
         return payload;
+    }
+
+    public SocketAnswerModel getAnswer() {
+        SocketAnswerModel answer = null;
+        if (payload instanceof SocketAnswerModel) {
+            answer = (SocketAnswerModel) payload;
+        }
+        return answer;
     }
 
     public String getPayloadAsString() {

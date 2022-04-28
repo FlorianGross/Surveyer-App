@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +27,7 @@ public class Register extends Fragment {
 
     EditText editPassword, editUsername, editEmail;
     Button login, register;
-    SocketLiveData socketLiveData;
+    RegisterViewModel registerViewModel;
 
     @Nullable
     @Override
@@ -42,7 +44,9 @@ public class Register extends Fragment {
         register = view.findViewById(R.id.registerButton2);
         login = view.findViewById(R.id.loginButton2);
         editEmail = view.findViewById(R.id.emailInput);
-        socketLiveData = SocketLiveData.get();
+        registerViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(RegisterViewModel.class);
+        registerViewModel.getSocketLiveData().observe(requireActivity(), socketEventModelObserver);
+        registerViewModel.getSocketLiveData().connect();
 
         register.setOnClickListener(v -> {
             String username = editUsername.getText().toString();
@@ -53,11 +57,11 @@ public class Register extends Fragment {
             }
 
             UserJSON user = new UserJSON(username, password, email);
-            socketLiveData.sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, user)));
+            registerViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, user).toString()));
         });
 
         login.setOnClickListener(v -> requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new Login()).commit());
     }
 
-
+    private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> System.out.println("SocketEventModel: " + socketEventModel);
 }
