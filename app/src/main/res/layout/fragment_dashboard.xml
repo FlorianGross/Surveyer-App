@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/session_enter_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
@@ -30,14 +31,27 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/session_start_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:textColor="@color/black"
+        android:layout_marginBottom="60dp"
         android:text="Session Starten"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/session_enter_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Session Beitreten"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/session_start_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
