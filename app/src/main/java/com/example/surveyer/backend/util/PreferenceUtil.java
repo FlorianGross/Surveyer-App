@@ -16,7 +16,7 @@ public class PreferenceUtil {
     public static String getDeviceId() {
         SharedPreferences sharedPreferences = App.getContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         if(!sharedPreferences.contains(KEY_DEVICE_ID)){
-            sharedPreferences.edit().putString(KEY_DEVICE_ID, UUID.randomUUID().toString()).commit();
+            sharedPreferences.edit().putString(KEY_DEVICE_ID, null).commit();
         }
         return sharedPreferences.getString(KEY_DEVICE_ID, null);
     }

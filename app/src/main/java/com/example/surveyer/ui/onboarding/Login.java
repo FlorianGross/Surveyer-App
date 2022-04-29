@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +16,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.surveyer.R;
-import com.example.surveyer.backend.SocketLiveData;
-import com.example.surveyer.backend.json.AnswerJSON;
 import com.example.surveyer.backend.json.PayloadJSON;
 import com.example.surveyer.backend.json.UserJSON;
 import com.example.surveyer.backend.models.pojo.SocketAnswerModel;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.ui.Navigations;
+
 
 public class Login extends Fragment {
     EditText editPassword, editUsername;
@@ -48,7 +46,6 @@ public class Login extends Fragment {
         loginViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(LoginViewModel.class);
         loginViewModel.getSocketLiveData().observe(requireActivity(), socketEventModelObserver);
         loginViewModel.getSocketLiveData().connect();
-
 
         anonymous.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Navigations.class);
@@ -77,7 +74,6 @@ public class Login extends Fragment {
     };
 
     private void handleMessage(SocketEventModel socketEventModel) {
-        System.out.println(socketEventModel.toString());
         if (socketEventModel.getType() == SocketEventModel.TYPE_OUTGOING) {
             return;
         }

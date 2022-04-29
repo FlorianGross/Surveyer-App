@@ -7,16 +7,23 @@ public class SocketAnswerModel extends BaseModel {
     private String type;
     private Object result;
     private Object error;
+    private String uid;
 
     public SocketAnswerModel(String type, Object result) {
         this.type = type;
         this.result = result;
     }
 
-    public SocketAnswerModel(String type, Object result, String error) {
+    public SocketAnswerModel(String type, Object result, Object error) {
         this.type = type;
         this.result = result;
         this.error = error;
+    }
+
+    public SocketAnswerModel(String type, Object result, String uid) {
+        this.type = type;
+        this.result = result;
+        this.uid = uid;
     }
 
     public String getType() {

@@ -9,11 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.SocketLiveData;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.ui.MainActivity;
+import com.example.surveyer.ui.Navigations;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -36,23 +38,20 @@ public class SurveyView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_view);
-
+        App.setInForeground(true);
         surveyID = getIntent().getStringExtra("surveyID");
         if (surveyID == null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            startActivity(Navigations.getNavigationIntent(this));
         }
-
         approve = findViewById(R.id.approve_button);
         deny = findViewById(R.id.deny_button);
         skip = findViewById(R.id.not_participate_button);
         chart = findViewById(R.id.any_chart_view);
-        Context context = getApplicationContext();
         chart.setUsePercentValues(false);
         chart.setDrawEntryLabels(false);
         chart.getDescription().setEnabled(false);
         chart.getLegend().setEnabled(true);
-        chart.setData(setChartData(context));
+        chart.setData(setChartData(getApplicationContext()));
 
         approve.setOnClickListener(view -> {
             approveValue++;
@@ -80,7 +79,7 @@ public class SurveyView extends AppCompatActivity {
             reloadChart();
         });
 
-       // init();
+       init();
     }
 
     private void init(){
@@ -119,5 +118,11 @@ public class SurveyView extends AppCompatActivity {
         entries.add(new PieEntry(denyValue, "Dagegen"));
         entries.add(new PieEntry(enhaltungValue, "Enthaltung"));
         return entries;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.setInForeground(false);
     }
 }

@@ -4,32 +4,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserJSON {
-    @JsonProperty("username")
-    public String username;
+    @JsonProperty("userName")
+    public String userName;
     @JsonProperty("password")
     public String password;
     @JsonProperty("email")
     public String email;
 
     @JsonCreator
-    public UserJSON(@JsonProperty("username") String username, @JsonProperty("password") String password, @JsonProperty("email") String email) {
-        this.username = username;
+    public UserJSON(@JsonProperty("username") String userName, @JsonProperty("password") String password, @JsonProperty("email") String email) {
+        this.userName = userName;
         this.password = password;
         this.email = email;
     }
 
     @JsonCreator
-    public UserJSON(@JsonProperty("username") String username, @JsonProperty("password") String password) {
-        this.username = username;
+    public UserJSON(@JsonProperty("username") String userName, @JsonProperty("password") String password) {
+        this.userName = userName;
         this.password = password;
     }
 
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.userName = username;
     }
 
     public String getPassword() {

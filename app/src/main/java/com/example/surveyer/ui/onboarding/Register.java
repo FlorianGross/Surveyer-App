@@ -14,13 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.surveyer.R;
 import com.example.surveyer.backend.SocketLiveData;
 import com.example.surveyer.backend.json.PayloadJSON;
 import com.example.surveyer.backend.json.UserJSON;
 import com.example.surveyer.backend.WebSocketHelper;
+import com.example.surveyer.backend.models.pojo.SocketAnswerModel;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
+import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.ui.Navigations;
 
 public class Register extends Fragment {
@@ -55,13 +58,36 @@ public class Register extends Fragment {
             if(username.isEmpty() || password.isEmpty() || email.isEmpty()){
                 return;
             }
-
-            UserJSON user = new UserJSON(username, password, email);
-            registerViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, user).toString()));
+            registerViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, new UserJSON(username, password, email))));
         });
 
         login.setOnClickListener(v -> requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new Login()).commit());
     }
 
-    private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> System.out.println("SocketEventModel: " + socketEventModel);
+    private void onSuccess(){
+
+        startActivity(Navigations.getNavigationIntent(getActivity()));
+    }
+
+    private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
+        DebugUtil.debug(Register.class, "New Socket event: " + socketEventModel.toString());
+        handleMessage(socketEventModel);
+    };
+
+    private void handleMessage(SocketEventModel socketEventModel) {
+        if (socketEventModel.getType() == SocketEventModel.TYPE_OUTGOING) {
+            return;
+        }
+        try {
+            if (socketEventModel.getEvent().equals(SocketEventModel.EVENT_MESSAGE)) {
+                SocketAnswerModel model = SocketAnswerModel.fromJson(socketEventModel.getPayloadAsString(), SocketAnswerModel.class);
+                if (model.getResult().equals("Success")) {
+                    System.out.println("Success");
+                    onSuccess();
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

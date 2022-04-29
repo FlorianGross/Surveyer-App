@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.ui.dashboard.DashboardFragment;
 import com.example.surveyer.ui.home.HomeFragment;
@@ -20,6 +21,7 @@ public class Navigations extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        App.setInForeground(true);
         bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -39,5 +41,11 @@ public class Navigations extends AppCompatActivity {
 
     public static Intent getNavigationIntent(Context context) {
         return new Intent(context, Navigations.class);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.setInForeground(false);
     }
 }

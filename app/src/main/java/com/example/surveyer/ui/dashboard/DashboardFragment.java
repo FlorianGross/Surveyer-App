@@ -8,23 +8,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.surveyer.databinding.FragmentDashboardBinding;
+import com.example.surveyer.R;
 
 public class DashboardFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
-
-        return binding.getRoot();
+        return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 }

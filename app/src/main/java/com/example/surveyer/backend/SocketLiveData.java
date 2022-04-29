@@ -55,9 +55,8 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
             DebugUtil.debug(SocketLiveData.class, "Attempting to connect");
             if (disconnected.compareAndSet(true, false)) {
                 DebugUtil.debug(SocketLiveData.class, "Connecting...");
-                String socketUrl = String.format("%s?%s", Constants.getSocketUrl(), String.format("deviceId=%s", PreferenceUtil.getDeviceId()));
+                String socketUrl = Constants.getString();
                 DebugUtil.debug(SocketLiveData.class, "Socket url: " + socketUrl);
-                socketUrl = Constants.getString();
                 Request request = new Request.Builder().url(socketUrl)
                         .addHeader("deviceId", PreferenceUtil.getDeviceId()).build();
                 webSocket = App.getOkHttpClient().newWebSocket(request, webSocketListener);
@@ -69,14 +68,13 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
     }
 
     public void sendEvent(SocketEventModel eventModel) {
-        //System.out.println("Sending event: " + eventModel.getEvent());
         if (webSocket == null)return;
         setData(eventModel);
         webSocket.send(eventModel.toString());
     }
 
     public void setData(SocketEventModel socketEventModel) {
-        //System.out.println("Setting data: " + socketEventModel.getEvent());
+        System.out.println("Setting data: " + socketEventModel.getEvent());
         if (socketEventModel == null || TextUtils.isEmpty(socketEventModel.getEvent())) return;
         postValue(socketEventModel);
     }
@@ -123,7 +121,7 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
     };
 
     private synchronized void handleEvent(String message){
-        System.out.println(message);
+        System.out.println("Handling event: " + message);
         try {
             SocketEventModel eventModel = SocketEventModel.fromJson(message, SocketEventModel.class)
                     .setType(SocketEventModel.TYPE_INCOMING);
