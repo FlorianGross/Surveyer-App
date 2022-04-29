@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.surveyer">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,17 +18,25 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.onboarding.OnBoarding"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.survey.SurveyView"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.Navigations"
             android:exported="false"
-            android:label="@string/title_activity_navigation" />
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_navigation"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
+            android:screenOrientation="portrait"
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

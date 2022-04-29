@@ -1,5 +1,6 @@
 package com.example.surveyer.ui.dashboard;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,31 +9,48 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.surveyer.R;
 import com.example.surveyer.backend.json.SessionJSON;
 import com.example.surveyer.backend.json.SurveyJSON;
+import com.example.surveyer.ui.home.HomeAdapter;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
-    private final SurveyJSON[] surveys;
     private final SessionJSON[] session;
 
     public DashboardAdapter(SessionJSON[] sessions) {
         this.session = sessions;
-        this.surveys = new SurveyJSON[1];
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.survey_element, parent, false);
-        return new DashboardAdapter.ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.session_element, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.getSessionName().setText(session[position].id);
+        SurveyJSON[] surveys = {
+                new SurveyJSON("1", "1", "Flo", "Description", true, "Name", 0, 0, 0, new String[0], 0),
+                new SurveyJSON("1", "1", "Flo", "Description", true, "Name", 0, 0, 0, new String[0], 0)
+        };
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext());
+        holder.getRecyclerView().setLayoutManager(linearLayoutManager);
+        holder.getRecyclerView().setAdapter(new HomeAdapter(surveys));
 
+        holder.getOnClick().setOnClickListener(view -> {
+            System.out.println("Clicked");
+            if (holder.getRecyclerView().getVisibility() == View.GONE) {
+                holder.getRecyclerView().setVisibility(View.VISIBLE);
+
+            } else {
+                holder.getRecyclerView().setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -40,31 +58,30 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         return session.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView title, description;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ConstraintLayout onClick;
-        private final ImageView status;
+        private final RecyclerView recyclerView;
+        private final TextView sessionName;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            onClick = itemView.findViewById(R.id.elementClick);
-            title = itemView.findViewById(R.id.surveyTitle);
-            description = itemView.findViewById(R.id.surveyDescription);
-            status = itemView.findViewById(R.id.statusIndicator);
-        }
-        public ImageView getStatus() {
-            return status;
+            onClick = itemView.findViewById(R.id.onClick);
+            sessionName = itemView.findViewById(R.id.sessionName);
+            recyclerView = itemView.findViewById(R.id.sessionRecycler);
+
+            recyclerView.setVisibility(View.GONE);
         }
 
         public ConstraintLayout getOnClick() {
             return onClick;
         }
 
-        public TextView getTitle() {
-            return title;
+        public TextView getSessionName() {
+            return sessionName;
         }
 
-        public TextView getDescription() {
-            return description;
+        public RecyclerView getRecyclerView() {
+            return recyclerView;
         }
     }
 }

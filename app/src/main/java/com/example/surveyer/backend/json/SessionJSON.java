@@ -9,15 +9,18 @@ public class SessionJSON {
     public final String owner;
     @JsonProperty("participants")
     public final String[] participants;
+    @JsonProperty("survey")
+    public final String[] survey;
     @JsonProperty("isActive")
     public final boolean isActive;
     @JsonProperty("__v")
     public final int version;
 
-    public SessionJSON(@JsonProperty("_id") String id, @JsonProperty("owner") String owner, @JsonProperty("participants") String[] participants, @JsonProperty("isActive") boolean isActive, @JsonProperty("__v") int version) {
+    public SessionJSON(@JsonProperty("_id") String id, @JsonProperty("owner") String owner, @JsonProperty("participants") String[] participants, @JsonProperty("survey") String[] survey, @JsonProperty("isActive") boolean isActive, @JsonProperty("__v") int version) {
         this.id = id;
         this.owner = owner;
         this.participants = participants;
+        this.survey = survey;
         this.isActive = isActive;
         this.version = version;
     }
