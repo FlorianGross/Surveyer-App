@@ -10,6 +10,7 @@ import android.os.Handler;
 import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.ui.onboarding.OnBoarding;
+import com.example.surveyer.ui.survey.Survey_Create;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -25,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            startActivity(OnBoarding.getOnBoardingIntent(MainActivity.this));
+            startActivity(new Intent(this, Survey_Create.class));
+            //startActivity(OnBoarding.getOnBoardingIntent(MainActivity.this));
         }, 1000);
 
     }

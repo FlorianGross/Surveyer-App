@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Surveyer"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.survey.Survey_Create"
+            android:exported="false" />
+        <activity
             android:name=".ui.session.Session"
             android:exported="false" />
         <activity

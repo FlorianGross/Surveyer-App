@@ -32,4 +32,11 @@
     <string name="header">HEADER</string>
     <string name="email">Email</string>
     <string name="geben_sie_ihre_email_addresse_an">Geben Sie Ihre Email-Addresse an</string>
+    <string-array name="survey_type">
+        <item>Ja/Nein</item>
+        <item>Ja/Nein/Enthaltung</item>
+        <item>Dafür/Dagegen</item>
+        <item>Dafür/Dagegen/Enthaltung</item>
+        <item>Eigenes</item>
+    </string-array>
 </resources>
