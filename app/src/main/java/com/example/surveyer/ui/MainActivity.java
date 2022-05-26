@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            startActivity(new Intent(this, Survey_Create.class));
-            //startActivity(OnBoarding.getOnBoardingIntent(MainActivity.this));
+
+            startActivity(OnBoarding.getOnBoardingIntent(MainActivity.this));
         }, 1000);
 
     }

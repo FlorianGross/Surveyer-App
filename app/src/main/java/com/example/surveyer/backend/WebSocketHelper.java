@@ -34,9 +34,6 @@ public class WebSocketHelper {
     private static WebSocketHelper INSTANCE;
     public WebSocket webSocket;
     public static int status = 0;
-    public static int STATUS_REGISTERED = 101;
-    public static int STATUS_STANDARD = 0;
-    public static int STATUS_ERROR = -1;
 
     public static WebSocketHelper getInstance() {
         if (INSTANCE == null) {
@@ -46,7 +43,7 @@ public class WebSocketHelper {
     }
 
     public static String getWifiIp() {
-        return "ws://192.168.178.98:3000";
+        return "ws://141.69.99.91:3000";
     }
 
     public void connectToSocket(Context context) {
