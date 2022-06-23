@@ -22,7 +22,6 @@ import com.example.surveyer.backend.models.pojo.SocketAnswerModel;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.ui.Navigations;
-import com.example.surveyer.backend.util.PreferenceUtil;
 
 
 public class Login extends Fragment {
@@ -82,7 +81,6 @@ public class Login extends Fragment {
             if (socketEventModel.getEvent().equals(SocketEventModel.EVENT_MESSAGE)) {
                 SocketAnswerModel model = SocketAnswerModel.fromJson(socketEventModel.getPayloadAsString(), SocketAnswerModel.class);
                 if (model.getResult().equals("Success")) {
-                    PreferenceUtil.setDeviceId(model.getUid());
                     isLoggedIn = true;
                     System.out.println("Success");
                     onSuccess();

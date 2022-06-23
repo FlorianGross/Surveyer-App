@@ -14,6 +14,7 @@ public class App extends Application {
     private static Context context;
     private static OkHttpClient okHttpClient;
     private static Gson gson;
+    private static boolean inForeground;
 
     @Override
     public void onCreate() {
@@ -35,4 +36,11 @@ public class App extends Application {
         return gson;
     }
 
+    public static boolean isInForeground() {
+        return inForeground;
+    }
+
+    public static void setInForeground(boolean inForeground) {
+        App.inForeground = inForeground;
+    }
 }

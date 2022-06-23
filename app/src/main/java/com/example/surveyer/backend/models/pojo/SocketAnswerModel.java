@@ -50,14 +50,6 @@ public class SocketAnswerModel extends BaseModel {
         this.error = error;
     }
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
     public String getResultAsString() {
         String payloadJson = App.getGson().toJson(result);
         if (payloadJson.startsWith("{") && payloadJson.endsWith("}"))

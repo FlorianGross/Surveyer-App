@@ -18,6 +18,7 @@ public class OnBoarding extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.onboarding_activity);
+        App.setInForeground(true);
 
         fragmentContainerView = findViewById(R.id.container);
 
@@ -33,6 +34,7 @@ public class OnBoarding extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        App.setInForeground(false);
     }
 
     public static Intent getOnBoardingIntent(Context context) {

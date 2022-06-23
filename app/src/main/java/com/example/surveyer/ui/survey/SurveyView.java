@@ -38,6 +38,7 @@ public class SurveyView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_view);
+        App.setInForeground(true);
         surveyID = getIntent().getStringExtra("surveyID");
         if (surveyID == null) {
             startActivity(Navigations.getNavigationIntent(this));
@@ -122,5 +123,6 @@ public class SurveyView extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        App.setInForeground(false);
     }
 }

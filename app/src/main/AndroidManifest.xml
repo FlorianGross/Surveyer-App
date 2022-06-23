@@ -5,8 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".App"
@@ -17,13 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Surveyer"
         android:usesCleartextTraffic="true">
-        <service android:name=".backend.service.ForegroundService"/>
-        <receiver android:name=".backend.service.MyBroadcastReciever"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
         <activity
             android:name=".ui.survey.Survey_Create"
             android:exported="false" />
@@ -57,6 +48,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-   </application>
+    </application>
 
 </manifest>
