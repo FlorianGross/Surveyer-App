@@ -26,7 +26,6 @@ public class SocketReconnectionScheduler extends Worker {
     @Override
     public Result doWork() {
         SocketLiveData socketLiveData = SocketLiveData.get();
-        if (!App.isInForeground()) return Result.failure();
         if (!socketLiveData.isDisconnected() || !socketLiveData.hasObservers())
             return Result.success();
         DebugUtil.debug(SocketReconnectionScheduler.class, "Doing work");

@@ -121,7 +121,6 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
     };
 
     private synchronized void handleEvent(String message){
-        System.out.println("Handling event: " + message);
         try {
             SocketEventModel eventModel = SocketEventModel.fromJson(message, SocketEventModel.class)
                     .setType(SocketEventModel.TYPE_INCOMING);
