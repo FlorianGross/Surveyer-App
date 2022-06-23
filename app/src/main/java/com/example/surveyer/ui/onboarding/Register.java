@@ -1,6 +1,5 @@
 package com.example.surveyer.ui.onboarding;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.surveyer.R;
-import com.example.surveyer.backend.SocketLiveData;
 import com.example.surveyer.backend.json.PayloadJSON;
 import com.example.surveyer.backend.json.UserJSON;
-import com.example.surveyer.backend.WebSocketHelper;
 import com.example.surveyer.backend.models.pojo.SocketAnswerModel;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.DebugUtil;

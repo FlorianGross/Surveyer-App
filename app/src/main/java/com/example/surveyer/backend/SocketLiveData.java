@@ -55,7 +55,7 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
             DebugUtil.debug(SocketLiveData.class, "Attempting to connect");
             if (disconnected.compareAndSet(true, false)) {
                 DebugUtil.debug(SocketLiveData.class, "Connecting...");
-                String socketUrl = Constants.getString();
+                String socketUrl = "ws://ws.floriang.dev";
                 DebugUtil.debug(SocketLiveData.class, "Socket url: " + socketUrl);
                 Request request = new Request.Builder().url(socketUrl)
                         .addHeader("deviceId", PreferenceUtil.getDeviceId()).build();
