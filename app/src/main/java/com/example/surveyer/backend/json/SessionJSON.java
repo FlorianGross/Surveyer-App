@@ -4,25 +4,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SessionJSON {
     @JsonProperty("_id")
-    public final String id;
+    public String id;
+    @JsonProperty("name")
+    public String name;
+    @JsonProperty("description")
+    public String description;
     @JsonProperty("owner")
-    public final String owner;
+    public String owner;
     @JsonProperty("participants")
-    public final String[] participants;
-    @JsonProperty("survey")
-    public final String[] survey;
+    public String[] participants;
+    @JsonProperty("surveys")
+    public String[] surveys;
     @JsonProperty("isActive")
-    public final boolean isActive;
+    public boolean isActive;
     @JsonProperty("__v")
-    public final int version;
+    public int version;
 
-    public SessionJSON(@JsonProperty("_id") String id, @JsonProperty("owner") String owner, @JsonProperty("participants") String[] participants, @JsonProperty("survey") String[] survey, @JsonProperty("isActive") boolean isActive, @JsonProperty("__v") int version) {
+    public SessionJSON(@JsonProperty("_id") String id, @JsonProperty("name") String name, @JsonProperty("description") String description ,@JsonProperty("owner") String owner, @JsonProperty("participants") String[] participants, @JsonProperty("surveys") String[] surveys, @JsonProperty("isActive") boolean isActive, @JsonProperty("__v") int version) {
         this.id = id;
+        this.name = name;
+        this.description = description;
         this.owner = owner;
         this.participants = participants;
-        this.survey = survey;
+        this.surveys = surveys;
         this.isActive = isActive;
         this.version = version;
+    }
+
+    public SessionJSON(){
+
     }
 
 }

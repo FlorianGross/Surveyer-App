@@ -1,4 +1,4 @@
-package com.example.surveyer.ui.onboarding;
+package com.example.surveyer.ui.Onboarding;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;

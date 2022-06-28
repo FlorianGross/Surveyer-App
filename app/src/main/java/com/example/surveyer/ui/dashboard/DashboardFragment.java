@@ -35,7 +35,7 @@ public class DashboardFragment extends Fragment {
             Intent intent = new Intent(requireContext(), Session.class);
             startActivity(intent);
         });
-        SessionJSON session = new SessionJSON("1", "1", new String[]{"1"}, new String[]{"1"}, true, 1);
+        SessionJSON session = new SessionJSON("1", "1", "1", "1",  new String[]{"1"}, new String[]{"1"}, true, 1);
         SessionJSON[] sessions = {
                 session, session
         };

@@ -1,6 +1,5 @@
 package com.example.surveyer.ui.dashboard;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +34,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getSessionName().setText(session[position].id);
         SurveyJSON[] surveys = {
-                new SurveyJSON("1", "1", "Flo", "Description", true, "Name", 0, 0, 0, new String[0], 0),
-                new SurveyJSON("1", "1", "Flo", "Description", true, "Name", 0, 0, 0, new String[0], 0)
+                new SurveyJSON(), new SurveyJSON()
         };
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext());
         holder.getRecyclerView().setLayoutManager(linearLayoutManager);

@@ -1,4 +1,4 @@
-package com.example.surveyer.ui.onboarding;
+package com.example.surveyer.ui.Onboarding;
 
 import androidx.lifecycle.ViewModel;
 

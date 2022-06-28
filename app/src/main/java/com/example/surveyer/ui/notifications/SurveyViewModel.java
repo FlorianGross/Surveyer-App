@@ -1,18 +1,17 @@
-package com.example.surveyer.ui.Onboarding;
+package com.example.surveyer.ui.notifications;
 
 import androidx.lifecycle.ViewModel;
 
 import com.example.surveyer.backend.SocketLiveData;
 
-public class RegisterViewModel extends ViewModel {
+public class SurveyViewModel extends ViewModel {
     private SocketLiveData socketLiveData;
 
-    public RegisterViewModel() {
+    public SurveyViewModel() {
         socketLiveData = SocketLiveData.get();
     }
 
     public SocketLiveData getSocketLiveData() {
         return socketLiveData;
     }
-
 }

@@ -8,6 +8,7 @@ public class SocketAnswerModel extends BaseModel {
     private Object result;
     private Object error;
     private String uid;
+    private Object events;
 
     public SocketAnswerModel(String type, Object result) {
         this.type = type;
@@ -48,6 +49,14 @@ public class SocketAnswerModel extends BaseModel {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getResultAsString() {

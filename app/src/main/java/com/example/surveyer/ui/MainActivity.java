@@ -2,15 +2,14 @@ package com.example.surveyer.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.surveyer.App;
 import com.example.surveyer.R;
-import com.example.surveyer.ui.onboarding.OnBoarding;
-import com.example.surveyer.ui.survey.Survey_Create;
+import com.example.surveyer.backend.util.PreferenceUtil;
+import com.example.surveyer.ui.Onboarding.OnBoarding;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -26,8 +25,13 @@ public class MainActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            startActivity(OnBoarding.getOnBoardingIntent(MainActivity.this));
+            Intent intent;
+            if(PreferenceUtil.getDeviceId() != null){
+                intent = new Intent(this, Navigations.class);
+            }else{
+                intent = new Intent(this, OnBoarding.class);
+            }
+            startActivity(intent);
         }, 1000);
 
     }
@@ -36,9 +40,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         App.setInForeground(false);
-    }
-
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, MainActivity.class);
     }
 }

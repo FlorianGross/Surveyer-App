@@ -42,13 +42,21 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19907989501953124" />
         <entry key="app/src/main/res/layout/activity_navigation.xml" value="0.15321849501359927" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.20735356990166737" />
+        <entry key="app/src/main/res/layout/activity_session.xml" value="0.20557197129590546" />
         <entry key="app/src/main/res/layout/activity_spectator_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_start_view.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_survey_create.xml" value="0.20557197129590546" />
         <entry key="app/src/main/res/layout/activity_survey_view.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.15321849501359927" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22215881347656252" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.20557197129590546" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.10944848225737494" />
+        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.20557197129590546" />
+        <entry key="app/src/main/res/layout/fragment_survey.xml" value="0.2781343953433125" />
+        <entry key="app/src/main/res/layout/onboarding_activity.xml" value="0.20557197129590546" />
         <entry key="app/src/main/res/layout/result_element.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/session_element.xml" value="0.20557197129590546" />
+        <entry key="app/src/main/res/layout/session_user_view.xml" value="0.10517315091919624" />
         <entry key="app/src/main/res/layout/survey_element.xml" value="0.3062645011600928" />
         <entry key="app/src/main/res/layout/vote_element.xml" value="0.24913177490234373" />
       </map>

@@ -1,4 +1,4 @@
-package com.example.surveyer.ui.onboarding;
+package com.example.surveyer.ui.Onboarding;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ import com.example.surveyer.backend.json.UserJSON;
 import com.example.surveyer.backend.models.pojo.SocketAnswerModel;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.DebugUtil;
+import com.example.surveyer.backend.util.PreferenceUtil;
 import com.example.surveyer.ui.Navigations;
 
 
@@ -81,6 +82,7 @@ public class Login extends Fragment {
             if (socketEventModel.getEvent().equals(SocketEventModel.EVENT_MESSAGE)) {
                 SocketAnswerModel model = SocketAnswerModel.fromJson(socketEventModel.getPayloadAsString(), SocketAnswerModel.class);
                 if (model.getResult().equals("Success")) {
+                    PreferenceUtil.setDeviceId(model.getUid());
                     isLoggedIn = true;
                     System.out.println("Success");
                     onSuccess();
