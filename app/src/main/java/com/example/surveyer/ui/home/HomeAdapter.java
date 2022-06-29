@@ -12,14 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.ui.survey.SurveyView;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
-    private final SurveyJSON[] data;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
-    public HomeAdapter(SurveyJSON[] data) {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+    private final ArrayList<SurveyJSON> data;
+
+    public HomeAdapter(ArrayList<SurveyJSON> data) {
         this.data = data;
     }
 
@@ -32,24 +36,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.getDescription().setText(data[position].surveyDescription);
-        holder.getTitle().setText(data[position].surveyName);
+        holder.getDescription().setText(data.get(position).surveyDescription);
+        holder.getTitle().setText(data.get(position).surveyName);
         holder.getOnClick().setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), SurveyView.class);
-            intent.putExtra("surveyId", data[position].surveyID);
+            intent.putExtra("surveyId", data.get(position).surveyID);
             v.getContext().startActivity(intent);
         });
-
-        if(data[position].surveyOpened){
-            holder.getStatus().setBackgroundColor(Color.GREEN);
+            System.out.println(data.get(position).surveyOpened);
+        if(data.get(position).surveyOpened){
+            holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style));
         }else{
-            holder.getStatus().setBackgroundColor(Color.RED);
+            holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style_unselected));
         }
     }
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return data.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

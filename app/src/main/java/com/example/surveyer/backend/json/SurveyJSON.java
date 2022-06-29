@@ -17,11 +17,11 @@ public class SurveyJSON {
     @JsonProperty("surveyName")
     public String surveyName;
     @JsonProperty("surveyApprove")
-    public int surveyApprove;
+    public String[] surveyApprove;
     @JsonProperty("surveyDeny")
-    public int surveyDeny;
+    public String[] surveyDeny;
     @JsonProperty("surveyNotParicipate")
-    public int surveyNotParicipate;
+    public String[] surveyNotParicipate;
     @JsonProperty("anonymous")
     public boolean anonymous;
     @JsonProperty("participants")
@@ -32,8 +32,8 @@ public class SurveyJSON {
     @JsonCreator
     public SurveyJSON(@JsonProperty("_id") String surveyID, @JsonProperty("surveySession") String surveySession, @JsonProperty("creator") String creator,
                       @JsonProperty("surveyDescription") String surveyDescription, @JsonProperty("surveyOpened") boolean surveyOpened,
-                      @JsonProperty("surveyName") String surveyName, @JsonProperty("surveyApprove") int surveyApprove,
-                      @JsonProperty("surveyDeny") int surveyDeny, @JsonProperty("surveyNotParicipate") int surveyNotParicipate,
+                      @JsonProperty("surveyName") String surveyName, @JsonProperty("surveyApprove") String[] surveyApprove,
+                      @JsonProperty("surveyDeny") String[] surveyDeny, @JsonProperty("surveyNotParicipate") String[] surveyNotParicipate,
                       @JsonProperty("anonymous") boolean anonymous,
                       @JsonProperty("participants") String[] participants, @JsonProperty("__v") int version) {
         this.surveyID = surveyID;
@@ -50,7 +50,7 @@ public class SurveyJSON {
         this.version = version;
     }
 
-    public SurveyJSON(){
+    public SurveyJSON() {
 
     }
 
@@ -78,15 +78,15 @@ public class SurveyJSON {
         return surveyName;
     }
 
-    public int getSurveyApprove() {
+    public String[] getSurveyApprove() {
         return surveyApprove;
     }
 
-    public int getSurveyDeny() {
+    public String[] getSurveyDeny() {
         return surveyDeny;
     }
 
-    public int getSurveyNotParicipate() {
+    public String[] getSurveyNotParicipate() {
         return surveyNotParicipate;
     }
 
@@ -122,15 +122,15 @@ public class SurveyJSON {
         this.surveyName = surveyName;
     }
 
-    public void setSurveyApprove(int surveyApprove) {
+    public void setSurveyApprove(String[] surveyApprove) {
         this.surveyApprove = surveyApprove;
     }
 
-    public void setSurveyDeny(int surveyDeny) {
+    public void setSurveyDeny(String[] surveyDeny) {
         this.surveyDeny = surveyDeny;
     }
 
-    public void setSurveyNotParicipate(int surveyNotParicipate) {
+    public void setSurveyNotParicipate(String[] surveyNotParicipate) {
         this.surveyNotParicipate = surveyNotParicipate;
     }
 

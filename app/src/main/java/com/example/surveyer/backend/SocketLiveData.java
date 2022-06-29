@@ -97,7 +97,6 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
         public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
             System.out.println("Socket message: " + text);
             handleEvent(text);
-
         }
 
         @Override

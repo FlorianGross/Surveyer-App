@@ -12,18 +12,25 @@ import android.widget.Button;
 import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.SocketLiveData;
+import com.example.surveyer.backend.helper.SurveyHelper;
+import com.example.surveyer.backend.json.PayloadJSON;
+import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
+import com.example.surveyer.backend.util.PreferenceUtil;
 import com.example.surveyer.ui.MainActivity;
 import com.example.surveyer.ui.Navigations;
+import com.example.surveyer.ui.notifications.Fragment_Survey;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +39,16 @@ public class SurveyView extends AppCompatActivity {
     Button approve, deny, skip;
     int approveValue = 0, denyValue = 0, enhaltungValue = 0;
     PieChart chart;
+    SurveyJSON survey = null;
     SurveyViewModel viewModel;
+    SocketLiveData socketLiveData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_view);
         App.setInForeground(true);
-        surveyID = getIntent().getStringExtra("surveyID");
+        surveyID = getIntent().getStringExtra("surveyId");
         if (surveyID == null) {
             startActivity(Navigations.getNavigationIntent(this));
         }
@@ -47,6 +56,11 @@ public class SurveyView extends AppCompatActivity {
         deny = findViewById(R.id.deny_button);
         skip = findViewById(R.id.not_participate_button);
         chart = findViewById(R.id.any_chart_view);
+        viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(SurveyViewModel.class);
+        socketLiveData = viewModel.getSocketLiveData();
+        socketLiveData.observe(this, socketEventModelObserver);
+        socketLiveData.connect();
+        setValues();
         chart.setUsePercentValues(false);
         chart.setDrawEntryLabels(false);
         chart.getDescription().setEnabled(false);
@@ -60,11 +74,10 @@ public class SurveyView extends AppCompatActivity {
             reloadChart();
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("","");
+                jsonObject.put("", "");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            SocketLiveData.get().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, jsonObject.toString()).setType(SocketEventModel.TYPE_OUTGOING));
         });
         deny.setOnClickListener(view -> {
             denyValue++;
@@ -78,26 +91,63 @@ public class SurveyView extends AppCompatActivity {
             System.out.println(enhaltungValue);
             reloadChart();
         });
-
-       init();
+        getSurvey();
     }
 
-    private void init(){
-        viewModel = new ViewModelProvider(this).get(SurveyViewModel.class);
-        viewModel.getSocketLiveData().observe(this, socketEventModelObserver);
-        viewModel.getSocketLiveData().connect();
+    void getSurvey() {
+        JsonObject object = new JsonObject();
+        object.addProperty("uid", PreferenceUtil.getDeviceId());
+        object.addProperty("surveyId", surveyID);
+        viewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETSURVEYFROMID, object)));
     }
-
-    private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(SurveyView.class, "New Socket Event: " + socketEventModel.toString());
-        //toDo handle socket event for SurveyView
-    };
 
     private void disableButtons() {
         approve.setEnabled(false);
         deny.setEnabled(false);
         skip.setEnabled(false);
     }
+
+    private void setValues() {
+        if (survey != null) {
+            denyValue = survey.getSurveyDeny().length;
+            approveValue = survey.getSurveyApprove().length;
+            enhaltungValue = survey.getSurveyNotParicipate().length;
+        } else {
+            denyValue = 0;
+            approveValue = 0;
+            enhaltungValue = 0;
+        }
+    }
+
+    private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
+        DebugUtil.debug(SurveyView.class, "getSocket: " + socketEventModel.toString());
+        try {
+            JSONObject object = new JSONObject(socketEventModel.getPayloadAsString());
+            if (object.has("event") && object.getString("result").equals("Survey")) {
+                survey = SurveyHelper.getSurveyFromJSONOBject(object);
+                if (survey.getSurveyDeny() != null) {
+                    denyValue = survey.getSurveyDeny().length;
+                }
+                if (survey.getSurveyApprove() != null) {
+                    approveValue = survey.getSurveyApprove().length;
+                }
+                if (survey.getSurveyNotParicipate() != null) {
+                    enhaltungValue = survey.getSurveyNotParicipate().length;
+                }
+                if (survey.getParticipants() != null) {
+                    String[] participants = survey.getParticipants();
+                    for (String participant : participants) {
+                        if (participant.equals(PreferenceUtil.getDeviceId())) {
+                            disableButtons();
+                        }
+                    }
+                }
+                reloadChart();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    };
 
     private PieData setChartData(Context context) {
         PieDataSet pieData = new PieDataSet(getData(), "Survey Results");

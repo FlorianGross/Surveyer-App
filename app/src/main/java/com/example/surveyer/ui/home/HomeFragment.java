@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.surveyer.R;
+import com.example.surveyer.backend.helper.SurveyHelper;
 import com.example.surveyer.backend.json.PayloadJSON;
 import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.backend.json.UserJSON;
@@ -25,10 +26,14 @@ import com.example.surveyer.ui.Onboarding.LoginViewModel;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeViewModel homeViewModel;
-    SurveyJSON[] surveys;
+    ArrayList<SurveyJSON> surveys;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,11 +48,7 @@ public class HomeFragment extends Fragment {
         homeViewModel.getSocketLiveData().observe(requireActivity(), socketEventModelObserver);
         homeViewModel.getSocketLiveData().connect();
         getSurveys();
-        surveys = new SurveyJSON[]{
-          new SurveyJSON(),
-                new SurveyJSON(),
-        };
-
+        surveys = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new HomeAdapter(surveys));
@@ -64,8 +65,17 @@ public class HomeFragment extends Fragment {
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(Login.class, "New Socket event: " + socketEventModel.toString());
-
+        DebugUtil.debug(HomeFragment.class, "New Socket event: " + socketEventModel.toString());
+        try{
+            JSONObject jsonObject = new JSONObject(socketEventModel.getPayloadAsString());
+            if(jsonObject.has("events") && jsonObject.getString("result").equals("Surveys")){
+                surveys = SurveyHelper.getSurveyListFromObject(jsonObject);
+                System.out.println(surveys.size());
+                recyclerView.setAdapter(new HomeAdapter(surveys));
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     };
 
 }

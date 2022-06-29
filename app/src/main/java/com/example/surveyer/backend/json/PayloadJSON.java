@@ -8,6 +8,8 @@ public class PayloadJSON extends BaseModel {
     public static final String TYPE_LOGIN = "loginUser";
     public static final String TYPE_GETALLSESSIONS = "getAllSessions";
     public static final String TYPE_GETALLSURVEYS = "getAllSurveys";
+    public static final String TYPE_CREATESURVEY = "createSurvey";
+    public static final String TYPE_GETSURVEYFROMID = "getSurveyFromID";
     @JsonProperty("Type")
     private String type;
     @JsonProperty("Refresh")
@@ -24,11 +26,13 @@ public class PayloadJSON extends BaseModel {
         this.refresh = refresh;
         this.result = result;
     }
+
     public PayloadJSON(String type, Object result) {
         this.type = type;
         this.result = result;
     }
-    public PayloadJSON(String type, Object result, String events){
+
+    public PayloadJSON(String type, Object result, String events) {
         this.type = type;
         this.result = result;
         this.events = events;

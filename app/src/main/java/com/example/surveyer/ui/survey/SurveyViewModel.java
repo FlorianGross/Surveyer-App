@@ -12,7 +12,6 @@ public class SurveyViewModel extends ViewModel {
 
     public SurveyViewModel() {
         socketLiveData = SocketLiveData.get();
-       // survey = socketLiveData.getSurvey();
     }
 
     public void setSurvey(SurveyJSON survey) {
