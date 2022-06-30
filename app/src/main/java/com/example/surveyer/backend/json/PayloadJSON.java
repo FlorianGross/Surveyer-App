@@ -10,6 +10,9 @@ public class PayloadJSON extends BaseModel {
     public static final String TYPE_GETALLSURVEYS = "getAllSurveys";
     public static final String TYPE_CREATESURVEY = "createSurvey";
     public static final String TYPE_GETSURVEYFROMID = "getSurveyFromID";
+    public static final String TYPE_GETSESSIONFROMID = "getSessionFromID";
+    public static final String TYPE_UPDATESESSION = "updateSession";
+    public static final String TYPE_CREATESESSION = "createSession";
     @JsonProperty("Type")
     private String type;
     @JsonProperty("Refresh")

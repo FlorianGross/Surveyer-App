@@ -1,5 +1,7 @@
 package com.example.surveyer.backend.json;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,5 +27,15 @@ public class RefreshSurveyJSON {
         this.result = result;
     }
 
-
+    @NonNull
+    @Override
+    public String toString() {
+        return "RefreshSurveyJSON{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", refresh='" + refresh + '\'' +
+                ", result=" + result +
+                ", version=" + version +
+                '}';
+    }
 }

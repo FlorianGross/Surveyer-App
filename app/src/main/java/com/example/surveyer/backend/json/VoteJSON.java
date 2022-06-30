@@ -1,5 +1,7 @@
 package com.example.surveyer.backend.json;
 
+import androidx.annotation.NonNull;
+
 public class VoteJSON {
     public String uid;
     public String surveyID;
@@ -14,4 +16,12 @@ public class VoteJSON {
         this.sendID = sendID;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "VoteJSON{" +
+                "uid='" + uid + '\'' +
+                ", surveyID='" + surveyID + '\'' +
+                ", sendID=" + sendID;
+    }
 }

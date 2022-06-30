@@ -1,5 +1,7 @@
 package com.example.surveyer.backend.json;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SessionJSON {
@@ -35,4 +37,18 @@ public class SessionJSON {
 
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "SessionJSON{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", owner='" + owner + '\'' +
+                ", participants=" + participants +
+                ", surveys=" + surveys +
+                ", isActive=" + isActive +
+                ", version=" + version +
+                '}';
+    }
 }

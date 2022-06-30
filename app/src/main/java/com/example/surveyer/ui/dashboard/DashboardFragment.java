@@ -73,7 +73,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(Fragment_Survey.class, "getSocket: " + socketEventModel.toString());
+        DebugUtil.debug(DashboardFragment.class, "getSocket: " + socketEventModel.toString());
         String toJSONString = socketEventModel.getPayloadAsString();
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);

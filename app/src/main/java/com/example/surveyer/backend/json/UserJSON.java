@@ -1,5 +1,7 @@
 package com.example.surveyer.backend.json;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -46,5 +48,15 @@ public class UserJSON {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "UserJSON{" +
+                "userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

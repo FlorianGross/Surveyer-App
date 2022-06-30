@@ -100,6 +100,49 @@ public class SurveyHelper {
     }
 
 
+    public static SessionJSON getSessionFromJSONOBject (JSONObject jsonObject) {
+        SessionJSON session = new SessionJSON();
+        ArrayList<String> participants = new ArrayList<>();
+        ArrayList<String> surveys = new ArrayList<>();
+        try {
+            jsonObject = jsonObject.getJSONObject("event");
+            if (jsonObject.has("_id")) {
+                session.id = jsonObject.getString("_id");
+            }
+            if(jsonObject.has("owner")){
+                session.owner = jsonObject.getString("owner");
+            }
+            if (jsonObject.has("name")) {
+                session.name = jsonObject.getString("name");
+            }
+            if (jsonObject.has("description")) {
+                session.description = jsonObject.getString("description");
+            }
+            if (jsonObject.has("isActive")) {
+                session.isActive = jsonObject.getBoolean("isActive");
+            }
+
+            if (jsonObject.has("paricipants")) {
+                JSONArray participantsArray = jsonObject.getJSONArray("paricipants");
+                for (int i = 0; i < participantsArray.length(); i++) {
+                    participants.add(participantsArray.getString(i));
+                }
+                session.participants = participants.toArray(new String[0]);
+            }
+            if (jsonObject.has("surveys")) {
+                JSONArray denyArray = jsonObject.getJSONArray("surveys");
+                for (int i = 0; i < denyArray.length(); i++) {
+                    surveys.add(denyArray.getString(i));
+                }
+                session.surveys = surveys.toArray(new String[0]);
+            }
+          } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return session;
+    }
+
+
     public static ArrayList<SessionJSON> getSessionListFromObject(JSONObject obj) {
         ArrayList<SessionJSON> list = new ArrayList<>();
         ArrayList<String> participantsArray = new ArrayList<>();
@@ -111,7 +154,7 @@ public class SurveyHelper {
                     JSONObject jsonObject = array.getJSONObject(i);
                     SessionJSON sessionJSON = new SessionJSON();
                     if (jsonObject.has("name")) {
-                        sessionJSON.name = obj.getString("name");
+                        sessionJSON.name = jsonObject.getString("name");
                     }
                     if (jsonObject.has("_id")) {
                         sessionJSON.id = jsonObject.getString("_id");

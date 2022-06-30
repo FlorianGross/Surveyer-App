@@ -1,5 +1,7 @@
 package com.example.surveyer.backend.json;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -140,5 +142,24 @@ public class SurveyJSON {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "SurveyJSON{" +
+                "surveyID='" + surveyID + '\'' +
+                ", surveySession='" + surveySession + '\'' +
+                ", creator='" + creator + '\'' +
+                ", surveyDescription='" + surveyDescription + '\'' +
+                ", surveyOpened=" + surveyOpened +
+                ", surveyName='" + surveyName + '\'' +
+                ", surveyApprove=" + surveyApprove +
+                ", surveyDeny=" + surveyDeny +
+                ", surveyNotParicipate=" + surveyNotParicipate +
+                ", anonymous=" + anonymous +
+                ", participants=" + participants +
+                ", version=" + version +
+                '}';
     }
 }

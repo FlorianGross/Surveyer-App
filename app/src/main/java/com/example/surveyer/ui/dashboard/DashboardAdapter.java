@@ -1,5 +1,6 @@
 package com.example.surveyer.ui.dashboard;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.surveyer.R;
 import com.example.surveyer.backend.json.SessionJSON;
 import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.ui.home.HomeAdapter;
+import com.example.surveyer.ui.session.Session;
 
 import java.util.ArrayList;
 
@@ -43,9 +45,12 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         holder.getEdit().setVisibility(View.GONE);
         holder.getLeave().setVisibility(View.GONE);
         holder.getShare().setVisibility(View.GONE);
-
+        holder.getEdit().setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), Session.class);
+            intent.putExtra("sessionId", session.get(position).id);
+            holder.itemView.getContext().startActivity(intent);
+        });
         holder.getOnClick().setOnClickListener(view -> {
-            System.out.println("Clicked");
             if (holder.getRecyclerView().getVisibility() == View.GONE) {
                 holder.getRecyclerView().setVisibility(View.VISIBLE);
                 holder.getEdit().setVisibility(View.VISIBLE);
