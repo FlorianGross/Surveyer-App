@@ -1,5 +1,6 @@
 package com.example.surveyer.ui.dashboard;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,8 @@ import com.example.surveyer.backend.util.PreferenceUtil;
 import com.example.surveyer.ui.notifications.Fragment_Survey;
 import com.example.surveyer.ui.session.Session;
 import com.google.gson.JsonObject;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +38,7 @@ import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
     RecyclerView recyclerView;
-    Button button;
+    Button button, openSession;
     DashboardViewModel dashboardViewModel;
     SocketLiveData socketLiveData;
     ArrayList<SessionJSON> session = new ArrayList<>();
@@ -49,11 +53,17 @@ public class DashboardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.sessionHolder);
         button = view.findViewById(R.id.session_start_button);
+        openSession = view.findViewById(R.id.open_session);
         dashboardViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(DashboardViewModel.class);
         socketLiveData = dashboardViewModel.getSocketLiveData();
         socketLiveData.observe(requireActivity(), socketEventModelObserver);
         socketLiveData.connect();
-
+        openSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            scanQRCode();
+            }
+        });
 
         button.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), Session.class);
@@ -64,6 +74,36 @@ public class DashboardFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new DashboardAdapter(session));
         getAllSessions();
+    }
+
+    private void scanQRCode() {
+        ScanOptions options = new ScanOptions();
+        options.setPrompt("Scan QR code");
+        options.setBeepEnabled(true);
+        options.setCaptureActivity(CaptureAct.class);
+        barLauncher.launch(options);
+    }
+
+    ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
+        if(result.getContents() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+            builder.setTitle("Scan Result");
+            builder.setMessage(result.getContents());
+            builder.setPositiveButton("Beitreten", (dialog, which)->{
+                joinSession(result.getContents());
+            });
+            builder.setNegativeButton("Abbrechen", (dialog, which)->{
+                dialog.cancel();
+            });
+            builder.show();
+        }
+    });
+
+    private void joinSession(String contents) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("sessionId", contents);
+        obj.addProperty("uid", PreferenceUtil.getDeviceId());
+        socketLiveData.sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_JOINSESSION, obj)));
     }
 
     void getAllSessions() {

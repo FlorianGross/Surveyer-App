@@ -122,19 +122,24 @@ public class SurveyHelper {
                 session.isActive = jsonObject.getBoolean("isActive");
             }
 
-            if (jsonObject.has("paricipants")) {
-                JSONArray participantsArray = jsonObject.getJSONArray("paricipants");
+            if (jsonObject.has("participants")) {
+                JSONArray participantsArray = jsonObject.getJSONArray("participants");
+                session.participants = new String[participantsArray.length()];
                 for (int i = 0; i < participantsArray.length(); i++) {
-                    participants.add(participantsArray.getString(i));
+                    session.participants[i] = participantsArray.getString(i);
                 }
-                session.participants = participants.toArray(new String[0]);
+                for (int i = 0; i < session.participants.length; i++) {
+                    System.out.println("Participant: " + session.participants[i]);
+                }
+
             }
             if (jsonObject.has("surveys")) {
                 JSONArray denyArray = jsonObject.getJSONArray("surveys");
+                session.surveys = new String[denyArray.length()];
                 for (int i = 0; i < denyArray.length(); i++) {
-                    surveys.add(denyArray.getString(i));
+                    session.surveys[i] = denyArray.getString(i);
+                    System.out.println("Survey: " + session.surveys[i]);
                 }
-                session.surveys = surveys.toArray(new String[0]);
             }
           } catch (Exception e) {
             e.printStackTrace();
@@ -165,7 +170,6 @@ public class SurveyHelper {
                     if (jsonObject.has("isActive")) {
                         sessionJSON.isActive = jsonObject.getBoolean("isActive");
                     }
-
                     if (jsonObject.has("owner")) {
                         sessionJSON.owner = jsonObject.getString("owner");
                     }

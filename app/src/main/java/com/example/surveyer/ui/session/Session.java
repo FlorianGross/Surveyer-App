@@ -3,11 +3,13 @@ package com.example.surveyer.ui.session;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,8 +43,10 @@ public class Session extends AppCompatActivity {
     ImageView image;
     SocketLiveData socketLiveData;
     SessionJSON session;
+    String[] participants = {};
     Button btnCreate;
     String id = null;
+    Boolean isOwner = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +61,12 @@ public class Session extends AppCompatActivity {
         socketLiveData.connect();
         session = new SessionJSON();
         recyclerView = findViewById(R.id.participants_recycler);
+        recyclerView.setAdapter(new SessionAdapter(participants, isOwner));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         editName = findViewById(R.id.nameOfSessionEdit);
         editDescription = findViewById(R.id.sessionDescriptionEdit);
         btnCreate = findViewById(R.id.createSessionButton);
         image = findViewById(R.id.imageView5);
-
         if (id == null) {
             btnCreate.setText("Create Session");
             btnCreate.setOnClickListener(v -> {
@@ -76,7 +81,8 @@ public class Session extends AppCompatActivity {
                 );
             });
         } else {
-            getAllSessions();
+            getIsOwner();
+            getSession();
             setImage();
             btnCreate.setText("Update Session");
             btnCreate.setOnClickListener(v -> {
@@ -87,7 +93,19 @@ public class Session extends AppCompatActivity {
         }
     }
 
-    void getAllSessions() {
+    void getIsOwner(){
+        if(!isOwner){
+            editName.setEnabled(false);
+            editDescription.setEnabled(false);
+            btnCreate.setVisibility(View.GONE);
+        }else{
+            editName.setEnabled(true);
+            editDescription.setEnabled(true);
+            btnCreate.setVisibility(View.VISIBLE);
+        }
+    }
+
+    void getSession() {
         JsonObject object = new JsonObject();
         object.addProperty("sessionID", id);
         sessionViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETSESSIONFROMID, object)));
@@ -105,9 +123,15 @@ public class Session extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(toJSONString);
             if (jsonObject.has("event") && jsonObject.getString("result").equals("Session")) {
                 session = SurveyHelper.getSessionFromJSONOBject(jsonObject);
-                System.out.println("Session " + session.toString());
                 editName.setText(session.name);
                 editDescription.setText(session.description);
+                participants = session.participants;
+                System.out.println(participants.length);
+                if(session.owner.equals(PreferenceUtil.getDeviceId())){
+                    isOwner = true;
+                    getIsOwner();
+                }
+                recyclerView.setAdapter(new SessionAdapter(participants, isOwner));
                 setImage();
             }
         } catch (JSONException e) {
