@@ -17,6 +17,8 @@ public class SessionJSON {
     public String[] participants;
     @JsonProperty("surveys")
     public String[] surveys;
+    @JsonProperty("surveyArray")
+    public SurveyJSON[] surveyArray;
     @JsonProperty("isActive")
     public boolean isActive;
     @JsonProperty("__v")

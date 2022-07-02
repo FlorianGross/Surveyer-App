@@ -122,11 +122,10 @@ public class Session extends AppCompatActivity {
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);
             if (jsonObject.has("event") && jsonObject.getString("result").equals("Session")) {
-                session = SurveyHelper.getSessionFromJSONOBject(jsonObject);
+                session = SurveyHelper.getSessionFromJSONOBject(jsonObject.getJSONObject("event"));
                 editName.setText(session.name);
                 editDescription.setText(session.description);
                 participants = session.participants;
-                System.out.println(participants.length);
                 if(session.owner.equals(PreferenceUtil.getDeviceId())){
                     isOwner = true;
                     getIsOwner();

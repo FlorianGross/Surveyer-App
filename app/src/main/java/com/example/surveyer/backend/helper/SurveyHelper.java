@@ -1,10 +1,7 @@
 package com.example.surveyer.backend.helper;
 
-import android.widget.ArrayAdapter;
-
 import com.example.surveyer.backend.json.SessionJSON;
 import com.example.surveyer.backend.json.SurveyJSON;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -99,17 +96,15 @@ public class SurveyHelper {
         return survey;
     }
 
-
-    public static SessionJSON getSessionFromJSONOBject (JSONObject jsonObject) {
+    public static SessionJSON getSessionFromJSONOBject(JSONObject jsonObject) {
         SessionJSON session = new SessionJSON();
         ArrayList<String> participants = new ArrayList<>();
         ArrayList<String> surveys = new ArrayList<>();
         try {
-            jsonObject = jsonObject.getJSONObject("event");
             if (jsonObject.has("_id")) {
                 session.id = jsonObject.getString("_id");
             }
-            if(jsonObject.has("owner")){
+            if (jsonObject.has("owner")) {
                 session.owner = jsonObject.getString("owner");
             }
             if (jsonObject.has("name")) {
@@ -141,12 +136,11 @@ public class SurveyHelper {
                     System.out.println("Survey: " + session.surveys[i]);
                 }
             }
-          } catch (Exception e) {
-            e.printStackTrace();
+        }catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
         }
         return session;
     }
-
 
     public static ArrayList<SessionJSON> getSessionListFromObject(JSONObject obj) {
         ArrayList<SessionJSON> list = new ArrayList<>();
@@ -194,5 +188,44 @@ public class SurveyHelper {
             System.out.println("Error in parsing JSON");
         }
         return list;
+    }
+
+    public static ArrayList<SessionJSON> getSessionAndSurveyFromObject(JSONObject obj) {
+        ArrayList<SessionJSON> sessionList = new ArrayList<>();
+        ArrayList<SurveyJSON> surveyList = new ArrayList<>();
+        try {
+            if (obj.has("sessions")) {
+                JSONArray sessions = obj.getJSONArray("sessions");
+                for (int i = 0; i < sessions.length(); i++) {
+                    JSONObject jsonObject = sessions.getJSONObject(i);
+                    SessionJSON sessionJSON = getSessionFromJSONOBject(jsonObject);
+                    sessionList.add(sessionJSON);
+                }
+            }
+            if (obj.has("surveys")) {
+                JSONArray arr = obj.getJSONArray("surveys");
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject jsonObject = arr.getJSONObject(i);
+                    SurveyJSON surveyJSON = getSurveyFromJSONOBject(jsonObject);
+
+                    surveyList.add(surveyJSON);
+                }
+            }
+            sessionList = addSurveysToSessions(sessionList, surveyList);
+        }catch (Exception e){
+            System.out.println("Error in parsing JSON");
+        }
+        return sessionList;
+    }
+
+    public static ArrayList<SessionJSON> addSurveysToSessions(ArrayList<SessionJSON> sessionList, ArrayList<SurveyJSON> surveyList) {
+        for (int i = 0; i < sessionList.size(); i++) {
+            for (int j = 0; j < surveyList.size(); j++) {
+                if (sessionList.get(i).id.equals(surveyList.get(j).surveySession)) {
+                    sessionList.get(i).surveyArray[i] = surveyList.get(j);
+                }
+            }
+        }
+        return sessionList;
     }
 }

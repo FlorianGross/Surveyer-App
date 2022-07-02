@@ -23,9 +23,11 @@ import java.util.ArrayList;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
     private final ArrayList<SessionJSON> session;
+    private final ArrayList<SurveyJSON> survey;
 
-    public DashboardAdapter(ArrayList<SessionJSON> sessions) {
+    public DashboardAdapter(ArrayList<SessionJSON> sessions, ArrayList<SurveyJSON> surveys) {
         this.session = sessions;
+        this.survey = surveys;
     }
 
     @NonNull
@@ -37,11 +39,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.getSessionName().setText(session.get(position).id);
-        ArrayList<SurveyJSON> surveys = new ArrayList<>();
+        holder.getSessionName().setText(session.get(position).name);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext());
         holder.getRecyclerView().setLayoutManager(linearLayoutManager);
-        holder.getRecyclerView().setAdapter(new HomeAdapter(surveys));
+        holder.getRecyclerView().setAdapter(new HomeAdapter(survey));
         holder.getEdit().setVisibility(View.GONE);
         holder.getLeave().setVisibility(View.GONE);
         holder.getShare().setVisibility(View.GONE);

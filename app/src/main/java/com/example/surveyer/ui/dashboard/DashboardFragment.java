@@ -22,6 +22,7 @@ import com.example.surveyer.backend.SocketLiveData;
 import com.example.surveyer.backend.helper.SurveyHelper;
 import com.example.surveyer.backend.json.PayloadJSON;
 import com.example.surveyer.backend.json.SessionJSON;
+import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.util.PreferenceUtil;
@@ -34,6 +35,7 @@ import com.journeyapps.barcodescanner.ScanOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
@@ -42,6 +44,7 @@ public class DashboardFragment extends Fragment {
     DashboardViewModel dashboardViewModel;
     SocketLiveData socketLiveData;
     ArrayList<SessionJSON> session = new ArrayList<>();
+    ArrayList<SurveyJSON> survey = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -58,12 +61,7 @@ public class DashboardFragment extends Fragment {
         socketLiveData = dashboardViewModel.getSocketLiveData();
         socketLiveData.observe(requireActivity(), socketEventModelObserver);
         socketLiveData.connect();
-        openSession.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            scanQRCode();
-            }
-        });
+        openSession.setOnClickListener(v -> scanQRCode());
 
         button.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), Session.class);
@@ -72,7 +70,7 @@ public class DashboardFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new DashboardAdapter(session));
+        recyclerView.setAdapter(new DashboardAdapter(session, survey));
         getAllSessions();
     }
 
@@ -109,7 +107,7 @@ public class DashboardFragment extends Fragment {
     void getAllSessions() {
         JsonObject object = new JsonObject();
         object.addProperty("uid", PreferenceUtil.getDeviceId());
-        dashboardViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONS, object)));
+        dashboardViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONSANDSUREYS, object)));
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
@@ -117,10 +115,10 @@ public class DashboardFragment extends Fragment {
         String toJSONString = socketEventModel.getPayloadAsString();
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);
-            if (jsonObject.has("events") && jsonObject.getJSONArray("events").length() > 0) {
-                ArrayList<SessionJSON> newSession = SurveyHelper.getSessionListFromObject(jsonObject);
+            if (jsonObject.has("surveys") && jsonObject.has("sessions")) {
+                ArrayList<SessionJSON> newSession = SurveyHelper.getSessionAndSurveyFromObject(jsonObject);
                 session = newSession;
-                recyclerView.setAdapter(new DashboardAdapter(session));
+                recyclerView.setAdapter(new DashboardAdapter(session, survey));
             }
         } catch (JSONException e) {
             System.out.println(e.getMessage());
