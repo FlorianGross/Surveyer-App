@@ -25,6 +25,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     public HomeAdapter(ArrayList<SurveyJSON> data) {
         this.data = data;
+        System.out.println("HomeAdapter: " + data.size());
+        for (int i = 0; i < data.size(); i++) {
+            System.out.println("HomeAdapter: " + data.get(i));
+        }
     }
 
     @NonNull

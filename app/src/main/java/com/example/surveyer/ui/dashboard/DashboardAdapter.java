@@ -1,5 +1,7 @@
 package com.example.surveyer.ui.dashboard;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +15,23 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.surveyer.App;
 import com.example.surveyer.R;
+import com.example.surveyer.backend.helper.ImageRequester;
+import com.example.surveyer.backend.helper.QRCodeHelper;
 import com.example.surveyer.backend.json.SessionJSON;
 import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.ui.home.HomeAdapter;
 import com.example.surveyer.ui.session.Session;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
     private final ArrayList<SessionJSON> session;
-    private final ArrayList<SurveyJSON> survey;
 
-    public DashboardAdapter(ArrayList<SessionJSON> sessions, ArrayList<SurveyJSON> surveys) {
+    public DashboardAdapter(ArrayList<SessionJSON> sessions) {
         this.session = sessions;
-        this.survey = surveys;
     }
 
     @NonNull
@@ -42,7 +46,15 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         holder.getSessionName().setText(session.get(position).name);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext());
         holder.getRecyclerView().setLayoutManager(linearLayoutManager);
-        holder.getRecyclerView().setAdapter(new HomeAdapter(survey));
+        ArrayList<SurveyJSON> surveys = new ArrayList<>();
+        if(session.get(position).surveys != null){
+            for(int i = 0; i < session.get(position).surveyArray.length; i++) {
+                if(session.get(position).surveyArray[i] != null){
+                    surveys.add(session.get(position).surveyArray[i]);
+                }
+            }
+            holder.getRecyclerView().setAdapter(new HomeAdapter(surveys));
+        }
         holder.getEdit().setVisibility(View.GONE);
         holder.getLeave().setVisibility(View.GONE);
         holder.getShare().setVisibility(View.GONE);
@@ -50,6 +62,19 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             Intent intent = new Intent(holder.itemView.getContext(), Session.class);
             intent.putExtra("sessionId", session.get(position).id);
             holder.itemView.getContext().startActivity(intent);
+        });
+        holder.getShare().setOnClickListener(v -> {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(holder.itemView.getContext());
+            dialog.setTitle("Share");
+            dialog.setMessage("Share this session with your friends");
+            ImageView image = new ImageView(holder.itemView.getContext());
+            ImageRequester imageRequester = new ImageRequester();
+            imageRequester.execute(QRCodeHelper.generateBarCode(session.get(position).id), image);
+            dialog.setView(image);
+            dialog.setPositiveButton("close", (dialog1, which) -> {
+                dialog1.cancel();
+            });
+            dialog.show();
         });
         holder.getOnClick().setOnClickListener(view -> {
             if (holder.getRecyclerView().getVisibility() == View.GONE) {
@@ -77,6 +102,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         private final TextView sessionName;
         private final ImageView arrow;
         private final Button edit, share, leave;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

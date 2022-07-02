@@ -123,17 +123,12 @@ public class SurveyHelper {
                 for (int i = 0; i < participantsArray.length(); i++) {
                     session.participants[i] = participantsArray.getString(i);
                 }
-                for (int i = 0; i < session.participants.length; i++) {
-                    System.out.println("Participant: " + session.participants[i]);
-                }
-
             }
             if (jsonObject.has("surveys")) {
                 JSONArray denyArray = jsonObject.getJSONArray("surveys");
                 session.surveys = new String[denyArray.length()];
                 for (int i = 0; i < denyArray.length(); i++) {
                     session.surveys[i] = denyArray.getString(i);
-                    System.out.println("Survey: " + session.surveys[i]);
                 }
             }
         }catch (Exception e){
@@ -211,20 +206,25 @@ public class SurveyHelper {
                     surveyList.add(surveyJSON);
                 }
             }
-            sessionList = addSurveysToSessions(sessionList, surveyList);
+            return addSurveysToSessions(sessionList, surveyList);
         }catch (Exception e){
-            System.out.println("Error in parsing JSON");
+            System.out.println("Error in parsing JSON" + e);
         }
         return sessionList;
     }
 
     public static ArrayList<SessionJSON> addSurveysToSessions(ArrayList<SessionJSON> sessionList, ArrayList<SurveyJSON> surveyList) {
         for (int i = 0; i < sessionList.size(); i++) {
+            SurveyJSON[] surveys = new SurveyJSON[surveyList.size()];
+            int it = 0;
             for (int j = 0; j < surveyList.size(); j++) {
                 if (sessionList.get(i).id.equals(surveyList.get(j).surveySession)) {
-                    sessionList.get(i).surveyArray[i] = surveyList.get(j);
+                    surveys[it] = surveyList.get(j);
+                    System.out.println("Survey: " + surveyList.get(j).surveyID + " added to Session: " + sessionList.get(i).id);
+                    it++;
                 }
             }
+            sessionList.get(i).surveyArray = surveys;
         }
         return sessionList;
     }

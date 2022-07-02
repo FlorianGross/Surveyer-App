@@ -70,7 +70,7 @@ public class DashboardFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new DashboardAdapter(session, survey));
+        recyclerView.setAdapter(new DashboardAdapter(session));
         getAllSessions();
     }
 
@@ -87,7 +87,7 @@ public class DashboardFragment extends Fragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
             builder.setTitle("Scan Result");
             builder.setMessage(result.getContents());
-            builder.setPositiveButton("Beitreten", (dialog, which)->{
+            builder.setPositiveButton("Beitreten", (dialog, which)-> {
                 joinSession(result.getContents());
             });
             builder.setNegativeButton("Abbrechen", (dialog, which)->{
@@ -116,9 +116,14 @@ public class DashboardFragment extends Fragment {
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);
             if (jsonObject.has("surveys") && jsonObject.has("sessions")) {
-                ArrayList<SessionJSON> newSession = SurveyHelper.getSessionAndSurveyFromObject(jsonObject);
-                session = newSession;
-                recyclerView.setAdapter(new DashboardAdapter(session, survey));
+                session = SurveyHelper.getSessionAndSurveyFromObject(jsonObject);
+                for (SessionJSON s : session) {
+                    DebugUtil.debug(DashboardFragment.class, s.toString());
+                    if(s.surveyArray != null) {
+                       System.out.println("Lenght: " + s.surveyArray.length);
+                    }
+                }
+                recyclerView.setAdapter(new DashboardAdapter(session));
             }
         } catch (JSONException e) {
             System.out.println(e.getMessage());
