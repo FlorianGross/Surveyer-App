@@ -1,9 +1,6 @@
 package com.example.surveyer.ui.home;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.backend.SocketLiveData;
 
 public class HomeViewModel extends ViewModel {

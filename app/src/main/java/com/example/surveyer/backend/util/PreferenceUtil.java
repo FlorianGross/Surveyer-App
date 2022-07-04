@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 
 import com.example.surveyer.App;
 
-import java.util.UUID;
-
 
 public class PreferenceUtil {
     private static final String PREF_NAME = "app_prefs";

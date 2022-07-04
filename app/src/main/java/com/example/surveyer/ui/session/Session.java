@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,17 +22,11 @@ import com.example.surveyer.backend.json.SessionJSON;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.util.PreferenceUtil;
-import com.example.surveyer.ui.dashboard.DashboardAdapter;
 import com.example.surveyer.ui.notifications.Fragment_Survey;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 
 public class Session extends AppCompatActivity {
     RecyclerView recyclerView;

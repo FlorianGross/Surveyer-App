@@ -17,12 +17,9 @@ import com.example.surveyer.R;
 import com.example.surveyer.backend.helper.SurveyHelper;
 import com.example.surveyer.backend.json.PayloadJSON;
 import com.example.surveyer.backend.json.SurveyJSON;
-import com.example.surveyer.backend.json.UserJSON;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.util.PreferenceUtil;
-import com.example.surveyer.ui.Onboarding.Login;
-import com.example.surveyer.ui.Onboarding.LoginViewModel;
 
 import com.google.gson.JsonObject;
 

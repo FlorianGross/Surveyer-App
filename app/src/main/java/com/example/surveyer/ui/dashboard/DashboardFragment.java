@@ -26,7 +26,6 @@ import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.util.PreferenceUtil;
-import com.example.surveyer.ui.notifications.Fragment_Survey;
 import com.example.surveyer.ui.session.Session;
 import com.google.gson.JsonObject;
 import com.journeyapps.barcodescanner.ScanContract;
@@ -35,7 +34,6 @@ import com.journeyapps.barcodescanner.ScanOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
@@ -87,9 +85,7 @@ public class DashboardFragment extends Fragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
             builder.setTitle("Scan Result");
             builder.setMessage(result.getContents());
-            builder.setPositiveButton("Beitreten", (dialog, which)-> {
-                joinSession(result.getContents());
-            });
+            builder.setPositiveButton("Beitreten", (dialog, which)-> joinSession(result.getContents()));
             builder.setNegativeButton("Abbrechen", (dialog, which)->{
                 dialog.cancel();
             });

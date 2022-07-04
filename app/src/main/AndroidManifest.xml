@@ -25,7 +25,7 @@
             android:theme="@style/Theme.Surveyer"
             tools:ignore="LockedOrientationActivity"/>
         <activity
-            android:name=".ui.Onboarding.OnBoarding"
+            android:name=".ui.onBoarding.OnBoarding"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

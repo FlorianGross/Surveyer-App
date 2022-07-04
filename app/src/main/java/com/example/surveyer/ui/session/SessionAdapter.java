@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.surveyer.R;
-import com.example.surveyer.backend.json.UserJSON;
-import com.example.surveyer.backend.util.DebugUtil;
 
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.ViewHolder> {
     String[] users;

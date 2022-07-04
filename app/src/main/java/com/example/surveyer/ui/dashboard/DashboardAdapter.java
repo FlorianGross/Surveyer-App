@@ -1,7 +1,6 @@
 package com.example.surveyer.ui.dashboard;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.helper.ImageRequester;
 import com.example.surveyer.backend.helper.QRCodeHelper;
@@ -24,7 +22,6 @@ import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.ui.home.HomeAdapter;
 import com.example.surveyer.ui.session.Session;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
@@ -71,9 +68,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             ImageRequester imageRequester = new ImageRequester();
             imageRequester.execute(QRCodeHelper.generateBarCode(session.get(position).id), image);
             dialog.setView(image);
-            dialog.setPositiveButton("close", (dialog1, which) -> {
-                dialog1.cancel();
-            });
+            dialog.setPositiveButton("close", (dialog1, which) -> dialog1.cancel());
             dialog.show();
         });
         holder.getOnClick().setOnClickListener(view -> {

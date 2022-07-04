@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +27,6 @@ import com.example.surveyer.backend.util.PreferenceUtil;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -87,6 +85,7 @@ public class Fragment_Survey extends Fragment {
                 namesOfSessions.add(sessionJSON.id);
             }
         }
+        System.out.println(namesOfSessions.size());
         sessionAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, namesOfSessions);
         session.setAdapter(sessionAdapter);
         session.setOnItemSelectedListener(sessionListener);
@@ -94,7 +93,11 @@ public class Fragment_Survey extends Fragment {
     private void updateAdapter(){
         namesOfSessions.clear();
         for (SessionJSON sessionJSON : sessions) {
-            namesOfSessions.add(sessionJSON.name);
+            if(sessionJSON.name != null) {
+                namesOfSessions.add(sessionJSON.name);
+            }else{
+                namesOfSessions.add(sessionJSON.id);
+            }
         }
         if(sessionAdapter != null){
             sessionAdapter.notifyDataSetChanged();
@@ -125,7 +128,8 @@ public class Fragment_Survey extends Fragment {
             JSONObject jsonObject = new JSONObject(toJSONString);
             if(jsonObject.getString("type").equals("Refresh")){
                 getAllSessions();
-            }else if(jsonObject.has("sessions") && jsonObject.getJSONArray("events").length() > 0){
+            }
+            if(jsonObject.has("sessions") && jsonObject.getJSONArray("events").length() > 0){
                 JSONArray jsonArray = jsonObject.getJSONArray("sessions");
                 sessions = SurveyHelper.getSessionListFromJSONArray(jsonArray);
                 updateAdapter();

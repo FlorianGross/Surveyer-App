@@ -25,7 +25,7 @@ public class SurveyHelper {
                 if (jsonObject.has("surveyName")) {
                     survey.surveyName = jsonObject.getString("surveyName");
                 }
-                if(jsonObject.has("allowEnthaltung")){
+                if (jsonObject.has("allowEnthaltung")) {
                     survey.allowEnthaltung = jsonObject.getBoolean("allowEnthaltung");
                 }
                 if (jsonObject.has("surveySession")) {
@@ -64,7 +64,7 @@ public class SurveyHelper {
             if (jsonObject.has("surveyOpened")) {
                 survey.surveyOpened = jsonObject.getBoolean("surveyOpened");
             }
-            if(jsonObject.has("allowEnthaltung")){
+            if (jsonObject.has("allowEnthaltung")) {
                 survey.allowEnthaltung = jsonObject.getBoolean("allowEnthaltung");
             }
             if (jsonObject.has("surveyDescription")) {
@@ -136,7 +136,7 @@ public class SurveyHelper {
                     session.surveys[i] = denyArray.getString(i);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
         return session;
@@ -146,41 +146,42 @@ public class SurveyHelper {
         ArrayList<SessionJSON> list = new ArrayList<>();
         ArrayList<String> participantsArray = new ArrayList<>();
         ArrayList<String> surveysArray = new ArrayList<>();
+        System.out.println("Array length: " + array.length());
         try {
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject jsonObject = array.getJSONObject(i);
-                    SessionJSON sessionJSON = new SessionJSON();
-                    if (jsonObject.has("name")) {
-                        sessionJSON.name = jsonObject.getString("name");
-                    }
-                    if (jsonObject.has("_id")) {
-                        sessionJSON.id = jsonObject.getString("_id");
-                    }
-                    if (jsonObject.has("description")) {
-                        sessionJSON.description = jsonObject.getString("description");
-                    }
-                    if (jsonObject.has("isActive")) {
-                        sessionJSON.isActive = jsonObject.getBoolean("isActive");
-                    }
-                    if (jsonObject.has("owner")) {
-                        sessionJSON.owner = jsonObject.getString("owner");
-                    }
-                    if (jsonObject.has("participants")) {
-                        JSONArray participants = jsonObject.getJSONArray("participants");
-                        for (int j = 0; j < participants.length(); j++) {
-                            participantsArray.add(participants.getString(j));
-                        }
-                        sessionJSON.participants = participantsArray.toArray(new String[0]);
-                    }
-                    if (jsonObject.has("surveys")) {
-                        JSONArray surveys = jsonObject.getJSONArray("surveys");
-                        for (int j = 0; j < surveys.length(); j++) {
-                            surveysArray.add(surveys.getString(j));
-                        }
-                        sessionJSON.surveys = surveysArray.toArray(new String[0]);
-                    }
-                    list.add(sessionJSON);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject jsonObject = array.getJSONObject(i);
+                SessionJSON sessionJSON = new SessionJSON();
+                if (jsonObject.has("name")) {
+                    sessionJSON.name = jsonObject.getString("name");
                 }
+                if (jsonObject.has("_id")) {
+                    sessionJSON.id = jsonObject.getString("_id");
+                }
+                if (jsonObject.has("description")) {
+                    sessionJSON.description = jsonObject.getString("description");
+                }
+                if (jsonObject.has("isActive")) {
+                    sessionJSON.isActive = jsonObject.getBoolean("isActive");
+                }
+                if (jsonObject.has("owner")) {
+                    sessionJSON.owner = jsonObject.getString("owner");
+                }
+                if (jsonObject.has("participants")) {
+                    JSONArray participants = jsonObject.getJSONArray("participants");
+                    for (int j = 0; j < participants.length(); j++) {
+                        participantsArray.add(participants.getString(j));
+                    }
+                    sessionJSON.participants = participantsArray.toArray(new String[0]);
+                }
+                if (jsonObject.has("surveys")) {
+                    JSONArray surveys = jsonObject.getJSONArray("surveys");
+                    for (int j = 0; j < surveys.length(); j++) {
+                        surveysArray.add(surveys.getString(j));
+                    }
+                    sessionJSON.surveys = surveysArray.toArray(new String[0]);
+                }
+                list.add(sessionJSON);
+            }
         } catch (Exception e) {
             System.out.println("Error in parsing JSON");
         }
@@ -209,7 +210,7 @@ public class SurveyHelper {
                 }
             }
             return addSurveysToSessions(sessionList, surveyList);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Error in parsing JSON" + e);
         }
         return sessionList;

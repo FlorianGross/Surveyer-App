@@ -17,7 +17,6 @@ import com.example.surveyer.R;
 import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.ui.survey.SurveyView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {

@@ -20,7 +20,7 @@ import androidx.lifecycle.Observer;
 public class Navigations extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    private SocketLiveData socketLiveData = SocketLiveData.get();
+    private final SocketLiveData socketLiveData = SocketLiveData.get();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

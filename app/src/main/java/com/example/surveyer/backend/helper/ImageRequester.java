@@ -28,7 +28,7 @@ public class ImageRequester extends AsyncTask<String, Void, Bitmap> {
     }
 
     private Bitmap loadImageFromSite (String urlString) {
-        URL url = null;
+        URL url;
         try {
             url= new URL(urlString);
         } catch (MalformedURLException e) {

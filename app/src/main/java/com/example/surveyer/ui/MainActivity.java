@@ -9,7 +9,7 @@ import android.os.Handler;
 import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.util.PreferenceUtil;
-import com.example.surveyer.ui.Onboarding.OnBoarding;
+import com.example.surveyer.ui.onBoarding.OnBoarding;
 
 public class MainActivity extends AppCompatActivity {
     @Override

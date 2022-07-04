@@ -23,8 +23,6 @@ public class PayloadJSON extends BaseModel {
     private Object result;
     @JsonProperty("Error")
     private String error;
-    @JsonProperty("events")
-    private String events;
 
     public PayloadJSON(String type, String refresh, Object result) {
         this.type = type;
@@ -40,7 +38,6 @@ public class PayloadJSON extends BaseModel {
     public PayloadJSON(String type, Object result, String events) {
         this.type = type;
         this.result = result;
-        this.events = events;
     }
 
     public String getType() {

@@ -5,7 +5,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -18,9 +17,7 @@ import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.PreferenceUtil;
-import com.example.surveyer.ui.MainActivity;
 import com.example.surveyer.ui.Navigations;
-import com.example.surveyer.ui.notifications.Fragment_Survey;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -30,7 +27,6 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 

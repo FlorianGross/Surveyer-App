@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.surveyer.backend.SocketLiveData;
 
 public class SurveyViewModel extends ViewModel {
-    private SocketLiveData socketLiveData;
+    private final SocketLiveData socketLiveData;
 
     public SurveyViewModel() {
         socketLiveData = SocketLiveData.get();
