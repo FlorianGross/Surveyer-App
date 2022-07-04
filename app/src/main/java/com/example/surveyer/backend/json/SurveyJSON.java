@@ -168,11 +168,7 @@ public class SurveyJSON {
                 ", surveyDescription='" + surveyDescription + '\'' +
                 ", surveyOpened=" + surveyOpened +
                 ", surveyName='" + surveyName + '\'' +
-                ", surveyApprove=" + surveyApprove +
-                ", surveyDeny=" + surveyDeny +
-                ", surveyNotParicipate=" + surveyNotParicipate +
                 ", anonymous=" + anonymous +
-                ", participants=" + participants +
                 ", version=" + version +
                 '}';
     }
@@ -183,10 +179,9 @@ public class SurveyJSON {
             try {
                 JSONObject jsonObject = new JSONObject(participants[i]);
                 participantsName[i] = jsonObject.getString("username");
-            }catch (Exception e){
+            }catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            ;
         }
         return participantsName;
     }
@@ -200,7 +195,6 @@ public class SurveyJSON {
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
-            ;
         }
         return approveNames;
     }
@@ -214,7 +208,6 @@ public class SurveyJSON {
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
-            ;
         }
         return denyNames;
     }
@@ -228,7 +221,6 @@ public class SurveyJSON {
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
-            ;
         }
         return notParticipateNames;
     }

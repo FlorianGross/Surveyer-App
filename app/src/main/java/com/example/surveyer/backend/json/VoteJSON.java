@@ -6,9 +6,9 @@ public class VoteJSON {
     public final String uid;
     public final String surveyID;
     public final int sendID;
-    public static int APPROVE = 0;
-    public static int DENY = 1;
-    public static int ABSTAIN = 2;
+    public static final int APPROVE = 0;
+    public static final int DENY = 1;
+    public static final int ABSTAIN = 2;
 
     public VoteJSON(String uid, String surveyID, int sendID) {
         this.uid = uid;
