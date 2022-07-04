@@ -86,9 +86,7 @@ public class DashboardFragment extends Fragment {
             builder.setTitle("Scan Result");
             builder.setMessage(result.getContents());
             builder.setPositiveButton("Beitreten", (dialog, which)-> joinSession(result.getContents()));
-            builder.setNegativeButton("Abbrechen", (dialog, which)->{
-                dialog.cancel();
-            });
+            builder.setNegativeButton("Abbrechen", (dialog, which)-> dialog.cancel());
             builder.show();
         }
     });
