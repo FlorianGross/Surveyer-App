@@ -34,7 +34,6 @@ import java.util.ArrayList;
 
 public class Fragment_Survey extends Fragment {
     Spinner session;
-    Toast toast;
     final SurveyJSON survey = new SurveyJSON();
     SurveyViewModel surveyViewModel;
     ArrayAdapter<String> sessionAdapter;
@@ -60,7 +59,6 @@ public class Fragment_Survey extends Fragment {
         surveyViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(SurveyViewModel.class);
         surveyViewModel.getSocketLiveData().observe(requireActivity(), socketEventModelObserver);
         surveyViewModel.getSocketLiveData().connect();
-        toast = new Toast(requireActivity());
         setAdapter();
         btn.setOnClickListener(v -> {
             survey.setSurveyName(name.getText().toString());
@@ -129,14 +127,13 @@ public class Fragment_Survey extends Fragment {
         String toJSONString = socketEventModel.getPayloadAsString();
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);
-            System.out.println(jsonObject.toString());
             if(jsonObject.getString("type").equals("Refresh")){
                 getAllSessions();
             }
             if(jsonObject.getString("result").equals("Error")){
                 JSONObject errorObj = jsonObject.getJSONObject("error").getJSONObject("errors").getJSONObject("surveyName");
                 System.out.println(errorObj.getString("message"));
-                toast.makeText(requireActivity(), errorObj.getString("message"), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireActivity(), errorObj.getString("message"), Toast.LENGTH_LONG).show();
 
             }
             if(jsonObject.has("sessions") && jsonObject.getJSONArray("sessions").length() > 0){

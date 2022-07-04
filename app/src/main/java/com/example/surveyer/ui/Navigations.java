@@ -3,23 +3,16 @@ package com.example.surveyer.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.SocketLiveData;
-import com.example.surveyer.backend.models.pojo.SocketEventModel;
-import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.ui.dashboard.DashboardFragment;
 import com.example.surveyer.ui.home.HomeFragment;
 import com.example.surveyer.ui.notifications.Fragment_Survey;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class Navigations extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
