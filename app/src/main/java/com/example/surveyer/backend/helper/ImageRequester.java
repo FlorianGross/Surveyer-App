@@ -1,5 +1,6 @@
 package com.example.surveyer.backend.helper;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -10,8 +11,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+@SuppressWarnings("deprecation")
 public class ImageRequester extends AsyncTask<String, Void, Bitmap> {
+    @SuppressLint("StaticFieldLeak")
     private ImageView view;
 
     public void execute (String urlString, ImageView v) {

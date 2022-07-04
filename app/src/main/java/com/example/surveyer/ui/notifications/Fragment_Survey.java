@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class Fragment_Survey extends Fragment {
     Spinner session;
-    SurveyJSON survey = new SurveyJSON();
+    final SurveyJSON survey = new SurveyJSON();
     SurveyViewModel surveyViewModel;
     ArrayAdapter<String> sessionAdapter;
     Button btn;
@@ -110,7 +110,7 @@ public class Fragment_Survey extends Fragment {
         surveyViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONS, object)));
     }
 
-    AdapterView.OnItemSelectedListener sessionListener = new AdapterView.OnItemSelectedListener() {
+    final AdapterView.OnItemSelectedListener sessionListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             String item = adapterView.getItemAtPosition(i).toString();
@@ -129,7 +129,7 @@ public class Fragment_Survey extends Fragment {
             if(jsonObject.getString("type").equals("Refresh")){
                 getAllSessions();
             }
-            if(jsonObject.has("sessions") && jsonObject.getJSONArray("events").length() > 0){
+            if(jsonObject.has("sessions") && jsonObject.getJSONArray("sessions").length() > 0){
                 JSONArray jsonArray = jsonObject.getJSONArray("sessions");
                 sessions = SurveyHelper.getSessionListFromJSONArray(jsonArray);
                 updateAdapter();

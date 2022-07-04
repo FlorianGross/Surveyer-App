@@ -1,4 +1,4 @@
-package com.example.surveyer.ui.Onboarding;
+package com.example.surveyer.ui.onBoarding;
 
 import android.os.Bundle;
 

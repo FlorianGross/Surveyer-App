@@ -3,9 +3,9 @@ package com.example.surveyer.backend.json;
 import androidx.annotation.NonNull;
 
 public class VoteJSON {
-    public String uid;
-    public String surveyID;
-    public int sendID;
+    public final String uid;
+    public final String surveyID;
+    public final int sendID;
     public static int APPROVE = 0;
     public static int DENY = 1;
     public static int ABSTAIN = 2;

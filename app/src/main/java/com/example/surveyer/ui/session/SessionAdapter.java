@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.surveyer.R;
 
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.ViewHolder> {
-    String[] users;
-    Boolean isOwner;
+    final String[] users;
+    final Boolean isOwner;
 
     public SessionAdapter(String[] users, Boolean isOwner) {
         this.users = users;

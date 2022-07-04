@@ -80,7 +80,7 @@ public class DashboardFragment extends Fragment {
         barLauncher.launch(options);
     }
 
-    ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
+    final ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if(result.getContents() != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
             builder.setTitle("Scan Result");
@@ -125,9 +125,4 @@ public class DashboardFragment extends Fragment {
             System.out.println(e.getMessage());
         }
     };
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 }
