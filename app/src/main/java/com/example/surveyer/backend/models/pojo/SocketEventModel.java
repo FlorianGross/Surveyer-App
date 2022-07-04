@@ -8,6 +8,7 @@ public class SocketEventModel extends BaseModel {
     public static final String EVENT_OFFLINE = "offline";
     public static final String EVENT_ERROR = "error";
     public static final String EVENT_MESSAGE = "message";
+    public static final String EVENT_REFRESH = "refresh";
 
     public static final int TYPE_OUTGOING = 0;
     public static final int TYPE_INCOMING = 1;

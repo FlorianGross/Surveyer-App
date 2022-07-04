@@ -10,10 +10,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class SurveyHelper {
-    public static ArrayList<SurveyJSON> getSurveyListFromObject(JSONObject obj) {
+    public static ArrayList<SurveyJSON> getSurveyListFromJSONArray(JSONArray array) {
         ArrayList<SurveyJSON> surveyList = new ArrayList<>();
         try {
-            JSONArray array = obj.getJSONArray("events");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject jsonObject = array.getJSONObject(i);
                 SurveyJSON survey = new SurveyJSON();
@@ -25,6 +24,9 @@ public class SurveyHelper {
                 }
                 if (jsonObject.has("surveyName")) {
                     survey.surveyName = jsonObject.getString("surveyName");
+                }
+                if(jsonObject.has("allowEnthaltung")){
+                    survey.allowEnthaltung = jsonObject.getBoolean("allowEnthaltung");
                 }
                 if (jsonObject.has("surveySession")) {
                     survey.surveySession = jsonObject.getString("surveySession");
@@ -61,6 +63,9 @@ public class SurveyHelper {
             }
             if (jsonObject.has("surveyOpened")) {
                 survey.surveyOpened = jsonObject.getBoolean("surveyOpened");
+            }
+            if(jsonObject.has("allowEnthaltung")){
+                survey.allowEnthaltung = jsonObject.getBoolean("allowEnthaltung");
             }
             if (jsonObject.has("surveyDescription")) {
                 survey.surveyDescription = jsonObject.getString("surveyDescription");
@@ -137,13 +142,11 @@ public class SurveyHelper {
         return session;
     }
 
-    public static ArrayList<SessionJSON> getSessionListFromObject(JSONObject obj) {
+    public static ArrayList<SessionJSON> getSessionListFromJSONArray(JSONArray array) {
         ArrayList<SessionJSON> list = new ArrayList<>();
         ArrayList<String> participantsArray = new ArrayList<>();
         ArrayList<String> surveysArray = new ArrayList<>();
         try {
-            if (obj.has("events")) {
-                JSONArray array = obj.getJSONArray("events");
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonObject = array.getJSONObject(i);
                     SessionJSON sessionJSON = new SessionJSON();
@@ -178,7 +181,6 @@ public class SurveyHelper {
                     }
                     list.add(sessionJSON);
                 }
-            }
         } catch (Exception e) {
             System.out.println("Error in parsing JSON");
         }

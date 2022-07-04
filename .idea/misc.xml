@@ -18,7 +18,6 @@
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/fragment_notifications.xml" value="0.14722222222222223" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/fragment_register.xml" value="0.25" />
-        <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/fragment_survey.xml" value="0.24814814814814815" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/login_fragment.xml" value="0.11574074074074074" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/onboarding_activity.xml" value="0.1" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/Surveyer/app/src/main/res/layout/register_fragment.xml" value="0.1" />
@@ -56,7 +55,7 @@
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.20557197129590546" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.10944848225737494" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.20557197129590546" />
-        <entry key="app/src/main/res/layout/fragment_survey.xml" value="0.2781343953433125" />
+        <entry key="app/src/main/res/layout/fragment_survey.xml" value="0.21635003255034385" />
         <entry key="app/src/main/res/layout/onboarding_activity.xml" value="0.20557197129590546" />
         <entry key="app/src/main/res/layout/result_element.xml" value="0.165" />
         <entry key="app/src/main/res/layout/session_element.xml" value="0.20557197129590546" />
@@ -66,7 +65,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

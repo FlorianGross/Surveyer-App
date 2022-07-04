@@ -26,6 +26,8 @@ public class SurveyJSON {
     public String[] surveyNotParicipate;
     @JsonProperty("anonymous")
     public boolean anonymous;
+    @JsonProperty("allowEnthaltung")
+    public boolean allowEnthaltung;
     @JsonProperty("participants")
     public String[] participants;
     @JsonProperty("__v")
@@ -37,6 +39,7 @@ public class SurveyJSON {
                       @JsonProperty("surveyName") String surveyName, @JsonProperty("surveyApprove") String[] surveyApprove,
                       @JsonProperty("surveyDeny") String[] surveyDeny, @JsonProperty("surveyNotParicipate") String[] surveyNotParicipate,
                       @JsonProperty("anonymous") boolean anonymous,
+                      @JsonProperty("allowEnthaltung") boolean allowEnthaltung,
                       @JsonProperty("participants") String[] participants, @JsonProperty("__v") int version) {
         this.surveyID = surveyID;
         this.surveySession = surveySession;
@@ -47,6 +50,7 @@ public class SurveyJSON {
         this.surveyApprove = surveyApprove;
         this.surveyDeny = surveyDeny;
         this.anonymous = anonymous;
+        this.allowEnthaltung = allowEnthaltung;
         this.surveyNotParicipate = surveyNotParicipate;
         this.participants = participants;
         this.version = version;
@@ -54,6 +58,14 @@ public class SurveyJSON {
 
     public SurveyJSON() {
 
+    }
+
+    public Boolean getAllowEnthaltung() {
+        return allowEnthaltung;
+    }
+
+    public void setAllowEnthaltung(Boolean allowEnthaltung) {
+        this.allowEnthaltung = allowEnthaltung;
     }
 
     public String getSurveyID() {

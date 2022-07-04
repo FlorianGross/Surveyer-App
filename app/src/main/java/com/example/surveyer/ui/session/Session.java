@@ -121,8 +121,11 @@ public class Session extends AppCompatActivity {
         String toJSONString = socketEventModel.getPayloadAsString();
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);
-            if (jsonObject.has("event") && jsonObject.getString("result").equals("Session")) {
-                session = SurveyHelper.getSessionFromJSONOBject(jsonObject.getJSONObject("event"));
+            if(jsonObject.getString("type").equals("Refresh")){
+                System.out.println("Refresh");
+                getSession();
+            }else if (jsonObject.has("session") && jsonObject.getString("result").equals("Session")) {
+                session = SurveyHelper.getSessionFromJSONOBject(jsonObject.getJSONObject("session"));
                 editName.setText(session.name);
                 editDescription.setText(session.description);
                 participants = session.participants;

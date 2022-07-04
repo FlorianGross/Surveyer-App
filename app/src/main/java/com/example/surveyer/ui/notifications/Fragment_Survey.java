@@ -13,6 +13,7 @@ import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,19 +27,20 @@ import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.util.PreferenceUtil;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class Fragment_Survey extends Fragment {
-    Spinner type, session;
+    Spinner session;
     SurveyJSON survey = new SurveyJSON();
     SurveyViewModel surveyViewModel;
     ArrayAdapter<String> sessionAdapter;
     Button btn;
     EditText name, description;
-    Switch anonymous;
+    SwitchCompat anonymous, enthaltung;
     ArrayList<String> namesOfSessions = new ArrayList<>();
     ArrayList<SessionJSON> sessions = new ArrayList<>();
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,7 +52,7 @@ public class Fragment_Survey extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btn = view.findViewById(R.id.surveyCreateButton);
-        type = view.findViewById(R.id.typeOFSurveySpinner);
+        enthaltung = view.findViewById(R.id.enthaltungSwitch);
         session = view.findViewById(R.id.sessionOfSurveySpinner);
         name = view.findViewById(R.id.nameOfSurveyEdit);
         description = view.findViewById(R.id.descriptionOfSurveyEdit);
@@ -58,9 +60,6 @@ public class Fragment_Survey extends Fragment {
         surveyViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(SurveyViewModel.class);
         surveyViewModel.getSocketLiveData().observe(requireActivity(), socketEventModelObserver);
         surveyViewModel.getSocketLiveData().connect();
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.survey_type, android.R.layout.simple_spinner_dropdown_item);
-        type.setAdapter(adapter);
-        type.setOnItemSelectedListener(listener);
         setAdapter();
         btn.setOnClickListener(v -> {
             survey.setSurveySession(session.getSelectedItem().toString());
@@ -68,6 +67,7 @@ public class Fragment_Survey extends Fragment {
             survey.setSurveyDescription(description.getText().toString());
             survey.setCreator(PreferenceUtil.getDeviceId());
             survey.anonymous = anonymous.isChecked();
+            survey.allowEnthaltung = enthaltung.isChecked();
             survey.surveyOpened = true;
             try {
                 surveyViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_CREATESURVEY, survey)));
@@ -81,7 +81,11 @@ public class Fragment_Survey extends Fragment {
     private void setAdapter() {
         namesOfSessions = new ArrayList<>();
         for (SessionJSON sessionJSON : sessions) {
-            namesOfSessions.add(sessionJSON.id);
+            if(sessionJSON.name != null) {
+                namesOfSessions.add(sessionJSON.name);
+            }else{
+                namesOfSessions.add(sessionJSON.id);
+            }
         }
         sessionAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, namesOfSessions);
         session.setAdapter(sessionAdapter);
@@ -90,7 +94,7 @@ public class Fragment_Survey extends Fragment {
     private void updateAdapter(){
         namesOfSessions.clear();
         for (SessionJSON sessionJSON : sessions) {
-            namesOfSessions.add(sessionJSON.id);
+            namesOfSessions.add(sessionJSON.name);
         }
         if(sessionAdapter != null){
             sessionAdapter.notifyDataSetChanged();
@@ -103,28 +107,6 @@ public class Fragment_Survey extends Fragment {
         surveyViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONS, object)));
     }
 
-    AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            String item = adapterView.getItemAtPosition(i).toString();
-            switch (item) {
-                case "Ja/Nein": {}
-                break;
-                case "Ja/Nein/Enthaltung": {}
-                break;
-                case "Dafür/Dagegen/Enthaltung": {}
-                break;
-                case "Dafür/Dagegen": {}
-                break;
-                default:{
-                }
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-        }
-    };
     AdapterView.OnItemSelectedListener sessionListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -141,12 +123,14 @@ public class Fragment_Survey extends Fragment {
         String toJSONString = socketEventModel.getPayloadAsString();
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);
-            if(jsonObject.has("events") && jsonObject.getJSONArray("events").length() > 0){
-                ArrayList<SessionJSON> newSession = SurveyHelper.getSessionListFromObject(jsonObject);
-                sessions = newSession;
+            if(jsonObject.getString("type").equals("Refresh")){
+                getAllSessions();
+            }else if(jsonObject.has("sessions") && jsonObject.getJSONArray("events").length() > 0){
+                JSONArray jsonArray = jsonObject.getJSONArray("sessions");
+                sessions = SurveyHelper.getSessionListFromJSONArray(jsonArray);
                 updateAdapter();
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     };

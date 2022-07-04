@@ -26,6 +26,7 @@ import com.example.surveyer.ui.Onboarding.LoginViewModel;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -68,8 +69,12 @@ public class HomeFragment extends Fragment {
         DebugUtil.debug(HomeFragment.class, "New Socket event: " + socketEventModel.toString());
         try{
             JSONObject jsonObject = new JSONObject(socketEventModel.getPayloadAsString());
-            if(jsonObject.has("events") && jsonObject.getString("result").equals("Surveys")){
-                surveys = SurveyHelper.getSurveyListFromObject(jsonObject);
+            if(jsonObject.getString("type").equals("Refresh")){
+                System.out.println("Refresh");
+                getSurveys();
+            }else if(jsonObject.has("surveys") && jsonObject.getString("result").equals("Surveys")){
+                JSONArray array = jsonObject.getJSONArray("surveys");
+                surveys = SurveyHelper.getSurveyListFromJSONArray(array);
                 System.out.println(surveys.size());
                 recyclerView.setAdapter(new HomeAdapter(surveys));
             }

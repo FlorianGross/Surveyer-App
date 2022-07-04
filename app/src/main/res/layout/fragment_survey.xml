@@ -40,11 +40,12 @@
                 android:layout_marginEnd="10dp"
                 android:autofillHints="&quot;&quot;"
                 android:ems="10"
+                android:hint="Beschreibung der Umfrage"
                 android:inputType="text"
+                android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/descriptionOfSurvey"
-                tools:ignore="TouchTargetSizeCheck" />
+                app:layout_constraintTop_toBottomOf="@+id/descriptionOfSurvey" />
 
             <TextView
                 android:id="@+id/descriptionOfSurvey"
@@ -54,7 +55,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Beschreibung der Umfrage"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sessionOfSurveySpinner" />
+                app:layout_constraintTop_toBottomOf="@+id/nameOfSurveyEdit" />
 
             <Spinner
                 android:id="@+id/sessionOfSurveySpinner"
@@ -74,9 +75,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
-                android:text="Session"
+                android:text="Zugehörige Session"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/anonymousSwitch" />
+                app:layout_constraintTop_toBottomOf="@+id/enthaltungSwitch" />
 
             <TextView
                 android:id="@+id/anonymous"
@@ -86,7 +87,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Anonym?"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameOfSurveyEdit" />
+                app:layout_constraintTop_toBottomOf="@+id/descriptionOfSurveyEdit" />
 
             <EditText
                 android:id="@+id/nameOfSurveyEdit"
@@ -94,24 +95,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:autofillHints="&quot;&quot;"
+                android:autofillHints=""
                 android:ems="10"
+                android:hint="Name der Umfrage"
                 android:inputType="text"
+                android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameOfSurvey"
-                tools:ignore="TouchTargetSizeCheck" />
+                app:layout_constraintTop_toBottomOf="@+id/nameOfSurvey" />
 
-            <Spinner
-                android:id="@+id/typeOFSurveySpinner"
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/enthaltungSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:contentDescription="Spinner"
                 android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:text="Enthaltung"
                 app:layout_constraintTop_toBottomOf="@+id/typeOfSurvey" />
 
             <TextView
@@ -122,7 +124,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Name der Umfrage"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/typeOFSurveySpinner" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/typeOfSurvey"
@@ -130,16 +132,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
-                android:text="Art der Umfrage"
+                android:text="Enthaltung erlauben?"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/anonymousSwitch" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/anonymousSwitch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:minHeight="48dp"
                 android:text="Anonym"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

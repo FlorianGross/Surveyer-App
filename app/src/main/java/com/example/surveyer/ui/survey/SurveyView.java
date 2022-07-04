@@ -112,6 +112,9 @@ public class SurveyView extends AppCompatActivity {
             denyValue = survey.getSurveyDeny().length;
             approveValue = survey.getSurveyApprove().length;
             enhaltungValue = survey.getSurveyNotParicipate().length;
+            if(survey.getAllowEnthaltung() != null) {
+                skip.setEnabled(survey.getAllowEnthaltung());
+            }
         } else {
             denyValue = 0;
             approveValue = 0;
@@ -123,8 +126,11 @@ public class SurveyView extends AppCompatActivity {
         DebugUtil.debug(SurveyView.class, "getSocket: " + socketEventModel.toString());
         try {
             JSONObject object = new JSONObject(socketEventModel.getPayloadAsString());
-            if (object.has("event") && object.getString("result").equals("Survey")) {
-                survey = SurveyHelper.getSurveyFromJSONOBject(object);
+            if(object.getString("type").equals("Refresh")) {
+                System.out.println("Refresh");
+                getSurvey();
+            }else if (object.has("survey") && object.getString("result").equals("Survey")) {
+                survey = SurveyHelper.getSurveyFromJSONOBject(object.getJSONObject("survey"));
                 if (survey.getSurveyDeny() != null) {
                     denyValue = survey.getSurveyDeny().length;
                 }
