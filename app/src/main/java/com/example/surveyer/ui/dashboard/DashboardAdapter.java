@@ -44,7 +44,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext());
         holder.getRecyclerView().setLayoutManager(linearLayoutManager);
         ArrayList<SurveyJSON> surveys = new ArrayList<>();
-        if(session.get(position).surveys != null){
+        if(session.get(position).surveyArray != null){
             for(int i = 0; i < session.get(position).surveyArray.length; i++) {
                 if(session.get(position).surveyArray[i] != null){
                     surveys.add(session.get(position).surveyArray[i]);

@@ -3,10 +3,13 @@ package com.example.surveyer.ui.survey;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.surveyer.App;
 import com.example.surveyer.R;
@@ -14,6 +17,7 @@ import com.example.surveyer.backend.SocketLiveData;
 import com.example.surveyer.backend.helper.SurveyHelper;
 import com.example.surveyer.backend.json.PayloadJSON;
 import com.example.surveyer.backend.json.SurveyJSON;
+import com.example.surveyer.backend.json.VoteJSON;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.PreferenceUtil;
@@ -34,6 +38,8 @@ public class SurveyView extends AppCompatActivity {
     String surveyID;
     Button approve, deny, skip;
     int approveValue = 0, denyValue = 0, enhaltungValue = 0;
+    TextView description, name;
+    RecyclerView recyclerView;
     PieChart chart;
     SurveyJSON survey = null;
     SurveyViewModel viewModel;
@@ -52,6 +58,10 @@ public class SurveyView extends AppCompatActivity {
         deny = findViewById(R.id.deny_button);
         skip = findViewById(R.id.not_participate_button);
         chart = findViewById(R.id.any_chart_view);
+        description = findViewById(R.id.surveyDesc);
+        name = findViewById(R.id.surveyName);
+        recyclerView = findViewById(R.id.participants_recycler_survey);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(SurveyViewModel.class);
         socketLiveData = viewModel.getSocketLiveData();
         socketLiveData.observe(this, socketEventModelObserver);
@@ -65,6 +75,7 @@ public class SurveyView extends AppCompatActivity {
 
         approve.setOnClickListener(view -> {
             approveValue++;
+            sendVote(VoteJSON.APPROVE);
             disableButtons();
             System.out.println(approveValue);
             reloadChart();
@@ -77,11 +88,13 @@ public class SurveyView extends AppCompatActivity {
         });
         deny.setOnClickListener(view -> {
             denyValue++;
+            sendVote(VoteJSON.DENY);
             disableButtons();
             System.out.println(denyValue);
             reloadChart();
         });
         skip.setOnClickListener(view -> {
+            sendVote(VoteJSON.ABSTAIN);
             disableButtons();
             enhaltungValue++;
             System.out.println(enhaltungValue);
@@ -101,6 +114,11 @@ public class SurveyView extends AppCompatActivity {
         approve.setEnabled(false);
         deny.setEnabled(false);
         skip.setEnabled(false);
+    }
+
+    private void sendVote(int VOTE_ID){
+        System.out.println("Sending vote " + VOTE_ID);
+        viewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_VOTE, new VoteJSON(PreferenceUtil.getDeviceId(), surveyID, VOTE_ID))));
     }
 
     private void setValues() {
@@ -127,6 +145,11 @@ public class SurveyView extends AppCompatActivity {
                 getSurvey();
             }else if (object.has("survey") && object.getString("result").equals("Survey")) {
                 survey = SurveyHelper.getSurveyFromJSONOBject(object.getJSONObject("survey"));
+                setValues();
+                reloadChart();
+                name.setText(survey.getSurveyName());
+                description.setText(survey.getSurveyDescription());
+                recyclerView.setAdapter(new SurveyAdapter(survey.getParticipantsName(), survey.getApproveNames(), survey.getDenyNames(), survey.getNotParticipateNames()));
                 if (survey.getSurveyDeny() != null) {
                     denyValue = survey.getSurveyDeny().length;
                 }
@@ -139,7 +162,8 @@ public class SurveyView extends AppCompatActivity {
                 if (survey.getParticipants() != null) {
                     String[] participants = survey.getParticipants();
                     for (String participant : participants) {
-                        if (participant.equals(PreferenceUtil.getDeviceId())) {
+                        JSONObject tempObj = new JSONObject(participant);
+                        if (tempObj.getString("_id").equals(PreferenceUtil.getDeviceId())) {
                             disableButtons();
                         }
                     }

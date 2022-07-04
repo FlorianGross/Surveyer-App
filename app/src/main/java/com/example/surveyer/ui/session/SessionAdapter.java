@@ -29,7 +29,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull SessionAdapter.ViewHolder holder, int position) {
         holder.getName().setText(users[position]);
-        if(this.isOwner){
+        if(this.isOwner != null && this.isOwner){
             holder.getRemove().setVisibility(View.VISIBLE);
         }else{
             holder.getRemove().setVisibility(View.GONE);

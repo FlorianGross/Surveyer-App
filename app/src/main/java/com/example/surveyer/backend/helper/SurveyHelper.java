@@ -72,24 +72,28 @@ public class SurveyHelper {
             }
             if (jsonObject.has("surveyDeny")) {
                 JSONArray denyArray = jsonObject.getJSONArray("surveyDeny");
+                survey.surveyDeny = new String[denyArray.length()];
                 for (int i = 0; i < denyArray.length(); i++) {
                     survey.surveyDeny[i] = denyArray.getString(i);
                 }
             }
             if (jsonObject.has("surveyApprove")) {
                 JSONArray approveArray = jsonObject.getJSONArray("surveyApprove");
+                survey.surveyApprove = new String[approveArray.length()];
                 for (int i = 0; i < approveArray.length(); i++) {
                     survey.surveyApprove[i] = approveArray.getString(i);
                 }
             }
             if (jsonObject.has("surveyNotParicipate")) {
                 JSONArray notParticipateArray = jsonObject.getJSONArray("surveyNotParicipate");
+                survey.surveyNotParicipate = new String[notParticipateArray.length()];
                 for (int i = 0; i < notParticipateArray.length(); i++) {
                     survey.surveyNotParicipate[i] = notParticipateArray.getString(i);
                 }
             }
             if (jsonObject.has("participants")) {
                 JSONArray participantsArray = jsonObject.getJSONArray("participants");
+                survey.participants = new String[participantsArray.length()];
                 for (int i = 0; i < participantsArray.length(); i++) {
                     survey.participants[i] = participantsArray.getString(i);
                 }

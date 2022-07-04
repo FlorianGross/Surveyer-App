@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.json.JSONObject;
+
 public class SurveyJSON {
     @JsonProperty("_id")
     public String surveyID;
@@ -173,5 +175,61 @@ public class SurveyJSON {
                 ", participants=" + participants +
                 ", version=" + version +
                 '}';
+    }
+
+    public String[] getParticipantsName() {
+        String[] participantsName = new String[participants.length];
+        for (int i = 0; i < participants.length; i++) {
+            try {
+                JSONObject jsonObject = new JSONObject(participants[i]);
+                participantsName[i] = jsonObject.getString("username");
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+            ;
+        }
+        return participantsName;
+    }
+
+    public String[] getApproveNames(){
+        String[] approveNames = new String[surveyApprove.length];
+        for (int i = 0; i < surveyApprove.length; i++) {
+            try {
+                JSONObject jsonObject = new JSONObject(surveyApprove[i]);
+                approveNames[i] = jsonObject.getString("username");
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+            ;
+        }
+        return approveNames;
+    }
+
+    public String[] getDenyNames(){
+        String[] denyNames = new String[surveyDeny.length];
+        for (int i = 0; i < surveyDeny.length; i++) {
+            try {
+                JSONObject jsonObject = new JSONObject(surveyDeny[i]);
+                denyNames[i] = jsonObject.getString("username");
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+            ;
+        }
+        return denyNames;
+    }
+
+    public String[] getNotParticipateNames(){
+        String[] notParticipateNames = new String[surveyNotParicipate.length];
+        for (int i = 0; i < surveyNotParicipate.length; i++) {
+            try {
+                JSONObject jsonObject = new JSONObject(surveyNotParicipate[i]);
+                notParticipateNames[i] = jsonObject.getString("username");
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+            ;
+        }
+        return notParticipateNames;
     }
 }
