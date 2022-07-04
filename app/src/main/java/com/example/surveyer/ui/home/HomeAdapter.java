@@ -1,5 +1,6 @@
 package com.example.surveyer.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +24,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     public HomeAdapter(ArrayList<SurveyJSON> data) {
         this.data = data;
-        System.out.println("HomeAdapter: " + data.size());
-        for (int i = 0; i < data.size(); i++) {
-            System.out.println("HomeAdapter: " + data.get(i));
-        }
     }
 
     @NonNull
@@ -36,6 +33,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.getDescription().setText(data.get(position).surveyDescription);

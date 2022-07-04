@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.surveyer.R;
 import com.example.surveyer.backend.SocketLiveData;
@@ -33,6 +34,7 @@ public class Session extends AppCompatActivity {
     EditText editName, editDescription;
     SessionViewModel sessionViewModel;
     ImageView image;
+    Toast toast;
     SocketLiveData socketLiveData;
     SessionJSON session;
     String[] participants = {};
@@ -109,14 +111,21 @@ public class Session extends AppCompatActivity {
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(Fragment_Survey.class, "getSocket: " + socketEventModel.toString());
+        DebugUtil.debug(Fragment_Survey.class, "getSocket: " + socketEventModel.getPayloadAsString());
         String toJSONString = socketEventModel.getPayloadAsString();
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);
             if(jsonObject.getString("type").equals("Refresh")){
                 System.out.println("Refresh");
                 getSession();
-            }else if (jsonObject.has("session") && jsonObject.getString("result").equals("Session")) {
+            }
+            if(jsonObject.getString("result").equals("Error")){
+                JSONObject errorObj = jsonObject.getJSONObject("error").getJSONObject("errors").getJSONObject("name");
+                toast = Toast.makeText(this, errorObj.getString("message"), Toast.LENGTH_LONG);
+                toast.show();
+            }
+            if (jsonObject.has("session") && jsonObject.getString("result").equals("Session")) {
+                System.out.println("Session");
                 session = SurveyHelper.getSessionFromJSONOBject(jsonObject.getJSONObject("session"));
                 editName.setText(session.name);
                 editDescription.setText(session.description);
@@ -127,6 +136,12 @@ public class Session extends AppCompatActivity {
                 }
                 recyclerView.setAdapter(new SessionAdapter(participants, isOwner));
                 setImage();
+            }
+            if(jsonObject.has("type") && jsonObject.getString("type").equals("Answer") && jsonObject.has("result")){
+                id = jsonObject.getString("result");
+                toast = Toast.makeText(this, "Session created", Toast.LENGTH_LONG);
+                toast.show();
+                getSession();
             }
         } catch (JSONException e) {
             System.out.println(e.getMessage());

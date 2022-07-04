@@ -3,6 +3,7 @@ package com.example.surveyer.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.surveyer.App;
 import com.example.surveyer.R;
@@ -17,8 +18,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
-public class Navigations extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
 
+public class Navigations extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     private final SocketLiveData socketLiveData = SocketLiveData.get();
 
@@ -29,7 +32,6 @@ public class Navigations extends AppCompatActivity {
 
         App.setInForeground(true);
         socketLiveData.connect();
-        socketLiveData.observe(this, socketEventModelObserver);
         bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -45,15 +47,6 @@ public class Navigations extends AppCompatActivity {
             }
             return true;
         });
-    }
-
-    private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(Navigations.class, "New Socket event: " + socketEventModel.toString());
-        handleMessage(socketEventModel);
-    };
-
-    private void handleMessage(SocketEventModel socketEventModel) {
-        System.out.println("handleMessage: " + socketEventModel.toString());
     }
 
     public static Intent getNavigationIntent(Context context) {

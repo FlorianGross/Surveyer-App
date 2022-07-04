@@ -72,14 +72,12 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
     }
 
     public void sendEvent(SocketEventModel eventModel) {
-        System.out.println("Websocket Connection: " + webSocket.toString());
         if (webSocket == null)return;
         setData(eventModel);
         webSocket.send(eventModel.toString());
     }
 
     public void setData(SocketEventModel socketEventModel) {
-        System.out.println("Setting data: " + socketEventModel.getEvent());
         if (socketEventModel == null || TextUtils.isEmpty(socketEventModel.getEvent())) return;
         postValue(socketEventModel);
     }
@@ -95,7 +93,6 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
 
         @Override
         public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
-            System.out.println("Socket message: " + text);
             handleEvent(text);
         }
 
@@ -125,11 +122,9 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
     };
 
     private synchronized void handleEvent(String message){
-        System.out.println("Handling event: " + message);
         try {
             SocketEventModel eventModel = SocketEventModel.fromJson(message, SocketEventModel.class)
                     .setType(SocketEventModel.TYPE_INCOMING);
-            DebugUtil.debug(SocketLiveData.class, "Handling event: "+message);
             if (TextUtils.isEmpty(eventModel.getEvent()))
                 throw new Exception("Invalid event model");
             processEvent(eventModel);
@@ -139,7 +134,6 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
     }
 
     private synchronized void processEvent(SocketEventModel eventModel) {
-        DebugUtil.debug(SocketLiveData.class, "Processing event: "+eventModel.toString());
         postValue(eventModel);
     }
     @Override
