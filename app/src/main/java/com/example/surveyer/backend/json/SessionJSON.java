@@ -47,8 +47,6 @@ public class SessionJSON {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", owner='" + owner + '\'' +
-                ", participants=" + participants +
-                ", surveys=" + surveys +
                 ", isActive=" + isActive +
                 ", version=" + version +
                 '}';
