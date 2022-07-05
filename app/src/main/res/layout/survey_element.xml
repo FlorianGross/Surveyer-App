@@ -5,6 +5,7 @@
     android:id="@+id/elementClick"
     android:background="@drawable/button_with_stroke"
     android:layout_width="match_parent"
+    app:cardCornerRadius="10dp"
     android:layout_height="100dp">
 
     <ImageView

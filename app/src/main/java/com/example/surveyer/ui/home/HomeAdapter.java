@@ -43,16 +43,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             intent.putExtra("surveyId", data.get(position).surveyID);
             v.getContext().startActivity(intent);
         });
-        if(data.get(position).participants.length > 0) {
-            if (data.get(position).surveyApprove.length > data.get(position).surveyDeny.length) {
-                holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style));
-            } else if (data.get(position).surveyApprove.length < data.get(position).surveyDeny.length) {
-                holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style_unselected));
+        if(data.get(position).participants != null) {
+            if (data.get(position).participants.length > 0) {
+                if (data.get(position).surveyApprove.length > data.get(position).surveyDeny.length) {
+                    holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style));
+                } else if (data.get(position).surveyApprove.length < data.get(position).surveyDeny.length) {
+                    holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style_unselected));
+                } else {
+                    holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style_neither));
+                }
             } else {
                 holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style_neither));
             }
-        }else{
-            holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style_neither));
         }
     }
 

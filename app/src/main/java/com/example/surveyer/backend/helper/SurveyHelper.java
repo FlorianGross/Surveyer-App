@@ -43,10 +43,39 @@ public class SurveyHelper {
                     for(int j = 0; j < participants.length(); j++){
                         survey.participants[j] = participants.getString(j);
                     }
+                }else{
+                    survey.participants = new String[0];
                 }
-                if(survey != null) {
-                    surveyList.add(survey);
+                if(jsonObject.has("surveyApproved")) {
+                    JSONArray surveyApproved = jsonObject.getJSONArray("surveyApproved");
+                    survey.surveyApprove = new String[surveyApproved.length()];
+                    for (int j = 0; j < surveyApproved.length(); j++) {
+                        survey.surveyApprove[j] = surveyApproved.getString(j);
+                    }
+                }else{
+                    survey.surveyApprove = new String[0];
                 }
+                if(jsonObject.has("surveyDeny")) {
+                    JSONArray surveyDenied = jsonObject.getJSONArray("surveyDeny");
+                    survey.surveyDeny = new String[surveyDenied.length()];
+                    for (int j = 0; j < surveyDenied.length(); j++) {
+                        survey.surveyDeny[j] = surveyDenied.getString(j);
+                    }
+                }else{
+                    survey.surveyDeny = new String[0];
+                }
+                if(jsonObject.has("surveyNotParicipate")){
+                    JSONArray surveyNotParticipate = jsonObject.getJSONArray("surveyNotParicipate");
+                    survey.surveyNotParicipate = new String[surveyNotParticipate.length()];
+                    for(int j = 0; j < surveyNotParticipate.length(); j++){
+                        survey.surveyNotParicipate[j] = surveyNotParticipate.getString(j);
+                    }
+                }else{
+                    survey.surveyNotParicipate = new String[0];
+                }
+
+                surveyList.add(survey);
+
               }
         } catch (JSONException e) {
             e.printStackTrace();

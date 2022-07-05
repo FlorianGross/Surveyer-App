@@ -77,13 +77,14 @@ public class HomeFragment extends Fragment {
                 ArrayList<SurveyJSON> sortedSurveys = new ArrayList<>();
                 for(SurveyJSON survey : surveys){
                     if(survey.isSurveyOpened()){
-                        if(survey.participants == null || !Arrays.asList(survey.participants).contains(PreferenceUtil.getDeviceId())){
+                        if(!Arrays.asList(survey.participants).contains(PreferenceUtil.getDeviceId())){
                             sortedSurveys.add(survey);
                         }
                     }
                 }
-                recyclerView.setAdapter(new HomeAdapter(sortedSurveys));
-               // recyclerView.setAdapter(new HomeAdapter(surveys));
+                if(sortedSurveys.size()> 0) {
+                    recyclerView.setAdapter(new HomeAdapter(sortedSurveys));
+                }
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
