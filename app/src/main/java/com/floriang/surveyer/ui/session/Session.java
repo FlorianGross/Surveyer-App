@@ -20,7 +20,6 @@ import com.floriang.surveyer.backend.helper.QRCodeHelper;
 import com.floriang.surveyer.backend.helper.SurveyHelper;
 import com.floriang.surveyer.backend.json.PayloadJSON;
 import com.floriang.surveyer.backend.json.SessionJSON;
-import com.floriang.surveyer.backend.json.SurveyJSON;
 import com.floriang.surveyer.backend.models.pojo.SocketEventModel;
 import com.floriang.surveyer.backend.util.DebugUtil;
 import com.floriang.surveyer.backend.util.PreferenceUtil;
