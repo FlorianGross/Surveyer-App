@@ -20,6 +20,7 @@ import com.example.surveyer.backend.helper.QRCodeHelper;
 import com.example.surveyer.backend.helper.SurveyHelper;
 import com.example.surveyer.backend.json.PayloadJSON;
 import com.example.surveyer.backend.json.SessionJSON;
+import com.example.surveyer.backend.json.SurveyJSON;
 import com.example.surveyer.backend.models.pojo.SocketEventModel;
 import com.example.surveyer.backend.util.DebugUtil;
 import com.example.surveyer.backend.util.PreferenceUtil;
@@ -137,14 +138,14 @@ public class Session extends AppCompatActivity {
                 recyclerView.setAdapter(new SessionAdapter(participants, isOwner));
                 setImage();
             }
-            if(jsonObject.has("type") && jsonObject.getString("type").equals("Answer") && jsonObject.has("result")){
+            if(jsonObject.has("type") && jsonObject.getString("type").equals("Answer") && jsonObject.has("result") && !jsonObject.getString("result").equals("Session")){
                 id = jsonObject.getString("result");
                 toast = Toast.makeText(this, "Session created", Toast.LENGTH_LONG);
                 toast.show();
                 getSession();
             }
         } catch (JSONException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error in Sessionobserver");
         }
     };
 }

@@ -37,9 +37,17 @@ public class SurveyHelper {
                 if (jsonObject.has("surveyDescription")) {
                     survey.surveyDescription = jsonObject.getString("surveyDescription");
                 }
-                surveyList.add(survey);
-                System.out.println("Survey: " + survey.surveyID + " " + survey.surveyName + " " + survey.surveySession + " " + survey.surveyOpened);
-            }
+                if(jsonObject.has("participants")){
+                    JSONArray participants = jsonObject.getJSONArray("participants");
+                    survey.participants = new String[participants.length()];
+                    for(int j = 0; j < participants.length(); j++){
+                        survey.participants[j] = participants.getString(j);
+                    }
+                }
+                if(survey != null) {
+                    surveyList.add(survey);
+                }
+              }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -98,7 +106,6 @@ public class SurveyHelper {
                     survey.participants[i] = participantsArray.getString(i);
                 }
             }
-            System.out.println("Survey: " + survey.surveyID + " " + survey.surveyName + " " + survey.surveySession + " " + survey.surveyOpened);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -107,8 +114,6 @@ public class SurveyHelper {
 
     public static SessionJSON getSessionFromJSONOBject(JSONObject jsonObject) {
         SessionJSON session = new SessionJSON();
-        ArrayList<String> participants = new ArrayList<>();
-        ArrayList<String> surveys = new ArrayList<>();
         try {
             if (jsonObject.has("_id")) {
                 session.id = jsonObject.getString("_id");
@@ -125,19 +130,18 @@ public class SurveyHelper {
             if (jsonObject.has("isActive")) {
                 session.isActive = jsonObject.getBoolean("isActive");
             }
-
             if (jsonObject.has("participants")) {
                 JSONArray participantsArray = jsonObject.getJSONArray("participants");
                 session.participants = new String[participantsArray.length()];
                 for (int i = 0; i < participantsArray.length(); i++) {
-                    session.participants[i] = participantsArray.getString(i);
+                    session.participants[i] = participantsArray.getJSONObject(i).getString("username");
                 }
             }
             if (jsonObject.has("surveys")) {
-                JSONArray denyArray = jsonObject.getJSONArray("surveys");
-                session.surveys = new String[denyArray.length()];
-                for (int i = 0; i < denyArray.length(); i++) {
-                    session.surveys[i] = denyArray.getString(i);
+                JSONArray surveys = jsonObject.getJSONArray("surveys");
+                session.surveyArray = new SurveyJSON[surveys.length()];
+                for (int j = 0; j < surveys.length(); j++){
+                    session.surveyArray[j] = getSurveyFromJSONOBject(surveys.getJSONObject(j));
                 }
             }
         } catch (Exception e) {
@@ -150,7 +154,6 @@ public class SurveyHelper {
         ArrayList<SessionJSON> list = new ArrayList<>();
         ArrayList<String> participantsArray = new ArrayList<>();
         ArrayList<String> surveysArray = new ArrayList<>();
-        System.out.println("Array length: " + array.length());
         try {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject jsonObject = array.getJSONObject(i);
@@ -179,10 +182,10 @@ public class SurveyHelper {
                 }
                 if (jsonObject.has("surveys")) {
                     JSONArray surveys = jsonObject.getJSONArray("surveys");
-                    for (int j = 0; j < surveys.length(); j++) {
-                        surveysArray.add(surveys.getString(j));
+                    sessionJSON.surveyArray = new SurveyJSON[surveys.length()];
+                    for (int j = 0; j < surveys.length(); j++){
+                        sessionJSON.surveyArray[j] = getSurveyFromJSONOBject(surveys.getJSONObject(j));
                     }
-                    sessionJSON.surveys = surveysArray.toArray(new String[0]);
                 }
                 list.add(sessionJSON);
             }
@@ -192,47 +195,4 @@ public class SurveyHelper {
         return list;
     }
 
-    public static ArrayList<SessionJSON> getSessionAndSurveyFromObject(JSONObject obj) {
-        ArrayList<SessionJSON> sessionList = new ArrayList<>();
-        ArrayList<SurveyJSON> surveyList = new ArrayList<>();
-        try {
-            if (obj.has("sessions")) {
-                JSONArray sessions = obj.getJSONArray("sessions");
-                for (int i = 0; i < sessions.length(); i++) {
-                    JSONObject jsonObject = sessions.getJSONObject(i);
-                    SessionJSON sessionJSON = getSessionFromJSONOBject(jsonObject);
-                    sessionList.add(sessionJSON);
-                }
-            }
-            if (obj.has("surveys")) {
-                JSONArray arr = obj.getJSONArray("surveys");
-                for (int i = 0; i < arr.length(); i++) {
-                    JSONObject jsonObject = arr.getJSONObject(i);
-                    SurveyJSON surveyJSON = getSurveyFromJSONOBject(jsonObject);
-
-                    surveyList.add(surveyJSON);
-                }
-            }
-            return addSurveysToSessions(sessionList, surveyList);
-        } catch (Exception e) {
-            System.out.println("Error in parsing JSON" + e);
-        }
-        return sessionList;
-    }
-
-    public static ArrayList<SessionJSON> addSurveysToSessions(ArrayList<SessionJSON> sessionList, ArrayList<SurveyJSON> surveyList) {
-        for (int i = 0; i < sessionList.size(); i++) {
-            SurveyJSON[] surveys = new SurveyJSON[surveyList.size()];
-            int it = 0;
-            for (int j = 0; j < surveyList.size(); j++) {
-                if (sessionList.get(i).id.equals(surveyList.get(j).surveySession)) {
-                    surveys[it] = surveyList.get(j);
-                    System.out.println("Survey: " + surveyList.get(j).surveyID + " added to Session: " + sessionList.get(i).id);
-                    it++;
-                }
-            }
-            sessionList.get(i).surveyArray = surveys;
-        }
-        return sessionList;
-    }
 }

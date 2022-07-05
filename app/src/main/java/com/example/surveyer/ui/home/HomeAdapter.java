@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.surveyer.App;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.json.SurveyJSON;
+import com.example.surveyer.backend.util.PreferenceUtil;
 import com.example.surveyer.ui.survey.SurveyView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private final ArrayList<SurveyJSON> data;
@@ -43,8 +45,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             intent.putExtra("surveyId", data.get(position).surveyID);
             v.getContext().startActivity(intent);
         });
-            System.out.println(data.get(position).surveyOpened);
-        if(data.get(position).surveyOpened){
+        if(Arrays.asList(data.get(position).participants).contains(PreferenceUtil.getDeviceId())){
+            holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style_neither));
+        }else if(data.get(position).surveyOpened){
             holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style));
         }else{
             holder.getStatus().setForeground(App.getContext().getDrawable(R.drawable.button_style_unselected));

@@ -109,14 +109,8 @@ public class DashboardFragment extends Fragment {
         String toJSONString = socketEventModel.getPayloadAsString();
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);
-            if (jsonObject.has("surveys") && jsonObject.has("sessions")) {
-                session = SurveyHelper.getSessionAndSurveyFromObject(jsonObject);
-                for (SessionJSON s : session) {
-                    DebugUtil.debug(DashboardFragment.class, s.toString());
-                    if(s.surveyArray != null) {
-                       System.out.println("Lenght: " + s.surveyArray.length);
-                    }
-                }
+            if (jsonObject.has("sessions")) {
+                session = SurveyHelper.getSessionListFromJSONArray(jsonObject.getJSONArray("sessions"));
                 recyclerView.setAdapter(new DashboardAdapter(session));
             }
         } catch (JSONException e) {

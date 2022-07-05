@@ -23,6 +23,7 @@ import com.example.surveyer.ui.home.HomeAdapter;
 import com.example.surveyer.ui.session.Session;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
     private final ArrayList<SessionJSON> session;
@@ -43,13 +44,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         holder.getSessionName().setText(session.get(position).name);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext());
         holder.getRecyclerView().setLayoutManager(linearLayoutManager);
-        ArrayList<SurveyJSON> surveys = new ArrayList<>();
         if(session.get(position).surveyArray != null){
-            for(int i = 0; i < session.get(position).surveyArray.length; i++) {
-                if(session.get(position).surveyArray[i] != null){
-                    surveys.add(session.get(position).surveyArray[i]);
-                }
-            }
+            ArrayList<SurveyJSON> surveys = new ArrayList<>(Arrays.asList(session.get(position).surveyArray));
             holder.getRecyclerView().setAdapter(new HomeAdapter(surveys));
         }
         holder.getEdit().setVisibility(View.GONE);

@@ -16,6 +16,7 @@ public class PayloadJSON extends BaseModel {
     public static final String TYPE_JOINSESSION = "joinSession";
     public static final String TYPE_GETALLSESSIONSANDSUREYS = "getAllSessionsAndSurveys";
     public static final String TYPE_VOTE = "voteForSurvey";
+    public static final String TYPE_GETALLSESSIONSNAMES = "getAllSessionsNames";
     @JsonProperty("Type")
     private String type;
     @JsonProperty("Refresh")

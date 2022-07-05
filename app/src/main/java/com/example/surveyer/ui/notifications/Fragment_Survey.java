@@ -107,7 +107,7 @@ public class Fragment_Survey extends Fragment {
     void getAllSessions() {
         JsonObject object = new JsonObject();
         object.addProperty("uid", PreferenceUtil.getDeviceId());
-        surveyViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONS, object)));
+        surveyViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONSNAMES, object)));
     }
 
     final AdapterView.OnItemSelectedListener sessionListener = new AdapterView.OnItemSelectedListener() {

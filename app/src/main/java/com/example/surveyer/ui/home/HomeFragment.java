@@ -27,6 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
@@ -57,9 +60,8 @@ public class HomeFragment extends Fragment {
         object.addProperty("uid", PreferenceUtil.getDeviceId());
         homeViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSURVEYS, object)));
     } catch (Exception e) {
-        System.out.println(e.getMessage());
+        DebugUtil.debug(HomeFragment.class, e.toString());
     }
-
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
@@ -72,12 +74,19 @@ public class HomeFragment extends Fragment {
             }else if(jsonObject.has("surveys") && jsonObject.getString("result").equals("Surveys")){
                 JSONArray array = jsonObject.getJSONArray("surveys");
                 surveys = SurveyHelper.getSurveyListFromJSONArray(array);
-                System.out.println(surveys.size());
-                recyclerView.setAdapter(new HomeAdapter(surveys));
+                ArrayList<SurveyJSON> sortedSurveys = new ArrayList<>();
+                for(SurveyJSON survey : surveys){
+                    if(survey.isSurveyOpened()){
+                        if(survey.participants == null || !Arrays.asList(survey.participants).contains(PreferenceUtil.getDeviceId())){
+                            sortedSurveys.add(survey);
+                        }
+                    }
+                }
+                recyclerView.setAdapter(new HomeAdapter(sortedSurveys));
+               // recyclerView.setAdapter(new HomeAdapter(surveys));
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
     };
-
 }
