@@ -68,7 +68,7 @@ public class DashboardFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new DashboardAdapter(session));
+        recyclerView.setAdapter(new DashboardAdapter(session, dashboardViewModel));
         getAllSessions();
     }
 
@@ -111,7 +111,7 @@ public class DashboardFragment extends Fragment {
             JSONObject jsonObject = new JSONObject(toJSONString);
             if (jsonObject.has("sessions")) {
                 session = SurveyHelper.getSessionListFromJSONArray(jsonObject.getJSONArray("sessions"));
-                recyclerView.setAdapter(new DashboardAdapter(session));
+                recyclerView.setAdapter(new DashboardAdapter(session, dashboardViewModel));
             }
         } catch (JSONException e) {
             System.out.println(e.getMessage());

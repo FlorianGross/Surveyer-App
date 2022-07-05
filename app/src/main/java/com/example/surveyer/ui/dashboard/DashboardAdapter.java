@@ -17,19 +17,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.surveyer.R;
 import com.example.surveyer.backend.helper.ImageRequester;
 import com.example.surveyer.backend.helper.QRCodeHelper;
+import com.example.surveyer.backend.json.PayloadJSON;
 import com.example.surveyer.backend.json.SessionJSON;
 import com.example.surveyer.backend.json.SurveyJSON;
+import com.example.surveyer.backend.models.pojo.SocketEventModel;
+import com.example.surveyer.backend.util.PreferenceUtil;
 import com.example.surveyer.ui.home.HomeAdapter;
 import com.example.surveyer.ui.session.Session;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
     private final ArrayList<SessionJSON> session;
+    private final DashboardViewModel dashboardViewModel;
 
-    public DashboardAdapter(ArrayList<SessionJSON> sessions) {
+    public DashboardAdapter(ArrayList<SessionJSON> sessions, DashboardViewModel dashboardViewModel) {
         this.session = sessions;
+        this.dashboardViewModel = dashboardViewModel;
     }
 
     @NonNull
@@ -65,6 +71,19 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             imageRequester.execute(QRCodeHelper.generateBarCode(session.get(position).id), image);
             dialog.setView(image);
             dialog.setPositiveButton("close", (dialog1, which) -> dialog1.cancel());
+            dialog.show();
+        });
+        holder.getLeave().setOnClickListener(view -> {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(holder.itemView.getContext());
+            dialog.setTitle("Leave");
+            dialog.setMessage("Are you sure you want to leave this session?");
+            dialog.setPositiveButton("Yes", (dialog1, which) -> {
+                JsonObject obj = new JsonObject();
+                obj.addProperty("sessionId", session.get(position).id);
+                obj.addProperty("uid", PreferenceUtil.getDeviceId());
+                dashboardViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_LEAVESESSION, obj)));
+            });
+            dialog.setNegativeButton("No", (dialog1, which) -> dialog1.cancel());
             dialog.show();
         });
         holder.getOnClick().setOnClickListener(view -> {
