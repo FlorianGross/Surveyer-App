@@ -20,25 +20,13 @@ public class PayloadJSON extends BaseModel {
     public static final String TYPE_LEAVESESSION = "leaveSession";
     @JsonProperty("Type")
     private String type;
-    @JsonProperty("Refresh")
-    private String refresh;
     @JsonProperty("Result")
     private Object result;
     @JsonProperty("Error")
     private String error;
 
-    public PayloadJSON(String type, String refresh, Object result) {
-        this.type = type;
-        this.refresh = refresh;
-        this.result = result;
-    }
 
     public PayloadJSON(String type, Object result) {
-        this.type = type;
-        this.result = result;
-    }
-
-    public PayloadJSON(String type, Object result, String events) {
         this.type = type;
         this.result = result;
     }
@@ -49,21 +37,5 @@ public class PayloadJSON extends BaseModel {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getRefresh() {
-        return refresh;
-    }
-
-    public void setRefresh(String refresh) {
-        this.refresh = refresh;
-    }
-
-    public Object getResult() {
-        return result;
-    }
-
-    public void setResult(Object result) {
-        this.result = result;
     }
 }

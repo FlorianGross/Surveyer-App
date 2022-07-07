@@ -110,7 +110,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         private final ConstraintLayout onClick;
         private final RecyclerView recyclerView;
         private final TextView sessionName;
-        private final ImageView arrow;
         private final Button edit, share, leave;
 
 
@@ -119,7 +118,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             onClick = itemView.findViewById(R.id.onClick);
             sessionName = itemView.findViewById(R.id.sessionName);
             recyclerView = itemView.findViewById(R.id.sessionRecycler);
-            arrow = itemView.findViewById(R.id.imageView3);
             recyclerView.setVisibility(View.GONE);
             edit = itemView.findViewById(R.id.editSessionButton);
             share = itemView.findViewById(R.id.shareSessionButton);
@@ -138,9 +136,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             return leave;
         }
 
-        public ImageView getArrow() {
-            return arrow;
-        }
         public ConstraintLayout getOnClick() {
             return onClick;
         }

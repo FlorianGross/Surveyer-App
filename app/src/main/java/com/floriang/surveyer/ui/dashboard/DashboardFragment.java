@@ -22,7 +22,6 @@ import com.floriang.surveyer.backend.SocketLiveData;
 import com.floriang.surveyer.backend.helper.SurveyHelper;
 import com.floriang.surveyer.backend.json.PayloadJSON;
 import com.floriang.surveyer.backend.json.SessionJSON;
-import com.floriang.surveyer.backend.json.SurveyJSON;
 import com.floriang.surveyer.backend.models.pojo.SocketEventModel;
 import com.floriang.surveyer.backend.util.DebugUtil;
 import com.floriang.surveyer.backend.util.PreferenceUtil;
@@ -42,7 +41,6 @@ public class DashboardFragment extends Fragment {
     DashboardViewModel dashboardViewModel;
     SocketLiveData socketLiveData;
     ArrayList<SessionJSON> session = new ArrayList<>();
-    ArrayList<SurveyJSON> survey = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

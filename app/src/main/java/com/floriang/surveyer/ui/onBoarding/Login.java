@@ -1,6 +1,5 @@
 package com.floriang.surveyer.ui.onBoarding;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,7 +28,6 @@ public class Login extends Fragment {
     EditText editPassword, editUsername, editShownName;
     Button login, register, anonymous;
     LoginViewModel loginViewModel;
-    boolean isLoggedIn = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +85,6 @@ public class Login extends Fragment {
                 SocketAnswerModel model = SocketAnswerModel.fromJson(socketEventModel.getPayloadAsString(), SocketAnswerModel.class);
                 if (model.getResult().equals("Success")) {
                     PreferenceUtil.setDeviceId(model.getUid());
-                    isLoggedIn = true;
                     System.out.println("Success");
                     onSuccess();
                 }
