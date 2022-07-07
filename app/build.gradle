@@ -3,13 +3,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('/Users/florian/upload_keystore/upload-keystore.jks')
-            storePassword 'Magicflo'
-            keyPassword 'Magicflo'
-        }
-    }
     compileSdk 32
 
     defaultConfig {
@@ -18,9 +11,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.debug
     }
 
     buildTypes {

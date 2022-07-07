@@ -12,13 +12,26 @@ public class UserJSON {
     public String password;
     @JsonProperty("email")
     public String email;
+    @JsonProperty("shownName")
+    public String shownName;
+    @JsonProperty("anonymous")
+    public boolean anonymous;
 
     @JsonCreator
-    public UserJSON(@JsonProperty("username") String userName, @JsonProperty("password") String password, @JsonProperty("email") String email) {
+    public UserJSON(@JsonProperty("username") String userName, @JsonProperty("password") String password, @JsonProperty("email") String email, @JsonProperty("shownName") String shownName, @JsonProperty("anonymous") boolean anonymous) {
         this.userName = userName;
         this.password = password;
         this.email = email;
+        this.shownName = shownName;
+        this.anonymous = anonymous;
     }
+
+    @JsonCreator
+    public UserJSON(@JsonProperty("shownName") String shownName){
+        this.shownName = shownName;
+        this.anonymous = true;
+    }
+
 
     @JsonCreator
     public UserJSON(@JsonProperty("username") String userName, @JsonProperty("password") String password) {

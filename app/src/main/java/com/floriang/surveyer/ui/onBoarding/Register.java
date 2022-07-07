@@ -24,7 +24,7 @@ import com.floriang.surveyer.ui.Navigations;
 
 public class Register extends Fragment {
 
-    EditText editPassword, editUsername, editEmail;
+    EditText editPassword, editUsername, editEmail, editShownName;
     Button login, register;
     RegisterViewModel registerViewModel;
 
@@ -43,6 +43,7 @@ public class Register extends Fragment {
         register = view.findViewById(R.id.registerButton2);
         login = view.findViewById(R.id.loginButton2);
         editEmail = view.findViewById(R.id.emailInput);
+        editShownName = view.findViewById(R.id.shownNameInput_register);
         registerViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(RegisterViewModel.class);
         registerViewModel.getSocketLiveData().observe(requireActivity(), socketEventModelObserver);
         registerViewModel.getSocketLiveData().connect();
@@ -51,10 +52,11 @@ public class Register extends Fragment {
             String username = editUsername.getText().toString();
             String password = editPassword.getText().toString();
             String email = editEmail.getText().toString();
-            if(username.isEmpty() || password.isEmpty() || email.isEmpty()){
+            String shownName = editShownName.getText().toString();
+            if(username.isEmpty() || password.isEmpty() || email.isEmpty() || shownName.isEmpty()){
                 return;
             }
-            registerViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, new UserJSON(username, password, email))));
+            registerViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, new UserJSON(username, password, email, shownName, false))));
         });
 
         login.setOnClickListener(v -> requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new Login()).commit());

@@ -26,7 +26,7 @@ import com.floriang.surveyer.ui.Navigations;
 
 
 public class Login extends Fragment {
-    EditText editPassword, editUsername;
+    EditText editPassword, editUsername, editShownName;
     Button login, register, anonymous;
     LoginViewModel loginViewModel;
     boolean isLoggedIn = false;
@@ -44,13 +44,17 @@ public class Login extends Fragment {
         login = view.findViewById(R.id.registerButton);
         register = view.findViewById(R.id.loginButton);
         anonymous = view.findViewById(R.id.anonymButton);
+        editShownName = view.findViewById(R.id.shownNameInput_login);
         loginViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(LoginViewModel.class);
         loginViewModel.getSocketLiveData().observe(requireActivity(), socketEventModelObserver);
         loginViewModel.getSocketLiveData().connect();
 
         anonymous.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Navigations.class);
-            startActivity(intent);
+            String shownName = editShownName.getText().toString();
+            if(shownName.isEmpty()){
+            shownName = "Anonymous";
+            }
+            loginViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, new UserJSON(shownName))));
         });
 
         login.setOnClickListener(v -> {
