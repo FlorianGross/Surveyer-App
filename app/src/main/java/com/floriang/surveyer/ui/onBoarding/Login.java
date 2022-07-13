@@ -23,6 +23,8 @@ import com.floriang.surveyer.backend.util.DebugUtil;
 import com.floriang.surveyer.backend.util.PreferenceUtil;
 import com.floriang.surveyer.ui.Navigations;
 
+import java.util.Objects;
+
 
 public class Login extends Fragment {
     EditText editPassword, editUsername, editShownName;
@@ -52,14 +54,14 @@ public class Login extends Fragment {
             if(shownName.isEmpty()){
             shownName = "Anonymous";
             }
-            loginViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, new UserJSON(shownName))));
+            loginViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, new UserJSON(shownName)), SocketEventModel.LOC_LOGIN));
         });
 
         login.setOnClickListener(v -> {
             String username = editUsername.getText().toString();
             String password = editPassword.getText().toString();
             try {
-                loginViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_LOGIN, new UserJSON(username, password))));
+                loginViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_LOGIN, new UserJSON(username, password)), SocketEventModel.LOC_LOGIN));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -72,8 +74,10 @@ public class Login extends Fragment {
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
+        if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_LOGIN) || socketEventModel.getLocation() == null) {
         DebugUtil.debug(Login.class, "New Socket event: " + socketEventModel.toString());
         handleMessage(socketEventModel);
+        }
     };
 
     private void handleMessage(SocketEventModel socketEventModel) {

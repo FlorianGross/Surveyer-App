@@ -100,7 +100,7 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
         public void onClosed(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
             super.onClosed(webSocket, code, reason);
             System.out.println("Socket closed");
-            postValue(new SocketEventModel(SocketEventModel.EVENT_OFFLINE, App.getContext().getString(R.string.socket_offline_message))
+            postValue(new SocketEventModel(SocketEventModel.EVENT_OFFLINE, App.getContext().getString(R.string.socket_offline_message), null)
                     .setType(SocketEventModel.TYPE_INCOMING));
             disconnected.set(true);
         }
@@ -113,7 +113,7 @@ public class SocketLiveData extends LiveData<SocketEventModel> {
             int code = response != null ? response.code() : 400;
             @Nullable String message = response != null ? response.message() : t.getMessage();
             DebugUtil.debug(SocketLiveData.class, String.format("On Failure. Code: %s, message: %s", code, message));
-            postValue(new SocketEventModel(SocketEventModel.EVENT_ERROR, code == 401? message : App.getContext().getString(R.string.socket_connection_error_message))
+            postValue(new SocketEventModel(SocketEventModel.EVENT_ERROR, code == 401? message : App.getContext().getString(R.string.socket_connection_error_message), null)
                     .setType(SocketEventModel.TYPE_INCOMING));
             if (code == 400 && message != null && !message.contains("closed")) {
                 SocketReconnectionScheduler.schedule();

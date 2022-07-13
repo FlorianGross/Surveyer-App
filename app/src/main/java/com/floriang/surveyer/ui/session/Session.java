@@ -29,6 +29,8 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class Session extends AppCompatActivity {
     RecyclerView recyclerView;
     EditText editName, editDescription;
@@ -69,7 +71,7 @@ public class Session extends AppCompatActivity {
                 obj.addProperty("name", session.name);
                 obj.addProperty("description", session.description);
                 obj.addProperty("uid", PreferenceUtil.getDeviceId());
-                sessionViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_CREATESESSION, obj)
+                sessionViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_CREATESESSION, obj), SocketEventModel.LOC_SESSION
                         )
                 );
             });
@@ -81,7 +83,7 @@ public class Session extends AppCompatActivity {
             btnCreate.setOnClickListener(v -> {
                 session.name = editName.getText().toString();
                 session.description = editDescription.getText().toString();
-                sessionViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_UPDATESESSION, session)));
+                sessionViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_UPDATESESSION, session),SocketEventModel.LOC_SESSION));
             });
         }
     }
@@ -101,7 +103,7 @@ public class Session extends AppCompatActivity {
     void getSession() {
         JsonObject object = new JsonObject();
         object.addProperty("sessionID", id);
-        sessionViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETSESSIONFROMID, object)));
+        sessionViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETSESSIONFROMID, object), SocketEventModel.LOC_SESSION));
     }
 
     void setImage() {
@@ -110,39 +112,38 @@ public class Session extends AppCompatActivity {
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(Fragment_Survey.class, "getSocket: " + socketEventModel.getPayloadAsString());
-        String toJSONString = socketEventModel.getPayloadAsString();
-        try {
-            JSONObject jsonObject = new JSONObject(toJSONString);
-            if(jsonObject.getString("type").equals("Refresh")){
-                System.out.println("Refresh");
-                getSession();
-            }
-            if(jsonObject.getString("result").equals("Error")){
-                JSONObject errorObj = jsonObject.getJSONObject("error").getJSONObject("errors").getJSONObject("name");
-                Toast.makeText(this, errorObj.getString("message"), Toast.LENGTH_LONG).show();
-            }
-            if (jsonObject.has("session") && jsonObject.getString("result").equals("Session")) {
-                System.out.println("Session");
-                session = SurveyHelper.getSessionFromJSONOBject(jsonObject.getJSONObject("session"));
-                editName.setText(session.name);
-                editDescription.setText(session.description);
-                participants = session.participants;
-                if(session.owner.equals(PreferenceUtil.getDeviceId())){
-                    isOwner = true;
-                    getIsOwner();
+        if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_SESSION) || socketEventModel.getLocation() == null) {
+            DebugUtil.debug(Fragment_Survey.class, "getSocket: " + socketEventModel.getPayloadAsString());
+            String toJSONString = socketEventModel.getPayloadAsString();
+            try {
+                JSONObject jsonObject = new JSONObject(toJSONString);
+                if (jsonObject.getString("type").equals("Refresh")) {
+                    System.out.println("Refresh");
+                    getSession();
+                } else if (jsonObject.getString("result").equals("Error")) {
+                    JSONObject errorObj = jsonObject.getJSONObject("error").getJSONObject("errors").getJSONObject("name");
+                    Toast.makeText(this, errorObj.getString("message"), Toast.LENGTH_SHORT).show();
+                } else if (jsonObject.has("session") && jsonObject.getString("result").equals("Session")) {
+                    System.out.println("Session");
+                    session = SurveyHelper.getSessionFromJSONOBject(jsonObject.getJSONObject("session"));
+                    editName.setText(session.name);
+                    editDescription.setText(session.description);
+                    participants = session.participants;
+                    if (session.owner.equals(PreferenceUtil.getDeviceId())) {
+                        isOwner = true;
+                        getIsOwner();
+                    }
+                    recyclerView.setAdapter(new SessionAdapter(participants, isOwner));
+                    setImage();
+                } else if (jsonObject.has("type") && jsonObject.getString("type").equals("Answer") && jsonObject.has("result") && !jsonObject.getString("result").equals("Session")) {
+                    id = jsonObject.getString("result");
+                    Toast.makeText(this, "Session created", Toast.LENGTH_SHORT).show();
+                    getSession();
                 }
-                recyclerView.setAdapter(new SessionAdapter(participants, isOwner));
-                setImage();
+            } catch (JSONException e) {
+                Toast.makeText(this, "Fehler", Toast.LENGTH_LONG).show();
+                System.out.println("Error in Sessionobserver: " + e);
             }
-            if(jsonObject.has("type") && jsonObject.getString("type").equals("Answer") && jsonObject.has("result") && !jsonObject.getString("result").equals("Session")){
-                id = jsonObject.getString("result");
-                Toast.makeText(this, "Session created", Toast.LENGTH_LONG).show();
-                getSession();
-            }
-        } catch (JSONException e) {
-            Toast.makeText(this, "Fehler", Toast.LENGTH_LONG).show();
-            System.out.println("Error in Sessionobserver: " + e);
         }
     };
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DashboardFragment extends Fragment {
     RecyclerView recyclerView;
@@ -93,26 +95,34 @@ public class DashboardFragment extends Fragment {
         JsonObject obj = new JsonObject();
         obj.addProperty("sessionId", contents);
         obj.addProperty("uid", PreferenceUtil.getDeviceId());
-        socketLiveData.sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_JOINSESSION, obj)));
+        socketLiveData.sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_JOINSESSION, obj), SocketEventModel.LOC_DASHBOARD));
     }
 
     void getAllSessions() {
         JsonObject object = new JsonObject();
         object.addProperty("uid", PreferenceUtil.getDeviceId());
-        dashboardViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONSANDSUREYS, object)));
+        dashboardViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONSANDSUREYS, object), SocketEventModel.LOC_DASHBOARD));
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(DashboardFragment.class, "getSocket: " + socketEventModel.toString());
-        String toJSONString = socketEventModel.getPayloadAsString();
-        try {
-            JSONObject jsonObject = new JSONObject(toJSONString);
-            if (jsonObject.has("sessions")) {
-                session = SurveyHelper.getSessionListFromJSONArray(jsonObject.getJSONArray("sessions"));
-                recyclerView.setAdapter(new DashboardAdapter(session, dashboardViewModel));
+        if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_DASHBOARD) || socketEventModel.getLocation() == null) {
+            DebugUtil.debug(DashboardFragment.class, "getSocket: " + socketEventModel.toString());
+            String toJSONString = socketEventModel.getPayloadAsString();
+            try {
+                JSONObject jsonObject = new JSONObject(toJSONString);
+                if (jsonObject.has("sessions")) {
+                    session = SurveyHelper.getSessionListFromJSONArray(jsonObject.getJSONArray("sessions"));
+                    recyclerView.setAdapter(new DashboardAdapter(session, dashboardViewModel));
+                } else if (jsonObject.has("session")) {
+                    Toast.makeText(requireContext(), "Session erfolgreich beigetreten", Toast.LENGTH_SHORT).show();
+                    getAllSessions();
+                } else if (jsonObject.getString("type").equals("Refresh")) {
+                    System.out.println("Refresh");
+                    getAllSessions();
+                }
+            } catch (JSONException e) {
+                System.out.println(e.getMessage());
             }
-        } catch (JSONException e) {
-            System.out.println(e.getMessage());
         }
     };
 }

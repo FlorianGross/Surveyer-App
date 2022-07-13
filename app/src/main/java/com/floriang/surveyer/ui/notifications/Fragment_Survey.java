@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Fragment_Survey extends Fragment {
     Spinner session;
@@ -68,7 +69,7 @@ public class Fragment_Survey extends Fragment {
             survey.allowEnthaltung = enthaltung.isChecked();
             survey.surveyOpened = true;
             try {
-                surveyViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_CREATESURVEY, survey)));
+                surveyViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_CREATESURVEY, survey), SocketEventModel.LOC_SURVEY));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -107,7 +108,7 @@ public class Fragment_Survey extends Fragment {
     void getAllSessions() {
         JsonObject object = new JsonObject();
         object.addProperty("uid", PreferenceUtil.getDeviceId());
-        surveyViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONSNAMES, object)));
+        surveyViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSESSIONSNAMES, object), SocketEventModel.LOC_SURVEY));
     }
 
     final AdapterView.OnItemSelectedListener sessionListener = new AdapterView.OnItemSelectedListener() {
@@ -123,28 +124,30 @@ public class Fragment_Survey extends Fragment {
         }
     };
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(Fragment_Survey.class, "getSocket: " + socketEventModel.toString());
-        String toJSONString = socketEventModel.getPayloadAsString();
-        try {
-            JSONObject jsonObject = new JSONObject(toJSONString);
-            if(jsonObject.getString("type").equals("Success")){
-                Toast.makeText(requireActivity(),"Erfolgreich erstellt", Toast.LENGTH_LONG).show();
+        if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_SURVEY) || socketEventModel.getLocation() == null) {
+            DebugUtil.debug(Fragment_Survey.class, "getSocket: " + socketEventModel.toString());
+            String toJSONString = socketEventModel.getPayloadAsString();
+            try {
+                JSONObject jsonObject = new JSONObject(toJSONString);
+                if (jsonObject.getString("type").equals("Success")) {
+                    Toast.makeText(requireActivity(), "Erfolgreich erstellt", Toast.LENGTH_LONG).show();
+                }
+                if (jsonObject.getString("type").equals("Refresh")) {
+                    getAllSessions();
+                }
+                if (jsonObject.getString("result").equals("Error")) {
+                    JSONObject errorObj = jsonObject.getJSONObject("error").getJSONObject("errors").getJSONObject("surveyName");
+                    System.out.println(errorObj.getString("message"));
+                    Toast.makeText(requireActivity(), errorObj.getString("message"), Toast.LENGTH_SHORT).show();
+                }
+                if (jsonObject.has("sessions") && jsonObject.getJSONArray("sessions").length() > 0) {
+                    JSONArray jsonArray = jsonObject.getJSONArray("sessions");
+                    sessions = SurveyHelper.getSessionListFromJSONArray(jsonArray);
+                    updateAdapter();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-            if(jsonObject.getString("type").equals("Refresh")){
-                getAllSessions();
-            }
-            if(jsonObject.getString("result").equals("Error")){
-                JSONObject errorObj = jsonObject.getJSONObject("error").getJSONObject("errors").getJSONObject("surveyName");
-                System.out.println(errorObj.getString("message"));
-                Toast.makeText(requireActivity(), errorObj.getString("message"), Toast.LENGTH_SHORT).show();
-            }
-            if(jsonObject.has("sessions") && jsonObject.getJSONArray("sessions").length() > 0){
-                JSONArray jsonArray = jsonObject.getJSONArray("sessions");
-                sessions = SurveyHelper.getSessionListFromJSONArray(jsonArray);
-                updateAdapter();
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     };
 }

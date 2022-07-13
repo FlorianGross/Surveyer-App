@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
@@ -56,36 +57,38 @@ public class HomeFragment extends Fragment {
     private void getSurveys() {try {
         JsonObject object = new JsonObject();
         object.addProperty("uid", PreferenceUtil.getDeviceId());
-        homeViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSURVEYS, object)));
+        homeViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETALLSURVEYS, object), SocketEventModel.LOC_HOME));
     } catch (Exception e) {
         DebugUtil.debug(HomeFragment.class, e.toString());
     }
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(HomeFragment.class, "New Socket event: " + socketEventModel.toString());
-        try{
-            JSONObject jsonObject = new JSONObject(socketEventModel.getPayloadAsString());
-            if(jsonObject.getString("type").equals("Refresh")){
-                System.out.println("Refresh");
-                getSurveys();
-            }else if(jsonObject.has("surveys") && jsonObject.getString("result").equals("Surveys")){
-                JSONArray array = jsonObject.getJSONArray("surveys");
-                surveys = SurveyHelper.getSurveyListFromJSONArray(array);
-                ArrayList<SurveyJSON> sortedSurveys = new ArrayList<>();
-                for(SurveyJSON survey : surveys){
-                    if(survey.isSurveyOpened()){
-                        if(!Arrays.asList(survey.participants).contains(PreferenceUtil.getDeviceId())){
-                            sortedSurveys.add(survey);
+        if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_HOME) || socketEventModel.getLocation() == null) {
+            DebugUtil.debug(HomeFragment.class, "New Socket event: " + socketEventModel.toString());
+            try {
+                JSONObject jsonObject = new JSONObject(socketEventModel.getPayloadAsString());
+                if (jsonObject.getString("type").equals("Refresh")) {
+                    System.out.println("Refresh");
+                    getSurveys();
+                } else if (jsonObject.has("surveys") && jsonObject.getString("result").equals("Surveys")) {
+                    JSONArray array = jsonObject.getJSONArray("surveys");
+                    surveys = SurveyHelper.getSurveyListFromJSONArray(array);
+                    ArrayList<SurveyJSON> sortedSurveys = new ArrayList<>();
+                    for (SurveyJSON survey : surveys) {
+                        if (survey.isSurveyOpened()) {
+                            if (!Arrays.asList(survey.participants).contains(PreferenceUtil.getDeviceId())) {
+                                sortedSurveys.add(survey);
+                            }
                         }
                     }
+                    if (sortedSurveys.size() > 0) {
+                        recyclerView.setAdapter(new HomeAdapter(sortedSurveys));
+                    }
                 }
-                if(sortedSurveys.size()> 0) {
-                    recyclerView.setAdapter(new HomeAdapter(sortedSurveys));
-                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
         }
     };
 }

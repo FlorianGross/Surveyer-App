@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SurveyView extends AppCompatActivity {
     String surveyID;
@@ -107,7 +108,7 @@ public class SurveyView extends AppCompatActivity {
         JsonObject object = new JsonObject();
         object.addProperty("uid", PreferenceUtil.getDeviceId());
         object.addProperty("surveyId", surveyID);
-        viewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETSURVEYFROMID, object)));
+        viewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_GETSURVEYFROMID, object), SocketEventModel.LOC_SURVEY));
     }
 
     private void disableButtons() {
@@ -118,7 +119,7 @@ public class SurveyView extends AppCompatActivity {
 
     private void sendVote(int VOTE_ID){
         System.out.println("Sending vote " + VOTE_ID);
-        viewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_VOTE, new VoteJSON(PreferenceUtil.getDeviceId(), surveyID, VOTE_ID))));
+        viewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_VOTE, new VoteJSON(PreferenceUtil.getDeviceId(), surveyID, VOTE_ID)), SocketEventModel.LOC_SURVEY));
     }
 
     private void setValues() {
@@ -137,41 +138,43 @@ public class SurveyView extends AppCompatActivity {
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(SurveyView.class, "getSocket: " + socketEventModel.toString());
-        try {
-            JSONObject object = new JSONObject(socketEventModel.getPayloadAsString());
-            if(object.getString("type").equals("Refresh")) {
-                System.out.println("Refresh");
-                getSurvey();
-            }else if (object.has("survey") && object.getString("result").equals("Survey")) {
-                survey = SurveyHelper.getSurveyFromJSONOBject(object.getJSONObject("survey"));
-                setValues();
-                reloadChart();
-                name.setText(survey.getSurveyName());
-                description.setText(survey.getSurveyDescription());
-                recyclerView.setAdapter(new SurveyAdapter(survey.getParticipantsName(), survey.participants ,survey.getApproveNames(), survey.getDenyNames(), survey.getNotParticipateNames()));
-                if (survey.getSurveyDeny() != null) {
-                    denyValue = survey.getSurveyDeny().length;
-                }
-                if (survey.getSurveyApprove() != null) {
-                    approveValue = survey.getSurveyApprove().length;
-                }
-                if (survey.getSurveyNotParicipate() != null) {
-                    enhaltungValue = survey.getSurveyNotParicipate().length;
-                }
-                if (survey.getParticipants() != null) {
-                    String[] participants = survey.getParticipants();
-                    for (String participant : participants) {
-                        JSONObject tempObj = new JSONObject(participant);
-                        if (tempObj.getString("_id").equals(PreferenceUtil.getDeviceId())) {
-                            disableButtons();
+        if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_SURVEY) || socketEventModel.getLocation() == null) {
+            DebugUtil.debug(SurveyView.class, "getSocket: " + socketEventModel.toString());
+            try {
+                JSONObject object = new JSONObject(socketEventModel.getPayloadAsString());
+                if (object.getString("type").equals("Refresh")) {
+                    System.out.println("Refresh");
+                    getSurvey();
+                } else if (object.has("survey") && object.getString("result").equals("Survey")) {
+                    survey = SurveyHelper.getSurveyFromJSONOBject(object.getJSONObject("survey"));
+                    setValues();
+                    reloadChart();
+                    name.setText(survey.getSurveyName());
+                    description.setText(survey.getSurveyDescription());
+                    recyclerView.setAdapter(new SurveyAdapter(survey.getParticipantsName(), survey.participants, survey.getApproveNames(), survey.getDenyNames(), survey.getNotParticipateNames()));
+                    if (survey.getSurveyDeny() != null) {
+                        denyValue = survey.getSurveyDeny().length;
+                    }
+                    if (survey.getSurveyApprove() != null) {
+                        approveValue = survey.getSurveyApprove().length;
+                    }
+                    if (survey.getSurveyNotParicipate() != null) {
+                        enhaltungValue = survey.getSurveyNotParicipate().length;
+                    }
+                    if (survey.getParticipants() != null) {
+                        String[] participants = survey.getParticipants();
+                        for (String participant : participants) {
+                            JSONObject tempObj = new JSONObject(participant);
+                            if (tempObj.getString("_id").equals(PreferenceUtil.getDeviceId())) {
+                                disableButtons();
+                            }
                         }
                     }
+                    reloadChart();
                 }
-                reloadChart();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     };
 

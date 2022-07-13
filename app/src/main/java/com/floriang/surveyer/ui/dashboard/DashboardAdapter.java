@@ -81,7 +81,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
                 JsonObject obj = new JsonObject();
                 obj.addProperty("sessionId", session.get(position).id);
                 obj.addProperty("uid", PreferenceUtil.getDeviceId());
-                dashboardViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_LEAVESESSION, obj)));
+                dashboardViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_LEAVESESSION, obj), SocketEventModel.LOC_DASHBOARD));
             });
             dialog.setNegativeButton("No", (dialog1, which) -> dialog1.cancel());
             dialog.show();

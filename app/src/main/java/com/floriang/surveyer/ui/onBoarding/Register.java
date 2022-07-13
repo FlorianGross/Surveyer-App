@@ -22,6 +22,8 @@ import com.floriang.surveyer.backend.models.pojo.SocketEventModel;
 import com.floriang.surveyer.backend.util.DebugUtil;
 import com.floriang.surveyer.ui.Navigations;
 
+import java.util.Objects;
+
 public class Register extends Fragment {
 
     EditText editPassword, editUsername, editEmail, editShownName;
@@ -56,7 +58,7 @@ public class Register extends Fragment {
             if(username.isEmpty() || password.isEmpty() || email.isEmpty() || shownName.isEmpty()){
                 return;
             }
-            registerViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, new UserJSON(username, password, email, shownName, false))));
+            registerViewModel.getSocketLiveData().sendEvent(new SocketEventModel(SocketEventModel.EVENT_MESSAGE, new PayloadJSON(PayloadJSON.TYPE_REGISTER, new UserJSON(username, password, email, shownName, false)), SocketEventModel.LOC_REGISTER));
         });
 
         login.setOnClickListener(v -> requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new Login()).commit());
@@ -68,8 +70,10 @@ public class Register extends Fragment {
     }
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
-        DebugUtil.debug(Register.class, "New Socket event: " + socketEventModel.toString());
-        handleMessage(socketEventModel);
+        if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_REGISTER) || socketEventModel.getLocation() == null) {
+            DebugUtil.debug(Register.class, "New Socket event: " + socketEventModel.toString());
+            handleMessage(socketEventModel);
+        }
     };
 
     private void handleMessage(SocketEventModel socketEventModel) {
