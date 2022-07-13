@@ -149,7 +149,7 @@ public class SurveyView extends AppCompatActivity {
                 reloadChart();
                 name.setText(survey.getSurveyName());
                 description.setText(survey.getSurveyDescription());
-                recyclerView.setAdapter(new SurveyAdapter(survey.getParticipantsName(), survey.getApproveNames(), survey.getDenyNames(), survey.getNotParticipateNames()));
+                recyclerView.setAdapter(new SurveyAdapter(survey.getParticipantsName(), survey.participants ,survey.getApproveNames(), survey.getDenyNames(), survey.getNotParticipateNames()));
                 if (survey.getSurveyDeny() != null) {
                     denyValue = survey.getSurveyDeny().length;
                 }

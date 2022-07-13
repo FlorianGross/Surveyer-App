@@ -37,46 +37,46 @@ public class SurveyHelper {
                 if (jsonObject.has("surveyDescription")) {
                     survey.surveyDescription = jsonObject.getString("surveyDescription");
                 }
-                if(jsonObject.has("participants")){
+                if (jsonObject.has("participants")) {
                     JSONArray participants = jsonObject.getJSONArray("participants");
                     survey.participants = new String[participants.length()];
-                    for(int j = 0; j < participants.length(); j++){
+                    for (int j = 0; j < participants.length(); j++) {
                         survey.participants[j] = participants.getString(j);
                     }
-                }else{
+                } else {
                     survey.participants = new String[0];
                 }
-                if(jsonObject.has("surveyApproved")) {
+                if (jsonObject.has("surveyApproved")) {
                     JSONArray surveyApproved = jsonObject.getJSONArray("surveyApproved");
                     survey.surveyApprove = new String[surveyApproved.length()];
                     for (int j = 0; j < surveyApproved.length(); j++) {
                         survey.surveyApprove[j] = surveyApproved.getString(j);
                     }
-                }else{
+                } else {
                     survey.surveyApprove = new String[0];
                 }
-                if(jsonObject.has("surveyDeny")) {
+                if (jsonObject.has("surveyDeny")) {
                     JSONArray surveyDenied = jsonObject.getJSONArray("surveyDeny");
                     survey.surveyDeny = new String[surveyDenied.length()];
                     for (int j = 0; j < surveyDenied.length(); j++) {
                         survey.surveyDeny[j] = surveyDenied.getString(j);
                     }
-                }else{
+                } else {
                     survey.surveyDeny = new String[0];
                 }
-                if(jsonObject.has("surveyNotParicipate")){
+                if (jsonObject.has("surveyNotParicipate")) {
                     JSONArray surveyNotParticipate = jsonObject.getJSONArray("surveyNotParicipate");
                     survey.surveyNotParicipate = new String[surveyNotParticipate.length()];
-                    for(int j = 0; j < surveyNotParticipate.length(); j++){
+                    for (int j = 0; j < surveyNotParticipate.length(); j++) {
                         survey.surveyNotParicipate[j] = surveyNotParticipate.getString(j);
                     }
-                }else{
+                } else {
                     survey.surveyNotParicipate = new String[0];
                 }
 
                 surveyList.add(survey);
 
-              }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -163,13 +163,13 @@ public class SurveyHelper {
                 JSONArray participantsArray = jsonObject.getJSONArray("participants");
                 session.participants = new String[participantsArray.length()];
                 for (int i = 0; i < participantsArray.length(); i++) {
-                    session.participants[i] = participantsArray.getJSONObject(i).getString("username");
+                    session.participants[i] = participantsArray.getJSONObject(i).getString("shownName");
                 }
             }
             if (jsonObject.has("surveys")) {
                 JSONArray surveys = jsonObject.getJSONArray("surveys");
                 session.surveyArray = new SurveyJSON[surveys.length()];
-                for (int j = 0; j < surveys.length(); j++){
+                for (int j = 0; j < surveys.length(); j++) {
                     session.surveyArray[j] = getSurveyFromJSONOBject(surveys.getJSONObject(j));
                 }
             }
@@ -182,13 +182,22 @@ public class SurveyHelper {
     public static ArrayList<SessionJSON> getSessionListFromJSONArray(JSONArray array) {
         ArrayList<SessionJSON> list = new ArrayList<>();
         ArrayList<String> participantsArray = new ArrayList<>();
-        ArrayList<String> surveysArray = new ArrayList<>();
         try {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject jsonObject = array.getJSONObject(i);
                 SessionJSON sessionJSON = new SessionJSON();
                 if (jsonObject.has("name")) {
-                    sessionJSON.name = jsonObject.getString("name");
+                    int iter = 0;
+                    for (int j = 0; i < list.size(); j++) {
+                        if (list.get(j).name.equals(jsonObject.getString("name"))) {
+                            iter++;
+                        }
+                    }
+                    if (iter == 0) {
+                        sessionJSON.name = jsonObject.getString("name");
+                    } else {
+                        sessionJSON.name = jsonObject.getString("name") + " (" + iter + ")";
+                    }
                 }
                 if (jsonObject.has("_id")) {
                     sessionJSON.id = jsonObject.getString("_id");
@@ -212,7 +221,7 @@ public class SurveyHelper {
                 if (jsonObject.has("surveys")) {
                     JSONArray surveys = jsonObject.getJSONArray("surveys");
                     sessionJSON.surveyArray = new SurveyJSON[surveys.length()];
-                    for (int j = 0; j < surveys.length(); j++){
+                    for (int j = 0; j < surveys.length(); j++) {
                         sessionJSON.surveyArray[j] = getSurveyFromJSONOBject(surveys.getJSONObject(j));
                     }
                 }

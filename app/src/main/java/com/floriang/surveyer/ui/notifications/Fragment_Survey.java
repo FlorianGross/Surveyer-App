@@ -127,14 +127,16 @@ public class Fragment_Survey extends Fragment {
         String toJSONString = socketEventModel.getPayloadAsString();
         try {
             JSONObject jsonObject = new JSONObject(toJSONString);
+            if(jsonObject.getString("type").equals("Success")){
+                Toast.makeText(requireActivity(),"Erfolgreich erstellt", Toast.LENGTH_LONG).show();
+            }
             if(jsonObject.getString("type").equals("Refresh")){
                 getAllSessions();
             }
             if(jsonObject.getString("result").equals("Error")){
                 JSONObject errorObj = jsonObject.getJSONObject("error").getJSONObject("errors").getJSONObject("surveyName");
                 System.out.println(errorObj.getString("message"));
-                Toast.makeText(requireActivity(), errorObj.getString("message"), Toast.LENGTH_LONG).show();
-
+                Toast.makeText(requireActivity(), errorObj.getString("message"), Toast.LENGTH_SHORT).show();
             }
             if(jsonObject.has("sessions") && jsonObject.getJSONArray("sessions").length() > 0){
                 JSONArray jsonArray = jsonObject.getJSONArray("sessions");

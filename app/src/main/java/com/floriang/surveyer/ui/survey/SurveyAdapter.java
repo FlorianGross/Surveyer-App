@@ -10,15 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.floriang.surveyer.R;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
     final String[] users;
+    final String[] names;
     final String[] approved;
     final String[] declined;
     final String[] pending;
 
-    public SurveyAdapter(String[] users, String[] approved, String[] declined, String[] pending) {
+    public SurveyAdapter(String[] users, String[] names, String[] approved, String[] declined, String[] pending) {
         this.users = users;
+        this.names = names;
         this.approved = approved;
         this.declined = declined;
         this.pending = pending;
@@ -32,7 +37,12 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.getName().setText(users[position]);
+        try {
+            JSONObject tempObj = new JSONObject(names[position]);
+            holder.getName().setText(tempObj.getString("shownName"));
+        }catch (Exception e){
+            holder.getName().setText(names[position]);
+        }
         holder.getImage().setImageResource(R.drawable.style_nothing);
         for (String item : approved) {
             if (item.equals(users[position])) {

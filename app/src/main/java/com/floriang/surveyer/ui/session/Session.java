@@ -34,7 +34,6 @@ public class Session extends AppCompatActivity {
     EditText editName, editDescription;
     SessionViewModel sessionViewModel;
     ImageView image;
-    Toast toast;
     SocketLiveData socketLiveData;
     SessionJSON session;
     String[] participants = {};
@@ -121,8 +120,7 @@ public class Session extends AppCompatActivity {
             }
             if(jsonObject.getString("result").equals("Error")){
                 JSONObject errorObj = jsonObject.getJSONObject("error").getJSONObject("errors").getJSONObject("name");
-                toast = Toast.makeText(this, errorObj.getString("message"), Toast.LENGTH_LONG);
-                toast.show();
+                Toast.makeText(this, errorObj.getString("message"), Toast.LENGTH_LONG).show();
             }
             if (jsonObject.has("session") && jsonObject.getString("result").equals("Session")) {
                 System.out.println("Session");
@@ -139,12 +137,12 @@ public class Session extends AppCompatActivity {
             }
             if(jsonObject.has("type") && jsonObject.getString("type").equals("Answer") && jsonObject.has("result") && !jsonObject.getString("result").equals("Session")){
                 id = jsonObject.getString("result");
-                toast = Toast.makeText(this, "Session created", Toast.LENGTH_LONG);
-                toast.show();
+                Toast.makeText(this, "Session created", Toast.LENGTH_LONG).show();
                 getSession();
             }
         } catch (JSONException e) {
-            System.out.println("Error in Sessionobserver");
+            Toast.makeText(this, "Fehler", Toast.LENGTH_LONG).show();
+            System.out.println("Error in Sessionobserver: " + e);
         }
     };
 }
