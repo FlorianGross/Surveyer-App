@@ -1,7 +1,6 @@
 package com.floriang.surveyer.ui.survey;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +23,6 @@ import com.floriang.surveyer.backend.util.DebugUtil;
 import com.floriang.surveyer.backend.models.pojo.SocketEventModel;
 import com.floriang.surveyer.backend.util.PreferenceUtil;
 import com.floriang.surveyer.ui.Navigations;
-import com.floriang.surveyer.ui.home.HomeFragment;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -142,7 +140,7 @@ public class SurveyView extends AppCompatActivity {
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
         if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_SURVEY) || socketEventModel.getLocation() == null) {
-            DebugUtil.debug(SurveyView.class, "getSocket: " + socketEventModel.toString());
+            DebugUtil.debug(SurveyView.class, "getSocket: " + socketEventModel);
             try {
                 JSONObject object = new JSONObject(socketEventModel.getPayloadAsString());
                 if (object.getString("type").equals("Refresh")) {

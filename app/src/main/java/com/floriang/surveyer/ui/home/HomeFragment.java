@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
         if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_HOME) || socketEventModel.getLocation() == null) {
-            DebugUtil.debug(HomeFragment.class, "New Socket event: " + socketEventModel.toString());
+            DebugUtil.debug(HomeFragment.class, "New Socket event: " + socketEventModel);
             try {
                 JSONObject jsonObject = new JSONObject(socketEventModel.getPayloadAsString());
                 if (jsonObject.getString("type").equals("Refresh")) {

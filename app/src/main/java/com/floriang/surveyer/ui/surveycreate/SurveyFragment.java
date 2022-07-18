@@ -27,7 +27,6 @@ import com.floriang.surveyer.backend.util.DebugUtil;
 import com.floriang.surveyer.backend.util.PreferenceUtil;
 import com.floriang.surveyer.ui.Navigations;
 import com.floriang.surveyer.ui.home.HomeFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -128,7 +127,7 @@ public class SurveyFragment extends Fragment {
     };
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
         if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_SURVEY) || socketEventModel.getLocation() == null) {
-            DebugUtil.debug(SurveyFragment.class, "getSocket: " + socketEventModel.toString());
+            DebugUtil.debug(SurveyFragment.class, "getSocket: " + socketEventModel);
             String toJSONString = socketEventModel.getPayloadAsString();
             try {
                 JSONObject jsonObject = new JSONObject(toJSONString);

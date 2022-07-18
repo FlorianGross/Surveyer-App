@@ -21,7 +21,7 @@ public class PayloadJSON extends BaseModel {
     @JsonProperty("Type")
     private String type;
     @JsonProperty("Result")
-    private Object result;
+    private final Object result;
     @JsonProperty("Error")
     private String error;
 

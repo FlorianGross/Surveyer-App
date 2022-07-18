@@ -75,7 +75,7 @@ public class Login extends Fragment {
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
         if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_LOGIN) || socketEventModel.getLocation() == null) {
-        DebugUtil.debug(Login.class, "New Socket event: " + socketEventModel.toString());
+        DebugUtil.debug(Login.class, "New Socket event: " + socketEventModel);
         handleMessage(socketEventModel);
         }
     };

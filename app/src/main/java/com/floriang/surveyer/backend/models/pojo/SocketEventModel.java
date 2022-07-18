@@ -3,8 +3,6 @@ package com.floriang.surveyer.backend.models.pojo;
 import com.floriang.surveyer.App;
 import com.floriang.surveyer.backend.models.BaseModel;
 
-import io.reactivex.internal.operators.flowable.FlowableCache;
-
 public class SocketEventModel extends BaseModel {
     public static final String EVENT_ONLINE = "online";
     public static final String EVENT_OFFLINE = "offline";

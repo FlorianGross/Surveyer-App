@@ -71,7 +71,7 @@ public class Register extends Fragment {
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
         if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_REGISTER) || socketEventModel.getLocation() == null) {
-            DebugUtil.debug(Register.class, "New Socket event: " + socketEventModel.toString());
+            DebugUtil.debug(Register.class, "New Socket event: " + socketEventModel);
             handleMessage(socketEventModel);
         }
     };

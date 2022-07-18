@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.floriang.surveyer.R;
-import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
