@@ -13,6 +13,7 @@ import com.floriang.surveyer.ui.surveycreate.SurveyFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 public class Navigations extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
@@ -44,6 +45,10 @@ public class Navigations extends AppCompatActivity {
 
     public static Intent getNavigationIntent(Context context) {
         return new Intent(context, Navigations.class);
+    }
+
+    public void replaceFragments(Fragment fragmentClass) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_navigation, fragmentClass).commit();
     }
 
     @Override

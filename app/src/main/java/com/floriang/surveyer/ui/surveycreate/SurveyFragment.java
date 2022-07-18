@@ -25,6 +25,9 @@ import com.floriang.surveyer.backend.json.SurveyJSON;
 import com.floriang.surveyer.backend.models.pojo.SocketEventModel;
 import com.floriang.surveyer.backend.util.DebugUtil;
 import com.floriang.surveyer.backend.util.PreferenceUtil;
+import com.floriang.surveyer.ui.Navigations;
+import com.floriang.surveyer.ui.home.HomeFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -129,8 +132,9 @@ public class SurveyFragment extends Fragment {
             String toJSONString = socketEventModel.getPayloadAsString();
             try {
                 JSONObject jsonObject = new JSONObject(toJSONString);
-                if (jsonObject.getString("type").equals("Success")) {
+                if (jsonObject.getString("type").equals("Answer") && jsonObject.has("result")) {
                     Toast.makeText(requireActivity(), "Erfolgreich erstellt", Toast.LENGTH_LONG).show();
+                    ((Navigations) requireActivity()).replaceFragments(new HomeFragment());
                 }
                 if (jsonObject.getString("type").equals("Refresh")) {
                     getAllSessions();
@@ -146,6 +150,7 @@ public class SurveyFragment extends Fragment {
                     updateAdapter();
                 }
             } catch (Exception e) {
+                Toast.makeText(requireActivity(), "Error", Toast.LENGTH_SHORT).show();
                 System.out.println(e.getMessage());
             }
         }

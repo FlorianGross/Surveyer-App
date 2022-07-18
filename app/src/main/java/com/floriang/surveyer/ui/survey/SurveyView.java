@@ -1,6 +1,7 @@
 package com.floriang.surveyer.ui.survey;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.floriang.surveyer.App;
 import com.floriang.surveyer.R;
@@ -22,6 +24,7 @@ import com.floriang.surveyer.backend.util.DebugUtil;
 import com.floriang.surveyer.backend.models.pojo.SocketEventModel;
 import com.floriang.surveyer.backend.util.PreferenceUtil;
 import com.floriang.surveyer.ui.Navigations;
+import com.floriang.surveyer.ui.home.HomeFragment;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -173,6 +176,7 @@ public class SurveyView extends AppCompatActivity {
                     reloadChart();
                 }
             } catch (Exception e) {
+                Toast.makeText(SurveyView.this, "Error", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }

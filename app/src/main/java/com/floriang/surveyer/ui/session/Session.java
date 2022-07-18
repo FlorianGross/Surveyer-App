@@ -141,7 +141,7 @@ public class Session extends AppCompatActivity {
                     getSession();
                 }
             } catch (JSONException e) {
-                Toast.makeText(this, "Fehler", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Fehler", Toast.LENGTH_SHORT).show();
                 System.out.println("Error in Sessionobserver: " + e);
             }
         }
