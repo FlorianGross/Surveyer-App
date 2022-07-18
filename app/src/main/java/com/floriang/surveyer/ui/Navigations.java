@@ -9,7 +9,7 @@ import com.floriang.surveyer.R;
 import com.floriang.surveyer.backend.SocketLiveData;
 import com.floriang.surveyer.ui.dashboard.DashboardFragment;
 import com.floriang.surveyer.ui.home.HomeFragment;
-import com.floriang.surveyer.ui.notifications.Fragment_Survey;
+import com.floriang.surveyer.ui.surveycreate.SurveyFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +35,7 @@ public class Navigations extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_navigation, new DashboardFragment()).commit();
                     break;
                 case R.id.navigation_notifications:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_navigation, new Fragment_Survey()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_navigation, new SurveyFragment()).commit();
                     break;
             }
             return true;

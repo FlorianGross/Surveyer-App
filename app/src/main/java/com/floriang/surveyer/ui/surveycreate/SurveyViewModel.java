@@ -1,4 +1,4 @@
-package com.floriang.surveyer.ui.notifications;
+package com.floriang.surveyer.ui.surveycreate;
 
 import androidx.lifecycle.ViewModel;
 

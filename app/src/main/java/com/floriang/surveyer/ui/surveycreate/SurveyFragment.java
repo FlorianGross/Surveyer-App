@@ -1,4 +1,4 @@
-package com.floriang.surveyer.ui.notifications;
+package com.floriang.surveyer.ui.surveycreate;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Fragment_Survey extends Fragment {
+public class SurveyFragment extends Fragment {
     Spinner session;
     final SurveyJSON survey = new SurveyJSON();
     SurveyViewModel surveyViewModel;
@@ -115,7 +115,7 @@ public class Fragment_Survey extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             String item = sessions.get(i).id;
-            DebugUtil.debug(Fragment_Survey.class, "Selected: " + item);
+            DebugUtil.debug(SurveyFragment.class, "Selected: " + item);
             survey.surveySession = item;
         }
 
@@ -125,7 +125,7 @@ public class Fragment_Survey extends Fragment {
     };
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
         if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_SURVEY) || socketEventModel.getLocation() == null) {
-            DebugUtil.debug(Fragment_Survey.class, "getSocket: " + socketEventModel.toString());
+            DebugUtil.debug(SurveyFragment.class, "getSocket: " + socketEventModel.toString());
             String toJSONString = socketEventModel.getPayloadAsString();
             try {
                 JSONObject jsonObject = new JSONObject(toJSONString);

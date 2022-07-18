@@ -23,7 +23,7 @@ import com.floriang.surveyer.backend.json.SessionJSON;
 import com.floriang.surveyer.backend.models.pojo.SocketEventModel;
 import com.floriang.surveyer.backend.util.DebugUtil;
 import com.floriang.surveyer.backend.util.PreferenceUtil;
-import com.floriang.surveyer.ui.notifications.Fragment_Survey;
+import com.floriang.surveyer.ui.surveycreate.SurveyFragment;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -113,7 +113,7 @@ public class Session extends AppCompatActivity {
 
     private final Observer<SocketEventModel> socketEventModelObserver = socketEventModel -> {
         if (Objects.equals(socketEventModel.getLocation(), SocketEventModel.LOC_SESSION) || socketEventModel.getLocation() == null) {
-            DebugUtil.debug(Fragment_Survey.class, "getSocket: " + socketEventModel.getPayloadAsString());
+            DebugUtil.debug(SurveyFragment.class, "getSocket: " + socketEventModel.getPayloadAsString());
             String toJSONString = socketEventModel.getPayloadAsString();
             try {
                 JSONObject jsonObject = new JSONObject(toJSONString);
